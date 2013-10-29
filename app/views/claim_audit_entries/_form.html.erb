@@ -1,16 +1,5 @@
-<%= form_for(@claim_audit_entry) do |f| %>
-  <% if @claim_audit_entry.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@claim_audit_entry.errors.count, "error") %> prohibited this claim_audit_entry from being saved:</h2>
-
-      <ul>
-      <% @claim_audit_entry.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-	<%= content_tag :div, :class => "well well-large" do%>
+<%= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post" do |f| %>
+	<%= content_tag :div, :class => "well well-large", :style => "background:white" do%>
 		<%= content_tag :table do%>
 			<%= content_tag :tr do%>
 				<%= content_tag :td, "Estimator" %>
@@ -60,16 +49,81 @@
 			<% end %>
 		<% end %>
 		
-		<%= content_tag :div, :class => "row-fluid" do%>
-			<%= content_tag :div, :class => "span4" do%>
+		<%= content_tag :div, :class => "adm_com" do %>
+			<%= content_tag :table, :class => "table" do%>
+				<%= content_tag :tr do%>
+					<%= content_tag :th, "Question"%>
+					<%= content_tag :th, "Answer"%>
+					<%= content_tag :th, "Exception %"%>
+					<%= content_tag :th, "Notes"%>
+				<% end %>
+				<% @questions1.each do |questions|%>
+					<%= content_tag :tr do%>
+						<%= content_tag :td do%>
+							<%= content_tag :b, questions[0]%>
+						<% end %>
+					<% end %>
+					<% questions[1].each do |question|%>
+						<%= content_tag :tr do %>
+							<%= content_tag :td do%>
+								<%= question.question%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= select_tag :answer, options_for_select([["Select One", ""], "Yes", "No"])%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= select_tag :exception, options_for_select([["Select One", ""], "10%", "$"])%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= text_field_tag :notes%>
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
 			<% end %>
-			<%= content_tag :div, :class => "span2" do%>
-			<% end %>
-			<%= content_tag :div, :class => "span2" do%>
-			<% end %>
-			<%= content_tag :div, :class => "span4" do%>
-			<% end %>
+			<%= link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_ad"%>
 		<% end %>
+		
+		<%= content_tag :div, :class => "est_dec hide" do %>
+			<%= content_tag :table, :class => "table" do%>
+				<%= content_tag :tr do%>
+					<%= content_tag :th, "Question"%>
+					<%= content_tag :th, "Answer"%>
+					<%= content_tag :th, "Impact"%>
+					<%= content_tag :th, "Amount"%>
+					<%= content_tag :th, "Notes"%>
+				<% end %>
+				<% @questions2.each do |questions|%>
+					<%= content_tag :tr do%>
+						<%= content_tag :td do%>
+							<%= content_tag :b, questions[0]%>
+						<% end %>
+					<% end %>
+					<% questions[1].each do |question|%>
+						<%= content_tag :tr do %>
+							<%= content_tag :td do%>
+								<%= question.question%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= select_tag :ext_answer, options_for_select([["Select One", ""], "Yes", "No"])%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= select_tag :impact, options_for_select([["Select One", ""], "Over", "Under"])%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= text_field_tag :amount%>
+							<% end %>
+							<%= content_tag :td do%>
+								<%= text_field_tag :ext_notes%>
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<%= link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"%>
+			<%= f.submit "Update", :class => "btn btn-mini btn-info"%>
+		<% end %>
+		
 	<% end %>
   
 <% end %>

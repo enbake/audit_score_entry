@@ -19,7 +19,8 @@ class ClaimAuditEntriesController < ApplicationController
     @carrier = params[:carrier]
     @estimate_date = nil
     @total = params[:total]
-    @questions = ClaimAuditQuestion.all
+    @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
+    @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)
     @claim_audit_entry = ClaimAuditEntry.new
   end
 
@@ -65,6 +66,10 @@ class ClaimAuditEntriesController < ApplicationController
       format.html { redirect_to claim_audit_entries_url }
       format.json { head :no_content }
     end
+  end
+
+  def confirm_data
+    redirect_to :back
   end
 
   private

@@ -25,3 +25,15 @@ $(document).ready(function(){
 	  pick12HourFormat: true
 	});
 })
+
+$(document).on('click', '#hd_ad', function(e){
+	e.preventDefault();
+	$('.adm_com').hide();
+	$('.est_dec').show();
+})
+
+$(document).on('click', '#sh_ad', function(e){
+	e.preventDefault();
+	$('.est_dec').hide();
+	$('.adm_com').show();
+})

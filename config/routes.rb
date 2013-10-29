@@ -1,6 +1,10 @@
 AuditControlEntry::Application.routes.draw do
   get "claim_awaiting_audits/index"
-  resources :claim_audit_entries
+  resources :claim_audit_entries do
+    collection do
+      post :confirm_data
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
