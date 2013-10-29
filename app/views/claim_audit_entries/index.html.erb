@@ -1,0 +1,48 @@
+<h1>Claim Audit Entries</h1>
+<%= content_tag :table, :class => "table table-pointer table-striped table-bordered table-hover span10" do%>
+	<%= content_tag :tr do%>
+		<%= content_tag :th, "Reviewer"%>
+		<%= content_tag :th, "Review"%>
+		<%= content_tag :th, "Claim"%>
+		<%= content_tag :th, "Estimator"%>
+		<%= content_tag :th, "Overall Score"%>
+		<%= content_tag :th, "Admin Score"%>
+		<%= content_tag :th, "Compliance Score"%>
+		<%= content_tag :th, "Estimating Score"%>
+		<%= content_tag :th, "Leakage Amount"%>
+	<% end %>
+	<% @claim_audit_entries.each do |claim_audit_entry| %>
+		<%= content_tag :tr, :onclick => "window.location.href='#{claim_audit_entry_path(claim_audit_entry)}'" do%>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.reviewer %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.review %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.claim %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.estimator %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.overall_score %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.admin_score %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.compliance_score %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.estimating_score %>
+			<% end %>
+			<%= content_tag :td do%>
+				<%= claim_audit_entry.leakage_amount %>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>
+<%= content_tag :div, :class => "span12" do %>
+	<%= link_to 'New Claim Audit Entry', new_claim_audit_entry_path %>
+<% end %>

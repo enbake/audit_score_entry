@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  category: MyString
+  question: MyText
+  response: MyString
+  min_exception: 9.99
+  max_exception: 9.99
+
+two:
+  category: MyString
+  question: MyText
+  response: MyString
+  min_exception: 9.99
+  max_exception: 9.99

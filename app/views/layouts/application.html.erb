@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <title>AuditControlEntry</title>
+	  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+	  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+	  <%= csrf_meta_tags %>
+	</head>
+
+	<body>
+		<%= content_tag :div, :class => "navbar navbar-inverse" do %>
+			<%= content_tag :div, :class => "navbar-inner"  do%>
+			<% end %>
+		<% end %>
+		
+		<%= content_tag :div, :class => "clearfix", :id => "main-content" do%>
+		    <%= content_tag :div, :class => "clearfix", :id => "page-content" do%>
+				<%= yield %>
+			<% end %>
+		<% end %>
+	</body>
+
+</html>

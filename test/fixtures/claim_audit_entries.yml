@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  reviewer: 1
+  review: 2013-10-28 13:11:59
+  claim: MyString
+  estimator: MyString
+  overall_score: 1.5
+  admin_score: 1.5
+  compliance_score: MyString
+  estimating_score: MyString
+  leakage_amount: 1.5
+
+two:
+  reviewer: 1
+  review: 2013-10-28 13:11:59
+  claim: MyString
+  estimator: MyString
+  overall_score: 1.5
+  admin_score: 1.5
+  compliance_score: MyString
+  estimating_score: MyString
+  leakage_amount: 1.5

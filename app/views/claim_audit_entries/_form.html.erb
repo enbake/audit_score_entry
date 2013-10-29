@@ -1,0 +1,75 @@
+<%= form_for(@claim_audit_entry) do |f| %>
+  <% if @claim_audit_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@claim_audit_entry.errors.count, "error") %> prohibited this claim_audit_entry from being saved:</h2>
+
+      <ul>
+      <% @claim_audit_entry.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<%= content_tag :div, :class => "well well-large" do%>
+		<%= content_tag :table do%>
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimator" %>
+				<%= content_tag :td do%>
+					<%= @estimator%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Claim" %>
+				<%= content_tag :td do%>
+					<%= @claim%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Carrier" %>
+				<%= content_tag :td do%>
+					<%= @carrier%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimate Date" %>
+				<%= content_tag :td do%>
+					<%= @estimate_date%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Date Review" %>
+				<%= content_tag :td do%>
+					<%= content_tag :div, :id => "datetimepicker2", :class => "input-append" do%>
+						<%= f.text_field :review, "data-format" => "MM/dd/yyyy HH:mm:ss PP"%>
+						<%= content_tag :span, :class => "add-on" do%>
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimate total" %>
+				<%= content_tag :td do%>
+					<%= @total%>
+				<% end %>
+			<% end %>
+		<% end %>
+		
+		<%= content_tag :div, :class => "row-fluid" do%>
+			<%= content_tag :div, :class => "span4" do%>
+			<% end %>
+			<%= content_tag :div, :class => "span2" do%>
+			<% end %>
+			<%= content_tag :div, :class => "span2" do%>
+			<% end %>
+			<%= content_tag :div, :class => "span4" do%>
+			<% end %>
+		<% end %>
+	<% end %>
+  
+<% end %>
