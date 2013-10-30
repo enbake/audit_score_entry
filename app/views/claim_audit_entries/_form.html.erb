@@ -5,6 +5,7 @@
 				<%= content_tag :td, "Estimator" %>
 				<%= content_tag :td do%>
 					<%= @estimator%>
+					<%= hidden_field_tag "estimator", @estimator%>
 				<% end %>
 			<% end %>
 			
@@ -12,6 +13,7 @@
 				<%= content_tag :td, "Claim" %>
 				<%= content_tag :td do%>
 					<%= @claim%>
+					<%= hidden_field_tag "claim", @claim%>
 				<% end %>
 			<% end %>
 			
@@ -19,6 +21,7 @@
 				<%= content_tag :td, "Carrier" %>
 				<%= content_tag :td do%>
 					<%= @carrier%>
+					<%= hidden_field_tag "carrier", @carrier%>
 				<% end %>
 			<% end %>
 			
@@ -26,6 +29,7 @@
 				<%= content_tag :td, "Estimate Date" %>
 				<%= content_tag :td do%>
 					<%= @estimate_date%>
+					<%= hidden_field_tag "estimate_date", @estimate_date%>
 				<% end %>
 			<% end %>
 			
@@ -45,10 +49,13 @@
 				<%= content_tag :td, "Estimate total" %>
 				<%= content_tag :td do%>
 					<%= @total%>
+					<%= hidden_field_tag "total", @total%>
 				<% end %>
 			<% end %>
 		<% end %>
 		
+		<% tab = 0%>
+		<% row = 0%>
 		<%= content_tag :div, :class => "adm_com" do %>
 			<%= content_tag :table, :class => "table" do%>
 				<%= content_tag :tr do%>
@@ -58,24 +65,26 @@
 					<%= content_tag :th, "Notes"%>
 				<% end %>
 				<% @questions1.each do |questions|%>
+					<% tab +=1 %>
 					<%= content_tag :tr do%>
 						<%= content_tag :td do%>
 							<%= content_tag :b, questions[0]%>
 						<% end %>
 					<% end %>
 					<% questions[1].each do |question|%>
+						<% row +=1%>
 						<%= content_tag :tr do %>
 							<%= content_tag :td do%>
 								<%= question.question%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag :answer, options_for_select([["Select One", ""], "Yes", "No"])%>
+								<%= select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"])%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag :exception, options_for_select([["Select One", ""], "10%", "$"])%>
+								<%= select_tag "#{tab}[#{row}][exception]", options_for_select([["Select One", ""], "10%", "$"])%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= text_field_tag :notes%>
+								<%= text_field_tag "#{tab}[#{row}][notes]"%>
 							<% end %>
 						<% end %>
 					<% end %>
@@ -94,27 +103,29 @@
 					<%= content_tag :th, "Notes"%>
 				<% end %>
 				<% @questions2.each do |questions|%>
+					<% tab += 1%>
 					<%= content_tag :tr do%>
 						<%= content_tag :td do%>
 							<%= content_tag :b, questions[0]%>
 						<% end %>
 					<% end %>
 					<% questions[1].each do |question|%>
+						<% row += 1%>
 						<%= content_tag :tr do %>
 							<%= content_tag :td do%>
 								<%= question.question%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag :ext_answer, options_for_select([["Select One", ""], "Yes", "No"])%>
+								<%= select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"])%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag :impact, options_for_select([["Select One", ""], "Over", "Under"])%>
+								<%= select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"])%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= text_field_tag :amount%>
+								<%= text_field_tag "#{tab}[#{row}][amount]"%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= text_field_tag :ext_notes%>
+								<%= text_field_tag "#{tab}[#{row}][ext_notes]"%>
 							<% end %>
 						<% end %>
 					<% end %>

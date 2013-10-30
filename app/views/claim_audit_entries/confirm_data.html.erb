@@ -1,0 +1,110 @@
+<h1>New Claim Audit Entry</h1>
+<%= form_for @claim_audit_entry do |f| %>
+	<%= content_tag :div, :class => "well well-large", :style => "background:white" do%>
+		<%= content_tag :table do%>
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimator" %>
+				<%= content_tag :td do%>
+					<%= @estimator%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Claim" %>
+				<%= content_tag :td do%>
+					<%= @claim%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Carrier" %>
+				<%= content_tag :td do%>
+					<%= @carrier%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimate Date" %>
+				<%= content_tag :td do%>
+					<%= @estimate_date%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Date Review" %>
+				<%= content_tag :td do%>
+					<%= @review_date%>
+				<% end %>
+			<% end %>
+			
+			<%= content_tag :tr do%>
+				<%= content_tag :td, "Estimate total" %>
+				<%= content_tag :td do%>
+					<%= @total%>
+				<% end %>
+			<% end %>
+		<% end %>
+		
+		<%= content_tag :div, :class => "adm_com" do %>
+			<%= content_tag :table, :class => "table" do%>
+				<%= content_tag :tr do%>
+					<%= content_tag :th, "Question"%>
+					<%= content_tag :th, "Answer"%>
+					<%= content_tag :th, "Exception %"%>
+					<%= content_tag :th, "Notes"%>
+				<% end %>
+				<%= content_tag :tr do%>
+					<%= content_tag :td do%>
+						<%= content_tag :b, @adm_headers[0]%>
+					<% end %>
+				<% end %>
+				<% @adm.each_with_index do |ques, i|%>
+					<%= content_tag :tr do %>
+						<%= content_tag :td do%>
+							<%= @adm_questions[i]%>
+						<% end %>
+						<% ques[1].each do |qu, an| %>
+							<%= content_tag :td do%>
+								<%= an%>
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<%= link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_ad"%>
+		<% end %>
+		
+		<%= content_tag :div, :class => "est_dec hide" do %>
+			<%= content_tag :table, :class => "table" do%>
+				<%= content_tag :tr do%>
+					<%= content_tag :th, "Question"%>
+					<%= content_tag :th, "Answer"%>
+					<%= content_tag :th, "Impact"%>
+					<%= content_tag :th, "Amount"%>
+					<%= content_tag :th, "Notes"%>
+				<% end %>
+				<%= content_tag :tr do%>
+					<%= content_tag :td do%>
+						<%= content_tag :b, @est_headers[0]%>
+					<% end %>
+				<% end %>
+				<% @est.each_with_index do |ques, i|%>
+					<%= content_tag :tr do %>
+						<%= content_tag :td do%>
+							<%= @est_questions[i]%>
+						<% end %>
+						<% ques[1].each do |qu, an| %>
+							<%= content_tag :td do%>
+								<%= an%>
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<%= link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"%>
+			<%#= f.submit "Update", :class => "btn btn-mini btn-info"%>
+		<% end %>
+		
+	<% end %>
+  
+<% end %>

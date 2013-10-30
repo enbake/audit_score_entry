@@ -69,7 +69,19 @@ class ClaimAuditEntriesController < ApplicationController
   end
 
   def confirm_data
-    redirect_to :back
+    @estimator = params[:estimator]
+    @claim = params[:claim]
+    @carrier = params[:carrier]
+    @estimate_date = params[:estimate_date]
+    @total = params[:total]
+    @review_date = params[:claim_audit_entry][:review]
+    @adm = params["1"].merge! params["2"]
+    @est = params["3"]
+    @adm_headers = ClaimAuditQuestion.adm_headers
+    @est_headers = ClaimAuditQuestion.est_headers
+    @adm_questions = ClaimAuditQuestion.adm_questions
+    @est_questions = ClaimAuditQuestion.est_questions
+    @claim_audit_entry = ClaimAuditEntry.new
   end
 
   private
