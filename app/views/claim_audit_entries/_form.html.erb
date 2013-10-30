@@ -1,4 +1,4 @@
-<%= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post" do |f| %>
+<%= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo"} do |f| %>
 	<%= content_tag :div, :class => "well well-large", :style => "background:white" do%>
 		<%= content_tag :table do%>
 			<%= content_tag :tr do%>
@@ -78,7 +78,7 @@
 								<%= question.question%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"])%>
+								<%= select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans"%>
 							<% end %>
 							<%= content_tag :td do%>
 								<%= select_tag "#{tab}[#{row}][exception]", options_for_select([["Select One", ""], "10%", "$"])%>
@@ -116,7 +116,7 @@
 								<%= question.question%>
 							<% end %>
 							<%= content_tag :td do%>
-								<%= select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"])%>
+								<%= select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_est"%>
 							<% end %>
 							<%= content_tag :td do%>
 								<%= select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"])%>
@@ -132,7 +132,7 @@
 				<% end %>
 			<% end %>
 			<%= link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"%>
-			<%= f.submit "Update", :class => "btn btn-mini btn-info"%>
+			<%= f.submit "Update", :class => "btn btn-small btn-info pull-right", :id => "su_btn"%>
 		<% end %>
 		
 	<% end %>

@@ -28,6 +28,17 @@ $(document).ready(function(){
 
 $(document).on('click', '#hd_ad', function(e){
 	e.preventDefault();
+	if($('#in_fo')[0].checkValidity('input:visible')){
+		$('.adm_com').hide();
+		$('.est_dec').show();
+	}
+	else{
+		alert("please fill in the notes fields for the questions where your answer is No");
+	}
+})
+
+$(document).on('click', '#hd_add', function(e){
+	e.preventDefault();
 	$('.adm_com').hide();
 	$('.est_dec').show();
 })
@@ -36,4 +47,37 @@ $(document).on('click', '#sh_ad', function(e){
 	e.preventDefault();
 	$('.est_dec').hide();
 	$('.adm_com').show();
+})
+
+$(document).on('change', '.sel_ans', function(){
+	if($(this).val() == "No"){
+		alert("Please fill the comments in the notes field");
+		$(this).parent().parent().find('input').attr('required', true);
+		$(this).parent().parent().find('input').focus();
+	}
+	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('input').attr('required', false);
+	}
+})
+
+$(document).on('change', '.sel_est', function(){
+	if($(this).val() == "No"){
+		alert("Please fill the ammount, impact and comments in their respective fields");
+		$(this).parent().parent().find('input').attr('required', true);
+		$(this).parent().parent().find('select:last').attr('required', true);
+		$(this).parent().parent().find('input:first').focus();
+	}
+	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('input').attr('required', false);
+	}
+})
+
+$(document).on('click', 'su_btn', function(e){
+	e.preventDefault();
+	if($('#in_fo')[0].checkValidity('input:visible')){
+		$('#in_fo')[0].submit();
+	}
+	else{
+		alert("please fill in all the fields for the questions where your answer is No");
+	}
 })
