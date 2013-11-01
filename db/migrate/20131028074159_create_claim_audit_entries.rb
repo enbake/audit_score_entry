@@ -1,7 +1,7 @@
 class CreateClaimAuditEntries < ActiveRecord::Migration
   def change
     create_table :claim_audit_entries do |t|
-      t.integer :reviewer
+      t.references :reviewer
       t.datetime :review
       t.string :claim
       t.string :estimator

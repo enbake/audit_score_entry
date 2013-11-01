@@ -75,13 +75,16 @@ class ClaimAuditEntriesController < ApplicationController
     @estimate_date = params[:estimate_date]
     @total = params[:total]
     @review_date = params[:claim_audit_entry][:review]
+    @claim_audit_entry = ClaimAuditEntry.new
+    @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
+    @com_exp = ClaimAuditEntry.cal_exp(params["2"])
+    @over, @under = ClaimAuditEntry.cal_amt(params["3"])
     @adm = params["1"].merge! params["2"]
     @est = params["3"]
     @adm_headers = ClaimAuditQuestion.adm_headers
     @est_headers = ClaimAuditQuestion.est_headers
     @adm_questions = ClaimAuditQuestion.adm_questions
     @est_questions = ClaimAuditQuestion.est_questions
-    @claim_audit_entry = ClaimAuditEntry.new
   end
 
   private

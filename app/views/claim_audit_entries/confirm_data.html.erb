@@ -1,11 +1,12 @@
 <h1>New Claim Audit Entry</h1>
 <%= form_for @claim_audit_entry do |f| %>
-	<%= content_tag :div, :class => "well well-large", :style => "background:white" do%>
+	<%= content_tag :div, :class => "well well-large", :style => "background:white;" do%>
 		<%= content_tag :table do%>
 			<%= content_tag :tr do%>
 				<%= content_tag :td, "Estimator" %>
 				<%= content_tag :td do%>
 					<%= @estimator%>
+					<%= hidden_field_tag "claim_audit_entry[estimator]", @estimator%>
 				<% end %>
 			<% end %>
 			
@@ -13,6 +14,7 @@
 				<%= content_tag :td, "Claim" %>
 				<%= content_tag :td do%>
 					<%= @claim%>
+					<%= hidden_field_tag "claim_audit_entry[claim]", @claim%>
 				<% end %>
 			<% end %>
 			
@@ -34,6 +36,7 @@
 				<%= content_tag :td, "Date Review" %>
 				<%= content_tag :td do%>
 					<%= @review_date%>
+					<%= hidden_field_tag "claim_audit_entry[review]", @review_date%>
 				<% end %>
 			<% end %>
 			
@@ -102,7 +105,37 @@
 				<% end %>
 			<% end %>
 			<%= link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"%>
-			<%#= f.submit "Update", :class => "btn btn-mini btn-info"%>
+			<%= link_to "Summary", "#", :class => "btn btn-mini btn-info", :id => "sum_sh"%>
+		<% end %>
+		
+		<%= content_tag :div, :class => "sh_sum hide well", :style => "background:white; width:300px; margin-left:30%;" do%>
+			<%= content_tag :table do%>
+				<%= content_tag :tr do%>
+					<%= content_tag :td, "Administration Exception Percent"%>
+					<%= content_tag :td, @adm_exception%>
+				<% end %>
+				<%= content_tag :tr do%>
+					<%= content_tag :td, "Compliance Exception Percent"%>
+					<%= content_tag :td, @adm_exception%>
+				<% end %>
+				<%= content_tag :tr do %>
+					<%= content_tag :td, "Estimation Exception:"%>
+				<% end %>
+				<%= content_tag :tr do %>
+					<%= content_tag :td, "- Leakage Over Amount"%>
+					<%= content_tag :td, "$ #{@over}"%>
+				<% end %>
+				<%= content_tag :tr do %>
+					<%= content_tag :td, "- Leakage Under Amount"%>
+					<%= content_tag :td, "$ #{@under}"%>
+				<% end %>
+				<%= content_tag :tr do %>
+					<%= content_tag :td, "Total Leakage Amount"%>
+					<%= content_tag :td, "$ #{@over + @under}"%>
+					<%= hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"%>
+				<% end %>
+			<% end %>
+			<%= f.submit "Confirm", :class => "btn btn-small btn-info"%>
 		<% end %>
 		
 	<% end %>

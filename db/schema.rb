@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20131029074454) do
   add_index "claim_audit_category", ["audit_subcategory_id"], name: "FK_claim_audit_category_audit_subcategory", using: :btree
 
   create_table "claim_audit_entries", force: true do |t|
-    t.integer  "reviewer"
+    t.integer  "reviewer_id"
     t.datetime "review"
     t.string   "claim"
     t.string   "estimator"

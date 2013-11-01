@@ -53,6 +53,7 @@ $(document).on('change', '.sel_ans', function(){
 	if($(this).val() == "No"){
 		alert("Please fill the comments in the notes field");
 		$(this).parent().parent().find('input').attr('required', true);
+		$(this).parent().parent().find('select:last').attr('required', true);
 		$(this).parent().parent().find('input').focus();
 	}
 	else if($(this).val()== "Yes"){
@@ -80,4 +81,11 @@ $(document).on('click', 'su_btn', function(e){
 	else{
 		alert("please fill in all the fields for the questions where your answer is No");
 	}
+})
+
+$(document).on('click', '#sum_sh', function(e){
+	e.preventDefault();
+	$('.est_dec').hide();
+	$('.adm_com').hide();
+	$('.sh_sum').show();
 })
