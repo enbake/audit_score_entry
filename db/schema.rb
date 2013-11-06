@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.integer   "sequence",            limit: 2,   default: 0,     null: false
     t.boolean   "is_default",                      default: false, null: false
     t.boolean   "active",                          default: true,  null: false
-    t.datetime  "created",                                         null: false
+    t.datetime  "created"
     t.integer   "created_employee_id",             default: 0,     null: false
     t.timestamp "timestamp",                                       null: false
     t.integer   "last_employee_id",                default: 0,     null: false
@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.decimal   "duration_net",                      precision: 9,  scale: 1, default: 0.0,  null: false
     t.date      "loss",                                                                      null: false
     t.boolean   "active",                                                     default: true, null: false
-    t.datetime  "created",                                                                   null: false
+    t.datetime  "created"
     t.integer   "created_employee_id",                                        default: 0,    null: false
-    t.datetime  "completed",                                                                 null: false
+    t.datetime  "completed"
     t.integer   "completed_employee_id",                                      default: 0,    null: false
     t.timestamp "timestamp",                                                                 null: false
   end
@@ -144,10 +144,10 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.boolean   "is_assign_repair",                 default: false, null: false
     t.integer   "tasks_daily_max",      limit: 2,   default: 0,     null: false
     t.integer   "tasks_daily_overflow", limit: 2,   default: 0,     null: false
-    t.datetime  "started",                                          null: false
+    t.datetime  "started"
     t.integer   "credential_id",                    default: 0,     null: false
     t.boolean   "active",                           default: true,  null: false
-    t.datetime  "created",                                          null: false
+    t.datetime  "created"
     t.integer   "created_employee_id",              default: 0,     null: false
     t.timestamp "timestamp",                                        null: false
     t.integer   "last_employee_id",                 default: 0,     null: false
@@ -224,7 +224,7 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.decimal   "minimum",                      precision: 15, scale: 5, default: 0.0,  null: false
     t.decimal   "maximum",                      precision: 15, scale: 5, default: 0.0,  null: false
     t.boolean   "active",                                                default: true, null: false
-    t.timestamp "timestamp",                                                            null: false
+    t.timestamp "timestamp"
     t.integer   "last_employee_id",                                      default: 0,    null: false
   end
 

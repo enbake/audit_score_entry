@@ -33,7 +33,12 @@ $(document).on('click', '#hd_ad', function(e){
 		$('.est_dec').show();
 	}
 	else{
-		alert("please fill in the notes fields for the questions where your answer is No");
+		//alert("please fill in the corresponding fields for the questions where your answer is No");
+		$('#in_fo').find('input:required, select:required').each(function(){
+			 if($(this).val()==""){
+			 	$(this).focus();
+			}
+		});
 	}
 })
 
@@ -51,25 +56,25 @@ $(document).on('click', '#sh_ad', function(e){
 
 $(document).on('change', '.sel_ans', function(){
 	if($(this).val() == "No"){
-		alert("Please fill the comments in the notes field");
+		//alert("Please fill the comments in the notes field");
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
-		$(this).parent().parent().find('input').focus();
+		$(this).parent().parent().find('select').focus();
 	}
 	else if($(this).val()== "Yes"){
-		$(this).parent().parent().find('input').attr('required', false);
+		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
 
 $(document).on('change', '.sel_est', function(){
 	if($(this).val() == "No"){
-		alert("Please fill the ammount, impact and comments in their respective fields");
+		//alert("Please fill the ammount, impact and comments in their respective fields");
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
-		$(this).parent().parent().find('input:first').focus();
+		$(this).parent().parent().find('input:select').focus();
 	}
 	else if($(this).val()== "Yes"){
-		$(this).parent().parent().find('input').attr('required', false);
+		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
 

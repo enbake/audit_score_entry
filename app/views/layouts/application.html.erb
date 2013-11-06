@@ -10,6 +10,7 @@
 	<body>
 		<%= content_tag :div, :class => "navbar navbar-inverse" do %>
 			<%= content_tag :div, :class => "navbar-inner"  do%>
+				<%#= link_to "Claim List", set_params_claim_audit_lists_path, :class => "btn btn-primary pull-right" unless controller_name == "claim_audit_lists"%>
 			<% end %>
 		<% end %>
 		

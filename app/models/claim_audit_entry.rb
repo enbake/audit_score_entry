@@ -2,6 +2,8 @@ class ClaimAuditEntry < ActiveRecord::Base
 
   belongs_to :reviewer, :class_name => 'Employee'#, :foreign_key => :reviewer_id
   #belongs_to :employee, :as => :reviewer
+  has_many :claim_audit_lists
+
   def self.cal_exp(attrs)
     result = 0
     attrs.each do |attr|

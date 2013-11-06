@@ -1,0 +1,104 @@
+%h1 Ner Claim Audit Entry
+= form_for @claim_audit_entry do |f|
+  .well.well-large{:style => "background:white"}
+    %table
+      %tr
+        %td Estimator
+        %td
+          = @estimator
+          = hidden_field_tag "claim_audit_entry[estimator]", @estimator
+      %tr
+        %td Claim
+        %td
+          = @claim
+          = hidden_field_tag "claim_audit_entry[claim]", @claim
+      %tr
+        %td Carrier
+        %td
+          = @carrier
+      %tr
+        %td Estimate Date
+        %td
+          = @estimate_date
+      %tr
+        %td Date Review
+        %td
+          = @review_date
+          = hidden_field_tag "claim_audit_entry[review]", @review_date
+      %tr
+        %td Estimate Total
+        %td
+          = @total
+    
+    = hidden_field_tag "adm_que", @adm.to_json
+    = hidden_field_tag "est_que", @est.to_json
+    
+    .adm_com
+      %table.table
+        %tr
+          %tr
+            %th Question
+            %th Answer
+            %th Exception
+            %th Notes
+          %tr
+            %td
+              %b
+                = @adm_headers[0]
+          - @adm.each_with_index do |ques, i|
+            %tr
+              %td
+                = @adm_questions[i]
+              - ques[1].each do |qu, an|
+                %td
+                  = an
+      = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_add"
+    
+    .est_dec.hide
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Impact
+          %th Amount
+          %th Notes
+        %tr
+          %td
+            %b
+              = @est_headers[0]
+          - @est.each_with_index do |ques, i|
+            %tr
+              %td
+                = @est_questions[i]
+              - ques[1].each do |qu, an|
+                %td
+                  = an
+      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
+      = link_to "Summary", "#", :class => "btn btn-mini btn-info", :id => "sum_sh"
+    
+    .sh_sum.hide.well{:style => "background:white; width:300px; margin-left:30%;"}
+      %table
+        %tr
+          %td Administration Exception Percent
+          %td
+            = @adm_exception
+        %tr
+          %td Compliance Exception Percent
+          %td
+            = @com_exception
+        %tr
+          %td Estimation Exception:
+        %tr
+          %td - Leakage Over Amount
+          %td
+            = "$ #{@over}"
+        %tr
+          %td - Leakage Under Amount
+          %td
+            = "$ #{@under}"
+        %tr
+          %td Total Leakage Amount
+          %td
+            = "$ #{@over + @under}"
+            = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
+      = f.submit "Confirm", :class => "btn btn-small btn-info"

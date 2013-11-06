@@ -1,0 +1,94 @@
+= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo"} do |f|
+  .well.well-large{:style => "background:white"}
+    %table
+      %tr
+        %td Estimator
+        %td
+          = @estimator
+          = hidden_field_tag "estimator", @estimator
+      %tr
+        %td Claim
+        %td
+          = @claim
+          = hidden_field_tag "claim", @claim
+      %tr
+        %td Carrier
+        %td
+          = @carrier
+          = hidden_field_tag "carrier", @carrier
+      %tr
+        %td Estimate Date
+        %td
+          = @estimate_date
+          = hidden_field_tag "estimate_date", @estimate_date
+      %tr
+        %td Date Review
+        %td
+          #datetimepicker2.input-append
+            = f.text_field :review, "data-format" => "MM/dd/yyyy HH:mm:ss PP"
+            %span.add-on
+              %i{"data-time-icon" => "icon-time", "data-date-icon" => "icon-calendar"}
+      %tr
+        %td Estimate Total
+        %td
+          = @total
+          = hidden_field_tag "total", @total
+      - tab = 0
+      - row = 0
+    .adm_com
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Exception
+          %th Notes
+        -@questions1.each do |questions|
+          - tab +=1
+          %tr
+            %td
+              %b
+                = questions[0]
+          - questions[1].each do |question|
+            - row += 1
+            %tr
+              %td
+                = question.question
+                = hidden_field_tag "#{tab}[#{row}][question]", question.question
+              %td
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans"
+              %td
+                = select_tag "#{tab}[#{row}][exception]", options_for_select([["Select One", ""], "10%", "$"])
+              %td
+                = text_field_tag "#{tab}[#{row}][notes]"
+      = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_ad"
+    
+    .est_dec.hide
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Impact
+          %th Amount
+          %th Notes
+        - @questions2.each do |questions|
+          - tab += 1
+          %tr
+            %td
+              %b
+                = questions[0]
+          - questions[1].each do |question|
+            - row += 1
+            %tr
+              %td
+                = question.question
+                = hidden_field_tag "#{tab}[#{row}][ext_question]", question.question
+              %td
+                = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_est"
+              %td
+                = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"])
+              %td
+                = text_field_tag "#{tab}[#{row}][amount]"
+              %td
+                = text_field_tag "#{tab}[#{row}][ext_notes]"
+      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
+      = f.submit "Update", :class => "btn btn-small btn-info pull-right", :id => "su_btn"
