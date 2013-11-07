@@ -47,8 +47,6 @@
                 = @adm_headers[0]
           - @adm.each_with_index do |ques, i|
             %tr
-              %td
-                = @adm_questions[i]
               - ques[1].each do |qu, an|
                 %td
                   = an
@@ -68,24 +66,24 @@
               = @est_headers[0]
           - @est.each_with_index do |ques, i|
             %tr
-              %td
-                = @est_questions[i]
               - ques[1].each do |qu, an|
                 %td
                   = an
       = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
-      = link_to "Summary", "#", :class => "btn btn-mini btn-info", :id => "sum_sh"
+      = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
     
     .sh_sum.hide.well{:style => "background:white; width:300px; margin-left:30%;"}
       %table
         %tr
           %td Administration Exception Percent
           %td
-            = @adm_exception
+            = "#{@adm_exception} %"
+            = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
         %tr
           %td Compliance Exception Percent
           %td
-            = @com_exception
+            = "#{@com_exception} %" if @com_exception
+            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
         %tr
           %td Estimation Exception:
         %tr
@@ -97,8 +95,22 @@
           %td
             = "$ #{@under}"
         %tr
+          %td - Leakage Percent (Exception)
+          %td
+            - leakage_percent = number_with_precision(((@over + @under)/@total.to_f) * 100, precision: 2)
+            = "#{leakage_percent} %"
+            = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+        %tr
           %td Total Leakage Amount
           %td
             = "$ #{@over + @under}"
             = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
-      = f.submit "Confirm", :class => "btn btn-small btn-info"
+        %tr
+          %td
+            %b
+              Total Audit Exception
+          %td
+            - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
+            = "#{total} %"
+            = hidden_field_tag "claim_audit_entry[overall_score]", total
+    = f.submit "Confirm", :class => "btn btn-small btn-info pull-right", :id => "sh_btn", :style => "display:none;"

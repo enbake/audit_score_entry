@@ -55,7 +55,7 @@
                 = question.question
                 = hidden_field_tag "#{tab}[#{row}][question]", question.question
               %td
-                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans"
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans", :required => true
               %td
                 = select_tag "#{tab}[#{row}][exception]", options_for_select([["Select One", ""], "10%", "$"])
               %td

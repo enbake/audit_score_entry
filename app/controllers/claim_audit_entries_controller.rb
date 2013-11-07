@@ -32,10 +32,12 @@ class ClaimAuditEntriesController < ApplicationController
   # POST /claim_audit_entries.json
   def create
     @claim_audit_entry = ClaimAuditEntry.new(claim_audit_entry_params)
+    @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
+    @claim_audit_entry.est_ans = JSON.parse params[:est_que]
 
     respond_to do |format|
       if @claim_audit_entry.save
-        format.html { redirect_to @claim_audit_entry, notice: 'Claim audit entry was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }
         format.json { render action: 'show', status: :created, location: @claim_audit_entry }
       else
         format.html { render action: 'new' }

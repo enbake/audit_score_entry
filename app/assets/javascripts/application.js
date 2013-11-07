@@ -31,9 +31,11 @@ $(document).on('click', '#hd_ad', function(e){
 	if($('#in_fo')[0].checkValidity('input:visible')){
 		$('.adm_com').hide();
 		$('.est_dec').show();
+		$('.sel_est').attr('required', true);
 	}
 	else{
 		//alert("please fill in the corresponding fields for the questions where your answer is No");
+		alert("Please fill the focused field");
 		$('#in_fo').find('input:required, select:required').each(function(){
 			 if($(this).val()==""){
 			 	$(this).focus();
@@ -50,8 +52,18 @@ $(document).on('click', '#hd_add', function(e){
 
 $(document).on('click', '#sh_ad', function(e){
 	e.preventDefault();
-	$('.est_dec').hide();
-	$('.adm_com').show();
+	if ($('#in_fo')[0].checkValidity('input:visible')) {
+		$('.est_dec').hide();
+		$('.adm_com').show();
+	}
+	else{
+		alert("Please fill the focused field");
+		$('#in_fo').find('input:required, select:required').each(function(){
+			if($(this).val()==""){
+				$(this).focus();
+			}
+		});
+	}
 })
 
 $(document).on('change', '.sel_ans', function(){
@@ -93,4 +105,5 @@ $(document).on('click', '#sum_sh', function(e){
 	$('.est_dec').hide();
 	$('.adm_com').hide();
 	$('.sh_sum').show();
+	$('#sh_btn').css('display', 'block');
 })
