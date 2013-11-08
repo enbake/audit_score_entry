@@ -68,12 +68,14 @@ $(document).on('click', '#sh_ad', function(e){
 
 $(document).on('change', '.sel_ans', function(){
 	if($(this).val() == "No"){
+		$(this).parent().parent().find('input:last, select:last').attr('disabled', false);
 		//alert("Please fill the comments in the notes field");
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
 		$(this).parent().parent().find('select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('input:last, select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
@@ -81,11 +83,13 @@ $(document).on('change', '.sel_ans', function(){
 $(document).on('change', '.sel_est', function(){
 	if($(this).val() == "No"){
 		//alert("Please fill the ammount, impact and comments in their respective fields");
+		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false);
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
 		$(this).parent().parent().find('input:select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('input:visible, select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
