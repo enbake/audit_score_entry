@@ -50,3 +50,10 @@ end
 
 # Use haml
  gem 'haml-rails'
+ 
+ group :development, :test do
+   gem 'rspec-rails', '~> 2.0'
+   gem 'capybara'
+   gem 'factory_girl_rails'
+   gem 'selenium-webdriver'
+ end
