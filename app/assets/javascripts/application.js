@@ -13,17 +13,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require ace.min
-//= require fuelux.wizard
 //= require bootstrap
 //= require bootstrap-datetimepicker.min
-//= require_tree .
+//= require jquery.autosize.min
 
 $(document).ready(function(){
 	$('#datetimepicker2').datetimepicker({
 	  language: 'en',
 	  pick12HourFormat: true
 	});
+	
+	$('.aut_sz').autosize();
 })
 
 $(document).on('click', '#hd_ad', function(e){
@@ -75,7 +75,7 @@ $(document).on('change', '.sel_ans', function(){
 		$(this).parent().parent().find('select').focus();
 	}
 	else if($(this).val()== "Yes"){
-		$(this).parent().parent().find('input:last, select:last').attr('disabled', true);
+		$(this).parent().parent().find('select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
@@ -110,4 +110,9 @@ $(document).on('click', '#sum_sh', function(e){
 	$('.adm_com').hide();
 	$('.sh_sum').show();
 	$('#sh_btn').css('display', 'block');
+})
+
+$(document).on('click', '#sho_ad', function(e){
+	$('.est_dec').hide();
+	$('.adm_com').show();
 })

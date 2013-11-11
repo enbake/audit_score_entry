@@ -4,10 +4,56 @@
     %title AuditControlEntry
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
-    = csrf_meta_tags
-  %body
-    .navbar.navbar-inverse
-      .navbar-inner
-    .clearfix#main-content
-      .clearfix#page-content
-        = yield
+    = csrf_meta_tag
+  %body.claims.show{style: ""}
+    %header.navbar.navbar-inverse.navbar-fixed-top.seal-navbar{role: "banner"}
+      .container
+        .navbar-header
+          %button.navbar-toggle{"data-target" => ".seal-navbar-collapse", "data-toggle" => "collapse", type: "button"}
+            %span.sr-only Toggle Navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{href: "/"}
+            %img{alt: "Ss_logo", src: "/assets/ss_logo.png"}/
+        %nav.collapse.navbar-collapse.seal-navbar-collapse{role: "navigation"}
+          %ul.nav.navbar-nav.seal-navbar-nav
+            %li.home.active
+              %a{href: "/"}
+                %div
+                  %span.glyphicon.glyphicon-home
+            - if employee_master_signed_in?
+              %li
+                = link_to "Claim Awaiting Audits", claim_awaiting_audits_path
+          .navbar.navbar-nav.navbar-right.seal-navbar-nav-right
+            .seal-user-profile
+              .row
+                .col-md-3
+                  %span.glyphicon.glyphicon-user.avatar{alt: "testing", height: "32", src: "nyi.png", width: "32"}
+                .col-md-9
+                  .dropdown
+                    .title Action
+                    %a.dropdown-trigger{"data-toggle" => "dropdown", href: "#"}
+                      %span.name
+                      %b.caret
+                    %ul.dropdown-menu{"aria-labelledby" => "dropdownUserProfile", role: "menu"}
+                      - if employee_master_signed_in?
+                        %li
+                          = link_to "Log-Out", destroy_employee_master_session_path, :method => :delete
+                      -  unless employee_master_signed_in?
+                        %li
+                          = link_to "Sign-Up", new_employee_master_registration_path
+                      -  unless employee_master_signed_in?
+                        %li
+                          = link_to "Sign-In", new_employee_master_session_path
+    - if flash.present?
+      - if flash[:notice]
+        .alert.alert-success
+          %button.close{"data-dismiss" => "alert"} x
+          = flash[:notice].html_safe
+      - if flash[:alert]
+        .alert.alert-error
+          %button.close{"data-dismiss" => "alert"} x
+          = flash[:alert].html_safe
+    .container
+      = yield

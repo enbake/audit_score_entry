@@ -1,19 +1,7 @@
-# encoding: UTF-8
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
-#
-# It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema.define(version: 20131111130609) do
-
-  create_table "carrier_branch", force: true do |t|
+class CreateDatabase < ActiveRecord::Migration
+  def self.up
+    # insert schema.rb here
+    create_table "carrier_branch", force: true do |t|
     t.integer  "carrier_id",                                      null: false
     t.string   "name",                limit: 100,                 null: false
     t.integer  "sequence",            limit: 2,   default: 0,     null: false
@@ -61,38 +49,6 @@ ActiveRecord::Schema.define(version: 20131111130609) do
 
   add_index "claim_audit_category", ["audit_subcategory_id"], name: "FK_claim_audit_category_audit_subcategory", using: :btree
 
-  create_table "claim_audit_detail_files", force: true do |t|
-    t.string   "category"
-    t.text     "area"
-    t.string   "answer"
-    t.decimal  "exception"
-    t.text     "note"
-    t.string   "indicator"
-    t.integer  "amount"
-    t.string   "pct_exception"
-    t.integer  "claim_audit_question_id"
-    t.integer  "claim_audit_entry_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "claim_audit_detail_files", ["claim_audit_entry_id"], name: "index_claim_audit_detail_files_on_claim_audit_entry_id", using: :btree
-  add_index "claim_audit_detail_files", ["claim_audit_question_id"], name: "index_claim_audit_detail_files_on_claim_audit_question_id", using: :btree
-
-  create_table "claim_audit_entries", force: true do |t|
-    t.integer  "reviewer_id"
-    t.datetime "review"
-    t.string   "claim"
-    t.string   "estimator"
-    t.float    "overall_score"
-    t.float    "admin_score"
-    t.string   "compliance_score"
-    t.string   "estimating_score"
-    t.float    "leakage_amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "claim_audit_note", force: true do |t|
     t.integer  "claim_audit_id",                              null: false
     t.string   "note",                limit: 256,             null: false
@@ -103,16 +59,6 @@ ActiveRecord::Schema.define(version: 20131111130609) do
   end
 
   add_index "claim_audit_note", ["claim_audit_id"], name: "FK_claim_audit_note_claim_audit", using: :btree
-
-  create_table "claim_audit_questions", force: true do |t|
-    t.string   "category"
-    t.text     "question"
-    t.string   "response"
-    t.decimal  "min_exception"
-    t.decimal  "max_exception"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "claim_awaiting_audit", force: true do |t|
     t.string   "claim_number",          limit: 100,                                         null: false
@@ -170,25 +116,6 @@ ActiveRecord::Schema.define(version: 20131111130609) do
     t.datetime "timestamp",                                        null: false
     t.integer  "last_employee_id",                 default: 0,     null: false
   end
-
-  create_table "employee_masters", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-  end
-
-  add_index "employee_masters", ["email"], name: "index_employee_masters_on_email", unique: true, using: :btree
-  add_index "employee_masters", ["reset_password_token"], name: "index_employee_masters_on_reset_password_token", unique: true, using: :btree
 
   create_table "estimating_audit", force: true do |t|
     t.integer  "audit_type_id",         limit: 2,                                         null: false
@@ -280,5 +207,10 @@ ActiveRecord::Schema.define(version: 20131111130609) do
 
   add_index "system_estimating_category", ["audit_type_id"], name: "FK_system_estimating_category_audit_type", using: :btree
   add_index "system_estimating_category", ["metric_type_id"], name: "FK_system_estimating_category_metric_type", using: :btree
+  end
 
+  def self.down
+    # drop all the tables if you really need
+    # to support migration back to version 0
+  end
 end

@@ -1,6 +1,6 @@
 %h1 Claim Audit Entry
 = form_for @claim_audit_entry do |f|
-  .well.well-large{:style => "background:white"}
+  .well-lg{:style => "background:white"}
     %table
       %tr
         %td Estimator
@@ -47,12 +47,18 @@
                 = @adm_headers[0]
           - @adm.each_with_index do |ques, i|
             %tr
-              - ques[1].each do |qu, an|
-                %td
-                  = an
-      = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_add"
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                = ques[1][:exception]
+              %td
+                = ques[1][:notes]
+      = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
+      %br
     
-    .est_dec.hide
+    .est_dec{:style => "display:none;"}
       %table.table
         %tr
           %th Question
@@ -66,13 +72,20 @@
               = @est_headers[0]
           - @est.each_with_index do |ques, i|
             %tr
-              - ques[1].each do |qu, an|
-                %td
-                  = an
-      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
-      = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
+              %td
+                = ques[1][:ext_question]
+              %td
+                = ques[1][:ext_answer]
+              %td
+                = ques[1][:impact]
+              %td
+                = ques[1][:amount]
+              %td
+                = ques[1][:ext_notes]
+      = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
+      = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh"
     
-    .sh_sum.hide.well{:style => "background:white; width:300px; margin-left:30%;"}
+    .sh_sum.well-lg{:style => "background:white; width:300px; margin-left:30%; display:none"}
       %table
         %tr
           %td Administration Exception Percent
@@ -113,4 +126,5 @@
             - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
             = "#{total} %"
             = hidden_field_tag "claim_audit_entry[overall_score]", total
-    = f.submit "Confirm", :class => "btn btn-small btn-info pull-right", :id => "sh_btn", :style => "display:none;"
+    = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
+    %br

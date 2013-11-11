@@ -46,7 +46,7 @@ end
  gem 'debugger', group: [:development, :test]
 
 # Use Bootstrap
- gem 'bootstrap-sass'
+ #gem 'bootstrap-sass'
 
 # Use haml
  gem 'haml-rails'
@@ -57,3 +57,9 @@ end
    gem 'factory_girl_rails'
    gem 'selenium-webdriver'
  end
+ 
+ # Use devise for authentication
+ gem 'devise'
+ 
+ # For pagination
+ gem 'will_paginate', '~> 3.0'

@@ -1,5 +1,5 @@
 = form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo"} do |f|
-  .well.well-large{:style => "background:white"}
+  .well-lg{:style => "background:white"}
     %table
       %tr
         %td Estimator
@@ -24,10 +24,11 @@
       %tr
         %td Date Review
         %td
-          #datetimepicker2.input-append
-            = f.text_field :review, "data-format" => "MM/dd/yyyy HH:mm:ss PP"
-            %span.add-on
-              %i{"data-time-icon" => "icon-time", "data-date-icon" => "icon-calendar"}
+          -#
+            #datetimepicker2.input-append
+              = f.text_field :review, "data-format" => "MM/dd/yyyy HH:mm:ss PP"
+              %span.add-on
+                %i{"data-time-icon" => "icon-time", "data-date-icon" => "icon-calendar"}
       %tr
         %td Estimate Total
         %td
@@ -42,7 +43,7 @@
           %th Answer
           %th Exception
           %th Notes
-        -@questions1.each do |questions|
+        - @questions1.each do |questions|
           - tab +=1
           %tr
             %td
@@ -57,12 +58,13 @@
               %td
                 = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans", :required => true
               %td
-                = select_tag "#{tab}[#{row}][exception]", options_for_select([["Select One", ""], "10%", "$"])
+                = select_tag "#{tab}[#{row}][exception]", options_for_select(1..30), :prompt => "Select"
               %td
-                = text_field_tag "#{tab}[#{row}][notes]"
-      = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_ad"
+                = text_area_tag "#{tab}[#{row}][notes]", "", :class => "normal aut_sz", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+      = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_ad"
+      %br
     
-    .est_dec.hide
+    .est_dec{:style => "display:none;"}
       %table.table
         %tr
           %th Question
@@ -89,6 +91,6 @@
               %td
                 = text_field_tag "#{tab}[#{row}][amount]"
               %td
-                = text_field_tag "#{tab}[#{row}][ext_notes]"
-      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
-      = f.submit "Update", :class => "btn btn-small btn-info pull-right", :id => "su_btn"
+                = text_area_tag "#{tab}[#{row}][ext_notes]", "", :class => "normal aut_sz", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+      = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sh_ad"
+      = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right", :id => "su_btn"

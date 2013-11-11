@@ -1,5 +1,8 @@
-%h1
-  ClaimAwaitingAudits
+.row
+  .col-md-4
+    %h1
+      ClaimAwaitingAudits
+  
 %table.table.table-pointer.table-striped.table-bordered.table-hover.span10
   %tr
     %th Claim No.
@@ -26,3 +29,6 @@
         = claim_awaiting_audit.loss
       %td
         = ""
+
+.pull-right
+  = will_paginate @claim_awaiting_audits

@@ -76,7 +76,7 @@ class ClaimAuditEntriesController < ApplicationController
     @carrier = params[:carrier]
     @estimate_date = params[:estimate_date]
     @total = params[:total]
-    @review_date = params[:claim_audit_entry][:review]
+    #@review_date = params[:claim_audit_entry][:review]
     @claim_audit_entry = ClaimAuditEntry.new
     @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
     @com_exp = ClaimAuditEntry.cal_exp(params["2"])
