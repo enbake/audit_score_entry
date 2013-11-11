@@ -12,14 +12,17 @@
         %td
           = @claim
           = hidden_field_tag "claim_audit_entry[claim]", @claim
+          = hidden_field_tag "claim_audit_entry[c_num]", params[:c_num]
       %tr
         %td Carrier
         %td
           = @carrier
+          = hidden_field_tag "claim_audit_entry[carrier]", @carrier
       %tr
         %td Estimate Date
         %td
           = @estimate_date
+          = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
       %tr
         %td Date Review
         %td
@@ -29,6 +32,7 @@
         %td Estimate Total
         %td
           = @total
+          = hidden_field_tag "claim_audit_entry[severity]", @total
     
     = hidden_field_tag "adm_que", @adm.to_json
     = hidden_field_tag "est_que", @est.to_json
@@ -113,4 +117,10 @@
             - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
             = "#{total} %"
             = hidden_field_tag "claim_audit_entry[overall_score]", total
+      %br/
+      %br
+      %label 
+        %b
+          Comment
+      %textarea#comment_added{name: "comment_added",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
     = f.submit "Confirm", :class => "btn btn-small btn-info pull-right", :id => "sh_btn", :style => "display:none;"

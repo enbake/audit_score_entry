@@ -8,6 +8,9 @@
   %body
     .navbar.navbar-inverse
       .navbar-inner
+        .pull-right
+          %a{:style=>"color:white!important;padding-right: 10px;cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims Audit List
     .clearfix#main-content
       .clearfix#page-content
+        = render "flash", flash: flash
         = yield

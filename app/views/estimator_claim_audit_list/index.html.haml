@@ -1,0 +1,30 @@
+%div#Main_content_list
+	%div{align:"center",style:"width:80%;"}
+		%h1
+			Estimator Claim Audits List
+			%br/
+			%br/
+			%div{style:"float:left;"}
+				%span{style:"font-size:25px!important;"} Time period:
+				&nbsp;
+				&nbsp;
+				%span{style:"font-size:15px!important;"}  From
+				#from_date_estimator.input-append.date{"data-date-format" => "dd-mm-yyyy",:style=>"margin-bottom:0!important;"}
+					%input{readonly: "readonly", size: "16",id:"fromdate_estimator",  type: "text"}/
+					%span.add-on
+						%i.icon-th{:class=>"icon-calendar"}
+				%span{style:"font-size:15px!important;"}  To
+				#to_date_estimator.input-append.date{"data-date-format" => "dd-mm-yyyy",:style=>"margin-bottom:0!important;"}
+					%input{readonly: "readonly", size: "16",id:"todate_estimator", type: "text"}/
+					%span.add-on
+						%i.icon-th{:class=>"icon-calendar"} 
+				%br/
+				%div
+					%span{style:"font-size:25px!important;float:left;"}  Estimator:
+					= select_tag "estimator", options_for_select(@claim_estimator.collect{ |u| [u.first_name, u.id]}),:prompt => 'Select Estimator', :style=>"margin-left: 75px;", :required => true
+				%div
+					%span{style:"font-size:25px!important;float:left;"}  Carrier(optional):
+					= select_tag "carrier", options_for_select(@carrier_branch.collect{ |u| [u.name, u.id]}),:prompt => 'Select Carrier',  :required => true
+				%br/
+				%div
+					%a#submit_to_filter_audit{:class=>"btn btn-mini btn-info",:style=>"margin-left: 235px;"} Continue

@@ -1,0 +1,1 @@
+$("#Main_content_list").html("#{escape_javascript(render(:partial => "estimator_claim_audits_filtered",:locals => { :claim_awaiting_filtered => @claim_awaiting_filtered,:above_var_list=>@above_var_list }))}");

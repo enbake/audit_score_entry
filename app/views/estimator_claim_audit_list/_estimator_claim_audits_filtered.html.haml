@@ -1,0 +1,85 @@
+%h1
+  ClaimAwaitingAudits
+.well.well-large{:style => "background:white"}
+  %table
+    %tr
+      %td
+        %b
+          Time Period
+      %td
+        %span{style:"margin-left:10px;"} From:
+        %input{readonly:"readonly",:value=>above_var_list[:from_date]} 
+        %span{style:"margin-left:10px;"} To:
+        %input{readonly:"readonly",:value=>above_var_list[:to_date]}
+    %tr
+      %td
+        %b
+          Estimator
+      %td
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:estimator]}
+    %tr
+      %td
+        %b
+          Carrier
+      %td
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:carrier]}
+    %tr
+      %td
+        %b
+          Count:
+      %td
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:count]}
+    %tr
+      %td
+        %b
+          Severity:
+      %td
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:severity]}
+    %tr
+      %td
+        %b
+          Average time:
+      %td
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}     
+%table.table.table-pointer.table-striped.table-bordered.table-hover
+  %tr
+    %th Claim No.
+    %th Claim Type
+    %th Carrier
+    %th Severity
+    %th Time
+    %th Date
+    %th Estimator
+    %th Adm
+    %th Comp
+    %th Est
+    %th Total
+    %th Leak
+
+  
+  - claim_awaiting_filtered.each do |claim_awaiting_audit|
+    %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_awaiting_audit.claim_number, :c_type => claim_awaiting_audit.claim_type, :carrier => claim_awaiting_audit.carrier_branch.name, :estimate_date=>claim_awaiting_audit.created,:total => claim_awaiting_audit.severity)}'"}
+      %td
+        = claim_awaiting_audit.claim_number
+      %td
+        = claim_awaiting_audit.claim_type
+      %td
+        = claim_awaiting_audit.carrier_branch.name
+      %td
+        = "$#{claim_awaiting_audit.severity}"
+      %td
+        = claim_awaiting_audit.duration_net
+      %td
+        = claim_awaiting_audit.loss
+      %td
+        = estimitor_find(claim_awaiting_audit.created_employee_id)
+      %td
+        = admin_score_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)
+      %td
+        = compliance_score_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)
+      %td
+        = estimating_score_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)
+      %td
+        = overall_score_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)
+      %td
+        = leakage_amount_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)

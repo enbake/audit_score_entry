@@ -6,6 +6,7 @@ class ClaimAuditEntry < ActiveRecord::Base
   belongs_to :reviewer, :class_name => 'Employee'#, :foreign_key => :reviewer_id
   #belongs_to :employee, :as => :reviewer
   has_many :claim_audit_detail_files
+  has_many :claim_audit_comments
 
   after_save :question_details
 

@@ -32,9 +32,14 @@ class ClaimAuditEntriesController < ApplicationController
   # POST /claim_audit_entries.json
   def create
     @claim_audit_entry = ClaimAuditEntry.new(claim_audit_entry_params)
+    @claim_awaiting= ClaimAwaitingAudit.where(:claim_number=>params[:claim_audit_entry][:c_num]).first
+    @claim_audit_entry.reviewer_id=@claim_awaiting.created_employee_id
     @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
     @claim_audit_entry.est_ans = JSON.parse params[:est_que]
-
+    @claim_audit_entry.save
+    if params[:comment_added]
+     @comment=ClaimAuditComment.create(:comment=>params[:comment_added],:claim_audit_entry_id=>@claim_audit_entry.id)
+    end
     respond_to do |format|
       if @claim_audit_entry.save
         format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }

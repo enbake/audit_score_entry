@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  claim_audit_entry_id: 
+  comment: MyText
+  written_by: MyString
+
+two:
+  claim_audit_entry_id: 
+  comment: MyText
+  written_by: MyString
