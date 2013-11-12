@@ -104,7 +104,7 @@ $(document).on('click', 'su_btn', function(e){
 	}
 })
 $(document).on('click', '#go_back_to_edit', function(e){
-	history.go(-3);
+	history.go(-1);
 	
 })
 
