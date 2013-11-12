@@ -103,6 +103,10 @@ $(document).on('click', 'su_btn', function(e){
 		alert("please fill in all the fields for the questions where your answer is No");
 	}
 })
+$(document).on('click', '#go_back_to_edit', function(e){
+	history.go(-1);
+	
+})
 
 $(document).on('click', '#sum_sh', function(e){
 	e.preventDefault();
