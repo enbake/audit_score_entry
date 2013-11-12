@@ -10107,3 +10107,18 @@ header.seal-navbar .seal-navbar-nav li.open > a:hover, header.seal-navbar .seal-
   height: 100%;
   vertical-align: middle;
 }
+
+.modal-open, .modal-open .navbar-fixed-top {
+  margin-right: auto !important;
+}
+
+.modal {
+position: fixed;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+z-index: 1040;
+display: none;
+overflow: auto;
+}

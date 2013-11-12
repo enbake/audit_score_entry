@@ -2,6 +2,8 @@
   .col-md-4
     %h1
       ClaimAwaitingAudits
+  .col-md-4.pull-right
+    = link_to "Upload", "#upload_list", :role => "button", :class => "btn btn-info btn-small pull-right", :style => "margin-top:20px;", "data-toggle" => "modal"
   
 %table.table.table-pointer.table-striped.table-bordered.table-hover.span10
   %tr
@@ -26,9 +28,21 @@
       %td
         = claim_awaiting_audit.duration_net
       %td
-        = claim_awaiting_audit.loss
+        = claim_awaiting_audit.estimate_date
       %td
         = ""
 
 .pull-right
   = will_paginate @claim_awaiting_audits
+
+#upload_list.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+        %h4#myModalLabel.modal-title Upload Awaiting Claims
+      .modal-body
+        = form_for ClaimAwaitingAudit.new, :url =>{:action => "upload_csv"}, :multipart => true do |f|
+          = f.file_field "file"
+          = f.submit "Submit", :class => "btn btn-default btn-sm btn-info pull-right"
+          %br

@@ -2,7 +2,11 @@ AuditControlEntry::Application.routes.draw do
 
   devise_for :employee_masters
   
-  resources :claim_awaiting_audits
+  resources :claim_awaiting_audits do
+    collection do
+      post :upload_csv
+    end
+  end
   
   resources :claim_audit_entries do
     collection do
