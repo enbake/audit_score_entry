@@ -39,6 +39,10 @@ $(document).ready(function(){
 	})
 	
 })
+$(document).on('click', '#go_back_to_edit', function(e){
+	history.go(-1);
+	
+})
 $(document).on('click', '#Main_claim_audit_list', function(e){
  window.location="/estimator_claim_audit_list/index"
 })

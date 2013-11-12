@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131029074454) do
+ActiveRecord::Schema.define(version: 20131108133633) do
 
   create_table "carrier_branch", force: true do |t|
     t.integer   "carrier_id",                                      null: false
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.integer   "sequence",            limit: 2,   default: 0,     null: false
     t.boolean   "is_default",                      default: false, null: false
     t.boolean   "active",                          default: true,  null: false
-    t.datetime  "created"
+    t.datetime  "created",                                         null: false
     t.integer   "created_employee_id",             default: 0,     null: false
     t.timestamp "timestamp",                                       null: false
     t.integer   "last_employee_id",                default: 0,     null: false
@@ -60,6 +60,34 @@ ActiveRecord::Schema.define(version: 20131029074454) do
   end
 
   add_index "claim_audit_category", ["audit_subcategory_id"], name: "FK_claim_audit_category_audit_subcategory", using: :btree
+
+  create_table "claim_audit_comments", force: true do |t|
+    t.integer  "claim_audit_entry_id"
+    t.text     "comment"
+    t.string   "written_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "claim_audit_comments", ["claim_audit_entry_id"], name: "index_claim_audit_comments_on_claim_audit_entry_id", using: :btree
+
+  create_table "claim_audit_detail_files", force: true do |t|
+    t.string   "category"
+    t.text     "area"
+    t.string   "answer"
+    t.decimal  "exception",               precision: 10, scale: 0
+    t.text     "note"
+    t.string   "indicator"
+    t.integer  "amount"
+    t.string   "pct_exception"
+    t.integer  "claim_audit_question_id"
+    t.integer  "claim_audit_entry_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "claim_audit_detail_files", ["claim_audit_entry_id"], name: "index_claim_audit_detail_files_on_claim_audit_entry_id", using: :btree
+  add_index "claim_audit_detail_files", ["claim_audit_question_id"], name: "index_claim_audit_detail_files_on_claim_audit_question_id", using: :btree
 
   create_table "claim_audit_entries", force: true do |t|
     t.integer  "reviewer_id"
@@ -104,9 +132,9 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.decimal   "duration_net",                      precision: 9,  scale: 1, default: 0.0,  null: false
     t.date      "loss",                                                                      null: false
     t.boolean   "active",                                                     default: true, null: false
-    t.datetime  "created"
+    t.datetime  "created",                                                                   null: false
     t.integer   "created_employee_id",                                        default: 0,    null: false
-    t.datetime  "completed"
+    t.datetime  "completed",                                                                 null: false
     t.integer   "completed_employee_id",                                      default: 0,    null: false
     t.timestamp "timestamp",                                                                 null: false
   end
@@ -144,10 +172,10 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.boolean   "is_assign_repair",                 default: false, null: false
     t.integer   "tasks_daily_max",      limit: 2,   default: 0,     null: false
     t.integer   "tasks_daily_overflow", limit: 2,   default: 0,     null: false
-    t.datetime  "started"
+    t.datetime  "started",                                          null: false
     t.integer   "credential_id",                    default: 0,     null: false
     t.boolean   "active",                           default: true,  null: false
-    t.datetime  "created"
+    t.datetime  "created",                                          null: false
     t.integer   "created_employee_id",              default: 0,     null: false
     t.timestamp "timestamp",                                        null: false
     t.integer   "last_employee_id",                 default: 0,     null: false
@@ -224,7 +252,7 @@ ActiveRecord::Schema.define(version: 20131029074454) do
     t.decimal   "minimum",                      precision: 15, scale: 5, default: 0.0,  null: false
     t.decimal   "maximum",                      precision: 15, scale: 5, default: 0.0,  null: false
     t.boolean   "active",                                                default: true, null: false
-    t.timestamp "timestamp"
+    t.timestamp "timestamp",                                                            null: false
     t.integer   "last_employee_id",                                      default: 0,    null: false
   end
 

@@ -4,8 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use pg as the database for Active Record
-#gem 'mysql2'
-gem 'pg'
+gem 'mysql2'
+# gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -50,3 +50,10 @@ end
 
 # Use haml
  gem 'haml-rails'
+ 
+ group :development, :test do
+   gem 'rspec-rails', '~> 2.0'
+   gem 'capybara'
+   gem 'factory_girl_rails'
+   gem 'selenium-webdriver'
+ end

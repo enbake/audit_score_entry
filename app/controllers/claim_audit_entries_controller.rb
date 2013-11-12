@@ -36,6 +36,10 @@ class ClaimAuditEntriesController < ApplicationController
     @claim_audit_entry.reviewer_id=@claim_awaiting.created_employee_id
     @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
     @claim_audit_entry.est_ans = JSON.parse params[:est_que]
+    p "**********************************"
+    p @claim_audit_entry.adm_ans
+    p "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6"
+    p @claim_audit_entry.est_ans
     @claim_audit_entry.save
     if params[:comment_added]
      @comment=ClaimAuditComment.create(:comment=>params[:comment_added],:claim_audit_entry_id=>@claim_audit_entry.id)
@@ -93,6 +97,8 @@ class ClaimAuditEntriesController < ApplicationController
     @adm_questions = ClaimAuditQuestion.adm_questions
     @est_questions = ClaimAuditQuestion.est_questions
   end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

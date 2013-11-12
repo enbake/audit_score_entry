@@ -1,6 +1,7 @@
-%h1 Ner Claim Audit Entry
+%h1 Claim Audit Entry
 = form_for @claim_audit_entry do |f|
   .well.well-large{:style => "background:white"}
+    %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
     %table
       %tr
         %td Estimator
@@ -36,7 +37,6 @@
     
     = hidden_field_tag "adm_que", @adm.to_json
     = hidden_field_tag "est_que", @est.to_json
-    
     .adm_com
       %table.table
         %tr
