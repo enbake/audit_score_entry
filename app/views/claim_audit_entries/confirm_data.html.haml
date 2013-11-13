@@ -1,40 +1,42 @@
-%h1 Claim Audit Entry
 = form_for @claim_audit_entry do |f|
-  .well-lg{:style => "background:white"}
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Claim Audit Entry
     %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
-    %table
-      %tr
-        %td Estimator
-        %td
-          = @estimator
-          = hidden_field_tag "claim_audit_entry[estimator]", @estimator
-      %tr
-        %td Claim
-        %td
-          = @claim
-          = hidden_field_tag "claim_audit_entry[claim]", @claim
-      %tr
-        %td Carrier
-        %td
-          = @carrier
-      %tr
-        %td Estimate Date
-        %td
-          = @estimate_date
-      %tr
-        %td Date Review
-        %td
-          = @review_date
-          = hidden_field_tag "claim_audit_entry[review]", @review_date
-      %tr
-        %td Estimate Total
-        %td
-          = @total
+    .panel-body
+      %table
+        %tr
+          %td Estimator
+          %td
+            = @estimator
+            = hidden_field_tag "claim_audit_entry[estimator]", @estimator
+        %tr
+          %td Claim
+          %td
+            = @claim
+            = hidden_field_tag "claim_audit_entry[claim]", @claim
+        %tr
+          %td Carrier
+          %td
+            = @carrier
+        %tr
+          %td Estimate Date
+          %td
+            = @estimate_date
+        %tr
+          %td Date Review
+          %td
+            = @review_date
+            = hidden_field_tag "claim_audit_entry[review]", @review_date
+        %tr
+          %td Estimate Total
+          %td
+            = @total
     
     = hidden_field_tag "adm_que", @adm.to_json
     = hidden_field_tag "est_que", @est.to_json
     
-    .adm_com
+    .adm_com.panel-body
       %table.table
         %tr
           %tr
@@ -57,9 +59,8 @@
               %td
                 = ques[1][:notes]
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
-      %br
     
-    .est_dec{:style => "display:none;"}
+    .est_dec.panel-body{:style => "display:none;"}
       %table.table
         %tr
           %th Question
@@ -86,7 +87,7 @@
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
       = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh"
     
-    .sh_sum.well.seal-module{:style => "background:white; width:315px; margin-left:30%; display:none"}
+    .sh_sum.well.seal-module.panel-body{:style => "background:white; width:315px; margin-left:30%; display:none"}
       %table
         %tr
           %td Administration Exception Percent
@@ -128,4 +129,5 @@
             = "#{total} %"
             = hidden_field_tag "claim_audit_entry[overall_score]", total
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
+    %br
     %br
