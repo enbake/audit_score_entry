@@ -1,0 +1,28 @@
+.login_container.seal-module
+  .well-lg{:style => "background:white;"}
+    .row
+      %h3
+        = AuditControlEntry
+      %h4
+        Please Enter Your Information
+      %hr
+      = form_for(resource, :as => resource_name, :url => session_path(resource_name))  do |f|
+        .row
+          .col-md-3
+            %label Email
+          .col-md-8
+            = f.text_field :email, :placeholder => "Email", :required => true
+          %br
+          %br
+        .row
+          .col-md-3
+            %label Password
+          .col-md-8
+            = f.password_field :password, :placeholder => "Password", :required => true
+          %br
+          %br
+        .row
+          .col-md-3
+            %label
+          .col-md-7
+            = f.submit 'Sign-In', class: "btn btn-default btn-info btn-sm pull-right", style: "margin-right:22px;"

@@ -70,9 +70,10 @@
       %td
         = claim_awaiting_audit.duration_net
       %td
-        = claim_awaiting_audit.loss
+        = claim_awaiting_audit.estimate_date
       %td
-        = estimitor_find(claim_awaiting_audit.created_employee_id)
+        - unless claim_awaiting_audit.estimator.blank?
+          = "#{claim_awaiting_audit.estimator.first_name} #{claim_awaiting_audit.estimator.last_name}"
       %td
         = admin_score_find(claim_awaiting_audit.claim_number,claim_awaiting_audit.claim_type)
       %td

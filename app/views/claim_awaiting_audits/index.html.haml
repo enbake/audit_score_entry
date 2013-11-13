@@ -1,5 +1,8 @@
-%h1
-  ClaimAwaitingAudits
+.row
+  .col-md-4
+    %h1
+      ClaimAwaitingAudits
+  
 %table.table.table-pointer.table-striped.table-bordered.table-hover.span10
   %tr
     %th Claim No.
@@ -11,7 +14,7 @@
     %th Estimator
   
   - @claim_awaiting_audits.each do |claim_awaiting_audit|
-    %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:c_num => claim_awaiting_audit.claim_number, :c_type => claim_awaiting_audit.claim_type, :carrier => claim_awaiting_audit.carrier_branch.name, :total => claim_awaiting_audit.severity)}'"}
+    %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:c_num => claim_awaiting_audit.claim_number, :c_type => claim_awaiting_audit.claim_type, :carrier => claim_awaiting_audit.carrier_branch.name,:estimate_date=>claim_awaiting_audit.created,:employee_id=>claim_awaiting_audit.employee_id, :total => claim_awaiting_audit.severity)}'"}
       %td
         = claim_awaiting_audit.claim_number
       %td
@@ -23,6 +26,10 @@
       %td
         = claim_awaiting_audit.duration_net
       %td
-        = claim_awaiting_audit.loss
+        = claim_awaiting_audit.estimate_date
       %td
-        = ""
+        - unless claim_awaiting_audit.estimator.blank?
+          = "#{claim_awaiting_audit.estimator.first_name} #{claim_awaiting_audit.estimator.last_name}"
+
+.pull-right
+  = will_paginate @claim_awaiting_audits

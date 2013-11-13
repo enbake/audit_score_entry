@@ -4,4 +4,5 @@ class ClaimAwaitingAudit < ActiveRecord::Base
 
     has_many :claim_audits, :class_name => 'ClaimAudit'
     belongs_to :carrier_branch, :class_name => 'CarrierBranch', :foreign_key => :carrier_branch_id
+    belongs_to :estimator, :class_name => 'Employee', :foreign_key => :employee_id
 end

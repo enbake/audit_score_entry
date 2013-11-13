@@ -14,14 +14,19 @@ class ClaimAuditEntriesController < ApplicationController
 
   # GET /claim_audit_entries/new
   def new
-    @estimator = nil
-    @claim = "#{params[:c_num]} #{params[:c_type]}"
-    @carrier = params[:carrier]
-    @estimate_date = nil
-    @total = params[:total]
-    @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
-    @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)
-    @claim_audit_entry = ClaimAuditEntry.new
+    claim_audit_entry=ClaimAuditEntry.where(:claim=>"#{params[:c_num]}").first
+    if claim_audit_entry.blank?
+      @estimator = nil
+      @claim = "#{params[:c_num]}"
+      @carrier = params[:carrier]
+      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%Y-%m-%d')}"
+      @total = params[:total]
+      @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
+      @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)
+      @claim_audit_entry = ClaimAuditEntry.new
+    else
+      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => params[:c_num], :c_type => params[:c_type], :carrier => params[:carrier], :estimate_date=>params[:estimate_date],:total => params[:total])
+    end
   end
 
   # GET /claim_audit_entries/1/edit
@@ -33,23 +38,26 @@ class ClaimAuditEntriesController < ApplicationController
   def create
     @claim_audit_entry = ClaimAuditEntry.new(claim_audit_entry_params)
     @claim_awaiting= ClaimAwaitingAudit.where(:claim_number=>params[:claim_audit_entry][:c_num]).first
-    @claim_audit_entry.reviewer_id=@claim_awaiting.created_employee_id
-    @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
-    @claim_audit_entry.est_ans = JSON.parse params[:est_que]
-    @claim_audit_entry.save
-    if params[:comment_added]
-     @comment=ClaimAuditComment.create(:comment=>params[:comment_added],:claim_audit_entry_id=>@claim_audit_entry.id)
-    end
-    respond_to do |format|
-      if @claim_audit_entry.save
-        format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @claim_audit_entry }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @claim_audit_entry.errors, status: :unprocessable_entity }
-      end
-    end
+    if employee_master_signed_in?
+     @claim_audit_entry.reviewer_id=current_employee_master.id
+   end
+   @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
+   @claim_audit_entry.com_ans = JSON.parse params[:com_que]
+   @claim_audit_entry.est_ans = JSON.parse params[:est_que]
+
+   respond_to do |format|
+    if @claim_audit_entry.save
+      if !params[:comment_added].blank?
+       @comment=ClaimAuditComment.create(:comment=>params[:comment_added],:claim_audit_entry_id=>@claim_audit_entry.id)
+     end
+     format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }
+     format.json { render action: 'show', status: :created, location: @claim_audit_entry }
+   else
+    format.html { redirect_to claim_awaiting_audits_url ,notice: "#{@claim_audit_entry.errors.full_messages.first}" }
+    format.json { render json: @claim_audit_entry.errors, status: :unprocessable_entity }
   end
+end
+end
 
   # PATCH/PUT /claim_audit_entries/1
   # PATCH/PUT /claim_audit_entries/1.json
@@ -84,10 +92,11 @@ class ClaimAuditEntriesController < ApplicationController
     @review_date = params[:claim_audit_entry][:review]
     @claim_audit_entry = ClaimAuditEntry.new
     @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
-    @com_exp = ClaimAuditEntry.cal_exp(params["2"])
+    @com_exception = ClaimAuditEntry.cal_exp(params["2"])
     @over, @under = ClaimAuditEntry.cal_amt(params["3"])
-    @adm = params["1"].merge! params["2"]
     @est = params["3"]
+    @admin_answer=params["1"]
+    @comp=params["2"]
     @adm_headers = ClaimAuditQuestion.adm_headers
     @est_headers = ClaimAuditQuestion.est_headers
     @adm_questions = ClaimAuditQuestion.adm_questions
@@ -104,4 +113,4 @@ class ClaimAuditEntriesController < ApplicationController
     def claim_audit_entry_params
       params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount)
     end
-end
+  end

@@ -1,20 +1,30 @@
 AuditControlEntry::Application.routes.draw do
-  get "claim_awaiting_audits/index"
+
+  devise_for :employee_masters
+  
+  resources :claim_awaiting_audits
   get "estimator_claim_audit_list/index"
   match "estimator_claim_audit_list/filtered_list" =>"estimator_claim_audit_list#filtered_list" ,via: [:post,:get]
   match "estimator_claim_audit_list/show_saved_audit_estimate" =>"estimator_claim_audit_list#show_saved_audit_estimate" ,via: [:post,:get]
   match "estimator_claim_audit_list/comment_history" =>"estimator_claim_audit_list#comment_history" ,via: [:post,:get]
+  
   resources :claim_audit_entries do
     collection do
       post :confirm_data
     end
   end
 
+  resources :claim_audit_lists do
+    collection do
+      get :set_params
+      post :audits_list
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'claim_awaiting_audits#index'
+   root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

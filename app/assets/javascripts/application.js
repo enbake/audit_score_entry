@@ -13,31 +13,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require ace.min
-//= require fuelux.wizard
 //= require bootstrap
-//= require bootstrap-datetimepicker.min
-//= require_tree .
+//= require jquery.autosize.min
+//= require jquery-ui
 
 
 $(document).ready(function(){
-	$('#datetimepicker2').datetimepicker({
-	  language: 'en',
-	  pick12HourFormat: true
-	});
-	$(function() {
-		$( "#from_date_estimator" ).datetimepicker({
-			language: 'en',
-			format: 'dd/MM/yyyy'
-		});
-
-
-		$( "#to_date_estimator" ).datetimepicker({
-			language: 'en',
-			format: 'dd/MM/yyyy'
-		});
-	})
-	
+	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+   $( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	// $('.aut_sz').autosize();
 })
 $(document).on('click', '#Main_claim_audit_list', function(e){
  window.location="/estimator_claim_audit_list/index"
@@ -117,12 +102,14 @@ $(document).on('click', '#sh_ad', function(e){
 
 $(document).on('change', '.sel_ans', function(){
 	if($(this).val() == "No"){
+		$(this).parent().parent().find('input:last, select:last').attr('disabled', false);
 		//alert("Please fill the comments in the notes field");
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
 		$(this).parent().parent().find('select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
@@ -130,11 +117,13 @@ $(document).on('change', '.sel_ans', function(){
 $(document).on('change', '.sel_est', function(){
 	if($(this).val() == "No"){
 		//alert("Please fill the ammount, impact and comments in their respective fields");
+		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false);
 		$(this).parent().parent().find('input').attr('required', true);
 		$(this).parent().parent().find('select:last').attr('required', true);
 		$(this).parent().parent().find('input:select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().parent().find('input:visible, select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').attr('required', false);
 	}
 })
@@ -148,6 +137,10 @@ $(document).on('click', 'su_btn', function(e){
 		alert("please fill in all the fields for the questions where your answer is No");
 	}
 })
+$(document).on('click', '#go_back_to_edit', function(e){
+	history.go(-1);
+	
+})
 
 $(document).on('click', '#sum_sh', function(e){
 	e.preventDefault();
@@ -155,5 +148,10 @@ $(document).on('click', '#sum_sh', function(e){
 	$('.adm_com').hide();
 	$('.sh_sum').show();
 	$('#sh_btn').css('display', 'block');
-	$('#comment_btn').css('display', 'block');
+		$('#comment_btn').css('display', 'block');
+})
+
+$(document).on('click', '#sho_ad', function(e){
+	$('.est_dec').hide();
+	$('.adm_com').show();
 })

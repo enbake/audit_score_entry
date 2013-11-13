@@ -1,6 +1,7 @@
-%h1 Ner Claim Audit Entry
+%h1 Claim Audit Entry
 = form_for @claim_audit_entry do |f|
-  .well.well-large{:style => "background:white"}
+  .well-lg{:style => "background:white"}
+    %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
     %table
       %tr
         %td Estimator
@@ -24,9 +25,10 @@
           = @estimate_date
           = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
       %tr
-        %td Date Review
+        %td Reviewer
         %td
-          = @review_date
+          - if employee_master_signed_in?
+            = current_employee_master.name
           = hidden_field_tag "claim_audit_entry[review]", @review_date
       %tr
         %td Estimate Total
@@ -34,7 +36,8 @@
           = @total
           = hidden_field_tag "claim_audit_entry[severity]", @total
     
-    = hidden_field_tag "adm_que", @adm.to_json
+    = hidden_field_tag "adm_que", @admin_answer.to_json
+    = hidden_field_tag "com_que", @comp.to_json
     = hidden_field_tag "est_que", @est.to_json
     
     .adm_com
@@ -49,14 +52,34 @@
             %td
               %b
                 = @adm_headers[0]
-          - @adm.each_with_index do |ques, i|
+          - @admin_answer.each_with_index do |ques, i|
             %tr
-              - ques[1].each do |qu, an|
-                %td
-                  = an
-      = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_add"
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                = ques[1][:exception]
+              %td
+                = ques[1][:notes]
+          %tr
+            %td
+              %b
+                = @adm_headers[1]
+          - @comp.each_with_index do |ques, i|
+            %tr
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                = ques[1][:exception]
+              %td
+                = ques[1][:notes]
+      = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
+      %br
     
-    .est_dec.hide
+    .est_dec{:style => "display:none;"}
       %table.table
         %tr
           %th Question
@@ -70,14 +93,21 @@
               = @est_headers[0]
           - @est.each_with_index do |ques, i|
             %tr
-              - ques[1].each do |qu, an|
-                %td
-                  = an
-      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "sh_ad"
-      = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
+              %td
+                = ques[1][:ext_question]
+              %td
+                = ques[1][:ext_answer]
+              %td
+                = ques[1][:impact]
+              %td
+                = ques[1][:amount]
+              %td
+                = ques[1][:ext_notes]
+      = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
+      = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh"
     
-    .sh_sum.hide.well{:style => "background:white; width:300px; margin-left:30%;"}
-      %table
+    .sh_sum.well-lg{:style => "background:white; width:319px; margin-left:30%; display:none"}
+      %table{style:"width:100%;"}
         %tr
           %td Administration Exception Percent
           %td
@@ -115,7 +145,7 @@
               Total Audit Exception
           %td
             - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
-            = "#{total} %"
+            = "#{total}%"
             = hidden_field_tag "claim_audit_entry[overall_score]", total
       %br/
       %br

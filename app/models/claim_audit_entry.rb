@@ -10,6 +10,8 @@ class ClaimAuditEntry < ActiveRecord::Base
 
   after_save :question_details
 
+  validates :claim, presence: true, uniqueness: true
+
   def self.cal_exp(attrs)
     result = 0
     attrs.each do |attr|
@@ -41,7 +43,25 @@ class ClaimAuditEntry < ActiveRecord::Base
       note = ans[1]["notes"]
       question_id = question.id
       question_category = question.category
-      self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: exception, note: note)
+      if answer =="No"
+        self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: exception, note: note)
+      else
+        self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: '0', note: note)      
+      end  
+      
+    end
+    com_ans.each do |ans|
+      question = ClaimAuditQuestion.find_by_question(ans[1]["question"])
+      answer = ans[1]["answer"]
+      exception = ans[1]["exception"]
+      note = ans[1]["notes"]
+      question_id = question.id
+      question_category = question.category
+      if answer =="No"
+        self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: exception, note: note)
+      else
+        self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: '0', note: note)      
+      end  
     end
     
     est_ans.each do |ans|
@@ -52,8 +72,12 @@ class ClaimAuditEntry < ActiveRecord::Base
       note = ans[1]["ext_notes"]
       question_id = question.id
       question_category = question.category
-      self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, indicator: indicator, amount: amount, note: note)
-    end
-  end
+      if answer=="No"
+       self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, indicator: indicator, amount: amount, note: note)
+     else
+       self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, indicator: indicator, amount: '0', note: note)
+     end
+   end
+ end
 
 end
