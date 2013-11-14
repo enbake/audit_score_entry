@@ -1,37 +1,53 @@
 = form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo"} do |f|
   .well-lg{:style => "background:white"}
-    %table
+    %table{style:"width:35%;"}
       %tr
-        %td Estimator
+        %td 
+          %b
+            Estimator:
         %td
           = estimitor_find(@estimator)
           = hidden_field_tag "estimator", @estimator
       %tr
-        %td Claim
+        %td 
+          %b
+            Claim#:
         %td
-          = @claim
+          = "#{@claim} #{@claim_type}"
           = hidden_field_tag "claim", @claim
+          = hidden_field_tag "claim_type",@claim_type
+          = hidden_field_tag "claim_awaiting_id",@claim_awaiting_id
       %tr
-        %td Carrier
+        %td 
+          %b
+            Carrier:
         %td
           = carrier_name_find(@carrier)
           = hidden_field_tag "carrier", @carrier
       %tr
-        %td Estimate Date
+        %td 
+          %b
+            Estimate Date:
         %td
           = @estimate_date
           = hidden_field_tag "estimate_date", @estimate_date
       %tr
-        %td Reviewer
+        %td 
+          %b
+            Reviewer:
         %td
           - if employee_master_signed_in?
             = current_employee_master.name
           = f.hidden_field :review,:value=>Date.today
       %tr
-        %td Estimate Total
+        %td 
+          %b
+            Estimate Total:
         %td
-          = @total
+          = "$#{@total}"
+          = "in #{params[:duration_net]} min"
           = hidden_field_tag "total", @total
+          = hidden_field_tag "duration_net",params[:duration_net]
       - tab = 0
       - row = 0
     .adm_com

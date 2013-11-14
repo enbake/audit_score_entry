@@ -14,7 +14,7 @@
     %th Estimator
   
   - @claim_awaiting_audits.each do |claim_awaiting_audit|
-    %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:c_num => claim_awaiting_audit.claim_number, :c_type => claim_awaiting_audit.claim_type, :carrier => claim_awaiting_audit.carrier_branch.id,:estimate_date=>claim_awaiting_audit.created,:employee_id=>claim_awaiting_audit.employee_id, :total => claim_awaiting_audit.severity)}'"}
+    %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:c_num => claim_awaiting_audit.claim_number, :claim_awaiting_id=>claim_awaiting_audit.id,:c_type => claim_awaiting_audit.claim_type, :carrier => claim_awaiting_audit.carrier_branch.id,:estimate_date=>claim_awaiting_audit.created,:employee_id=>claim_awaiting_audit.employee_id,:duration_net=>claim_awaiting_audit.duration_net ,:total => claim_awaiting_audit.severity)}'"}
       %td
         = claim_awaiting_audit.claim_number
       %td

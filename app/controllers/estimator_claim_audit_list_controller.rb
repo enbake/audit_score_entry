@@ -10,11 +10,11 @@ class EstimatorClaimAuditListController < ApplicationController
 		@above_var_list=Hash.new
 		if !params[:from_date].blank? and !params[:to_date].blank? and !params[:estimator_id].blank?
 			if !params[:carrier_id].blank?
-				@claim_audit_entry=ClaimAuditEntry.where("carrier_branch_id=? and estimator=? and DATE(created_at) between ? and ?",params[:carrier_id],"#{params[:estimator_id]}",
-					Date.parse("#{params[:from_date]}"),Date.parse("#{params[:to_date]}"))
+				@claim_audit_entry=ClaimAuditEntry.select("*").where("carrier_branch_id=? and estimator=? and DATE(created_at) between ? and ?",params[:carrier_id],"#{params[:estimator_id]}",
+					Date.parse("#{params[:from_date]}"),Date.parse("#{params[:to_date]}")).joins(:claim_awaiting_audit)
 			else
-				@claim_audit_entry=ClaimAuditEntry.where("estimator=? and DATE(created_at) between ? and ?","#{params[:estimator_id]}",
-					Date.parse("#{params[:from_date]}"),Date.parse("#{params[:to_date]}"))
+				@claim_audit_entry=ClaimAuditEntry.select("*").where("estimator=? and DATE(created_at) between ? and ?","#{params[:estimator_id]}",
+					Date.parse("#{params[:from_date]}"),Date.parse("#{params[:to_date]}")).joins(:claim_awaiting_audit)
 			end	
 			@above_var_list[:count]=@claim_audit_entry.count
 			@above_var_list[:from_date]=params[:from_date]
@@ -25,16 +25,18 @@ class EstimatorClaimAuditListController < ApplicationController
 			if !carrier.nil?
 				@above_var_list[:carrier]="#{carrier.name}"
 			end
-			# @above_var_list[:severity]=@claim_awaiting_filtered.collect(&:severity).sum.to_f/@claim_awaiting_filtered.length if @claim_awaiting_filtered.length > 0
-			# @above_var_list[:average_time]=@claim_awaiting_filtered.collect(&:duration_net).sum.to_f/@claim_awaiting_filtered.length if @claim_awaiting_filtered.length > 0
+			@above_var_list[:severity]=@claim_audit_entry.collect{|entry|  entry.severity.to_f }.sum.to_f/@claim_audit_entry.length if @claim_audit_entry.length > 0
+			@above_var_list[:average_time]=@claim_audit_entry.collect{|entry|  entry.duration_net.to_f }.sum.to_f/@claim_audit_entry.length if @claim_audit_entry.length > 0
 		end
 	end	
 	# Show filtered claim audit entries
 	def show_saved_audit_estimate
 		@claim = "#{params[:c_num]}"
+		@claim_type="#{params[:c_type]}"
 		@carrier = params[:carrier]
-		@estimate_date = "#{Date.parse(params[:estimate_date]).strftime('%Y-%m-%d')}"
-		@total = params[:total]		
+		@estimate_date = "#{Date.parse(params[:estimate_date]).strftime('%m/%d/%Y')}"
+		@total = params[:total]	
+		@duration_net=params[:duration_net]	
 		@claim_audit_entry = ClaimAuditEntry.where(:claim=>@claim).first  
 		admin_estimate_question_headers
 		if !@claim_audit_entry.blank?

@@ -16,10 +16,12 @@ class ClaimAuditEntriesController < ApplicationController
   def new
     claim_audit_entry=ClaimAuditEntry.where(:claim=>"#{params[:c_num]}").first
     if claim_audit_entry.blank?
+      @claim_awaiting_id=params[:claim_awaiting_id]
       @estimator = params[:employee_id]
       @claim = "#{params[:c_num]}"
+      @claim_type=params[:c_type]
       @carrier = params[:carrier]
-      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%Y-%m-%d')}"
+      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%m/%d/%Y')}"
       @total = params[:total]
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)
@@ -83,6 +85,9 @@ class ClaimAuditEntriesController < ApplicationController
   def confirm_data
     @estimator = params[:estimator]
     @claim = params[:claim]
+    @claim_type=params[:claim_type]
+    @claim_awaiting_id=params[:claim_awaiting_id]
+    @duration_net=params[:duration_net]
     @carrier = params[:carrier]
     @estimate_date = params[:estimate_date]
     @total = params[:total]
@@ -105,6 +110,6 @@ class ClaimAuditEntriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def claim_audit_entry_params
-      params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id)
+      params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id,:claim_awaiting_audit_id)
     end
   end

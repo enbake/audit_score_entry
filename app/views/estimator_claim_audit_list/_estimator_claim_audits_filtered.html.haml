@@ -5,22 +5,22 @@
     %tr
       %td
         %b
-          Time Period
+          Time Period:
       %td
-        %span{style:"margin-left:10px;"} From:
+        %span{style:"margin-left:3px;"} From:
         %input{readonly:"readonly",:value=>above_var_list[:from_date]} 
         %span{style:"margin-left:10px;"} To:
         %input{readonly:"readonly",:value=>above_var_list[:to_date]}
     %tr
       %td
         %b
-          Estimator
+          Estimator:
       %td
         %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:estimator]}
     %tr
       %td
         %b
-          Carrier
+          Carrier:
       %td
         %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:carrier]}
     %tr
@@ -34,13 +34,13 @@
         %b
           Severity:
       %td
-        / %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:severity]}
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:severity]}
     %tr
       %td
         %b
           Average time:
       %td
-        / %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}     
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}     
 %table.table.table-pointer.table-striped.table-bordered.table-hover
   %tr
     %th Claim No.
@@ -56,26 +56,24 @@
 
   
   - claim_audit_entry.each do |claim_audit_entry|
-    - estimate_date(claim_audit_entry.claim)
-    - entry_scores_find(claim_audit_entry.claim)
-    %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :c_type => @claim_type, :carrier => claim_audit_entry.carrier_branch.name, :estimate_date=>@estimate_date,:total => '')}'"}
+    %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :c_type => claim_audit_entry.claim_type, :carrier => claim_audit_entry.carrier_branch.name, :estimate_date=>claim_audit_entry.estimate_date,:duration_net=>claim_audit_entry.duration_net,:total =>claim_audit_entry.severity)}'"}
       %td
         = claim_audit_entry.claim
       %td
-        = @claim_type
+        = "#{claim_audit_entry.claim_type}"
       %td
         = claim_audit_entry.carrier_branch.name
       %td
-        = ""
+        = "#{claim_audit_entry.severity}"
       %td
-        = ""
+        = "#{claim_audit_entry.duration_net}"
       %td
-        = @claim_admin_score
+        = "#{claim_audit_entry.admin_score}"
       %td
-        = @claim_compliance_score
+        = "#{claim_audit_entry.compliance_score}"
       %td
-        = @claim_estimating_score
+        = "#{claim_audit_entry.estimating_score}"
       %td
-        = @claim_overall_score
+        = "#{claim_audit_entry.overall_score}"
       %td
-        = @claim_leakage_amount
+        = "#{claim_audit_entry.leakage_amount}"

@@ -4,7 +4,7 @@
     %tr
       %td 
         %b
-          Estimator
+          Estimator:
       %td
         - unless !@estimator.present?
           = @estimator
@@ -12,38 +12,39 @@
     %tr
       %td
         %b
-          Claim
+          Claim#:
       %td
-        = @claim
+        = "#{@claim} #{@claim_type}"
         = hidden_field_tag "claim_audit_entry[claim]", @claim
     %tr
       %td 
         %b
-          Carrier
+          Carrier:
       %td
         = @carrier
     %tr
       %td
         %b
-          Estimate Date
+          Estimate Date:
       %td
         = @estimate_date
     %tr
       %td
         %b
-          Reviewer
+          Reviewer:
       %td
         - unless !@reviewer.present?
           = @reviewer
     %tr
       %td
         %b
-          Estimate Total
+          Estimate Total:
       %td
-        = @total
+        = "$#{@total}"
+        ="in #{@duration_net} min"
   
   - unless @claim_audit_entry.blank?
-    .adm_com
+    .adm_com.well-lg
       %table.table
         %tr
           %th Question
@@ -98,6 +99,8 @@
     
     .sh_sum.well{:style => "background:white; width:319px;display:none; margin-left:30%;"}
       %table{style:"width:100%;"}
+        %b
+          SUMMARY
         %tr
           %td Administration Exception Percent
           %td
@@ -143,7 +146,7 @@
         %b
           Comment
       %textarea#comment_added{name: "comment_added",style:"width: 258px; height: 77px;",disabled:"disabled",placeholder:"Add a comment here"}
-      %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 100px;display:none;"} Comment History 
+      %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History 
     .comment_block{:style => "background:white; width:100%;display:none;"}
       %h3{:style=>"text-align:center;"} Comment History
       %table{style:"width: 100%;",class:"table"}
@@ -169,7 +172,7 @@
           %b
             Comment
         = hidden_field_tag "claim_id",@claim_audit_entry.id
-        %div{style:"width: auto; padding-left: 35%;"}
+        %div{style:"width: auto; padding-left: 37%;"}
           %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
           %br
           %div{style:"width:288px;"}

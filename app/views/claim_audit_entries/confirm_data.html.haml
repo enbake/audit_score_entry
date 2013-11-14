@@ -2,37 +2,51 @@
 = form_for @claim_audit_entry do |f|
   .well-lg{:style => "background:white"}
     %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
-    %table
+    %table{style:"width:35%;"}
       %tr
-        %td Estimator
+        %td 
+          %b
+            Estimator:
         %td
           = estimitor_find(@estimator)
           = hidden_field_tag "claim_audit_entry[estimator]", @estimator
       %tr
-        %td Claim
+        %td 
+          %b
+            Claim#:
         %td
-          = @claim
+          = "#{@claim} #{@claim_type}"
           = hidden_field_tag "claim_audit_entry[claim]", @claim
+          = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]",@claim_awaiting_id
       %tr
-        %td Carrier
+        %td 
+          %b
+            Carrier:
         %td
           = carrier_name_find(@carrier)
           = hidden_field_tag "claim_audit_entry[carrier_branch_id]", @carrier
       %tr
-        %td Estimate Date
+        %td 
+          %b
+            Estimate Date:
         %td
           = @estimate_date
           = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
       %tr
-        %td Reviewer
+        %td 
+          %b
+            Reviewer:
         %td
           - if employee_master_signed_in?
             = current_employee_master.name
           = hidden_field_tag "claim_audit_entry[review]", @review_date
       %tr
-        %td Estimate Total
+        %td 
+          %b
+            Estimate Total:
         %td
-          = @total
+          = "$#{@total}"
+          = "in #{@duration_net} min"
           = hidden_field_tag "claim_audit_entry[severity]", @total
     
     = hidden_field_tag "adm_que", @admin_answer.to_json
@@ -107,6 +121,8 @@
     
     .sh_sum.well-lg{:style => "background:white; width:319px; margin-left:30%; display:none"}
       %table{style:"width:100%;"}
+        %b
+          SUMMARY
         %tr
           %td Administration Exception Percent
           %td
@@ -152,4 +168,4 @@
         %b
           Comment
       %textarea#comment_added{name: "comment_added",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
-    = f.submit "Confirm", :class => "btn btn-small btn-info pull-right", :id => "sh_btn", :style => "display:none;"
+    = f.submit "Confirm", :class => "btn btn-small btn-info pull-right", :id => "sh_btn", :style => "display:none;margin-top: -29px;"

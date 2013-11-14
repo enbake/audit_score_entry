@@ -5,6 +5,7 @@ class ClaimAuditEntry < ActiveRecord::Base
   belongs_to :carrier_branch, :class_name => 'CarrierBranch'
   has_many :claim_audit_detail_files
   has_many :claim_audit_comments
+  belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
   after_save :question_details,:add_comment
   validates :claim, presence: true, uniqueness: true
 
