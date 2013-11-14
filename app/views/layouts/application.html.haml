@@ -24,7 +24,7 @@
                   %span.glyphicon.glyphicon-home
             - if employee_master_signed_in?
               %li
-                = link_to "Claim Awaiting Audits", claim_awaiting_audits_path
+                = link_to "Claim Awaiting Audits", claim_awaiting_audits_path,:id=>"claim_awaiting_audit"
             - if employee_master_signed_in?
               %li
                 %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims Audit List

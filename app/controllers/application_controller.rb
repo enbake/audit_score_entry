@@ -5,8 +5,15 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_employee_master!
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  def admin_estimate_question_headers
+  	@adm_headers = ClaimAuditQuestion.adm_headers
+  	@est_headers = ClaimAuditQuestion.est_headers
+  	@adm_questions = ClaimAuditQuestion.adm_questions
+  	@est_questions = ClaimAuditQuestion.est_questions
+  end
+  
   protected
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) << :name
+  	devise_parameter_sanitizer.for(:sign_up) << :name
   end
 end

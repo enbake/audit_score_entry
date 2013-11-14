@@ -1,9 +1,7 @@
 class ClaimAuditDetailFile < ActiveRecord::Base
   belongs_to :claim_audit_question
   belongs_to :claim_audit_entry
-
   validate :check_answers
-
   def check_answers
     if answer == "No" and (category == "Admin" or category == "Compliance") 
       if exception == nil or note == nil

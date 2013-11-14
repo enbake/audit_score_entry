@@ -96,8 +96,8 @@
       = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_ll"
       = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
     
-    .sh_sum.well{:style => "background:white; width:300px;display:none; margin-left:30%;"}
-      %table
+    .sh_sum.well{:style => "background:white; width:319px;display:none; margin-left:30%;"}
+      %table{style:"width:100%;"}
         %tr
           %td Administration Exception Percent
           %td
@@ -106,8 +106,8 @@
         %tr
           %td Compliance Exception Percent
           %td
-            = "#{@com_exception} %" if @com_exception
-            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
+            = "#{@com_exp} %" if @com_exp
+            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exp
         %tr
           %td Estimation Exception:
         %tr

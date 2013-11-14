@@ -6,19 +6,18 @@
       %tr
         %td Estimator
         %td
-          = @estimator
+          = estimitor_find(@estimator)
           = hidden_field_tag "claim_audit_entry[estimator]", @estimator
       %tr
         %td Claim
         %td
           = @claim
           = hidden_field_tag "claim_audit_entry[claim]", @claim
-          = hidden_field_tag "claim_audit_entry[c_num]", params[:c_num]
       %tr
         %td Carrier
         %td
-          = @carrier
-          = hidden_field_tag "claim_audit_entry[carrier]", @carrier
+          = carrier_name_find(@carrier)
+          = hidden_field_tag "claim_audit_entry[carrier_branch_id]", @carrier
       %tr
         %td Estimate Date
         %td
