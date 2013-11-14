@@ -1,0 +1,26 @@
+%table.table.table-pointer.table-striped.table-bordered.table-hover.span10
+  %tr
+    %th Claim No.
+    %th Claim Type
+    %th CarrierBranchId
+    %th Severity
+    %th Time
+    %th Date
+    %th EmployeeId
+  
+  - @unsaved_audits.each do |audit|
+    %tr
+      %td
+        = audit.claim_number
+      %td
+        = audit.claim_type
+      %td
+        = audit.carrier_branch_id
+      %td
+        = "$#{audit.severity}"
+      %td
+        = audit.duration_net
+      %td
+        = audit.estimate_date
+      %td
+        = audit.employee_id

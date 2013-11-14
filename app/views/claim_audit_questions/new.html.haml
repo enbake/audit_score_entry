@@ -1,0 +1,17 @@
+= form_for @claim_audit_question, :html => {:class => "seal-form form-horizontal"} do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title ClaimAuditQuestions
+    .panel-body
+      .row
+        .col-md-2
+          %label Category:
+        .col-md-8
+          = f.select :category, options_for_select(ClaimAuditQuestion.all.map(&:category).uniq), :prompt => "Select", :html_options => {:class => "form-control"}
+      %br
+      .row
+        .col-md-2
+          %label Question:
+        .col-md-4
+          = f.text_area :question, :class => "normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+      = f.submit "Save", :class => "btn btn-default btn-sm btn-info pull-right"

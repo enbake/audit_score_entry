@@ -2,7 +2,7 @@
 %html
   %head
     %title AuditControlEntry
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag    "application","jquery-ui", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tag
   %body.claims.show
@@ -24,7 +24,9 @@
                   %span.glyphicon.glyphicon-home
             - if employee_master_signed_in?
               %li
-                = link_to "Claim Awaiting Audits", claim_awaiting_audits_path
+            - if employee_master_signed_in?
+              %li
+                %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims Audit List
           .navbar.navbar-nav.navbar-right.seal-navbar-nav-right
             .seal-user-profile
               .row
@@ -55,6 +57,10 @@
         .alert.alert-danger
           %button.close{"data-dismiss" => "alert"} x
           = flash[:danger].html_safe
+      - if flash[:alert]
+        .alert.alert-error
+          %button.close{"data-dismiss" => "alert"} x
+          = flash[:alert].html_safe
     .row
       - if employee_master_signed_in?
         .col-md-2
@@ -65,7 +71,11 @@
               .panel-body
                 .row
                   .col-md-12
-                    = link_to "Claim Awaiting Audits", claim_awaiting_audits_path
+                    = link_to "Awaiting Audits", claim_awaiting_audits_path
+                %hr/
+                .row
+                  .col-md-12
+                    = link_to "Audit Questions", claim_audit_questions_path
                 %hr/
       .col-md-10
         = yield

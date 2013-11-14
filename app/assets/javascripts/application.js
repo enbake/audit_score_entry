@@ -14,18 +14,35 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-//= require bootstrap-datetimepicker.min
 //= require jquery.autosize.min
+//= require jquery-ui
+
 
 $(document).ready(function(){
-	$('#datetimepicker2').datetimepicker({
-	  language: 'en',
-	  pick12HourFormat: true
-	});
-	
+	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
 })
 
+$(document).on('click', '#Main_claim_audit_list', function(e){
+ window.location="/estimator_claim_audit_list/index"
+})
+
+$(document).on('click', '#submit_to_filter_audit', function(e){
+	var from_date=$("#fromdate_estimator").val();
+	var to_date=$("#todate_estimator").val();
+	var estimator_id=$("#estimator").val();
+	var carrier_id=$("#carrier").val();
+	if(from_date=="" || to_date=="" || estimator_id=="") {
+     alert("Please fill up the dates and select estimator!")
+	}
+	else
+	{
+	 $.ajax({url:"/estimator_claim_audit_list/filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
+	}
+ 
+});
 $(document).on('click', '#hd_ad', function(e){
 	e.preventDefault();
 	if($('#in_fo')[0].checkValidity('input:visible')){
@@ -48,6 +65,25 @@ $(document).on('click', '#hd_add', function(e){
 	e.preventDefault();
 	$('.adm_com').hide();
 	$('.est_dec').show();
+})
+$(document).on('click', '#prev_ll', function(e){
+	e.preventDefault();
+	$('.adm_com').show();
+	$('.est_dec').hide();
+})
+$(document).on('click', '#prev_from_comment_history', function(e){
+	e.preventDefault();
+	$('.adm_com').hide();
+	$('.est_dec').hide();
+	$('.sh_sum').show();
+	$('.comment_block').hide();
+})
+$(document).on('click', '#comment_btn', function(e){
+	e.preventDefault();
+	$('.adm_com').hide();
+	$('.est_dec').hide();
+	$('.sh_sum').hide();
+	$('.comment_block').show();
 })
 
 $(document).on('click', '#sh_ad', function(e){
@@ -114,6 +150,7 @@ $(document).on('click', '#sum_sh', function(e){
 	$('.adm_com').hide();
 	$('.sh_sum').show();
 	$('#sh_btn').css('display', 'block');
+	$('#comment_btn').css('display', 'block');
 })
 
 $(document).on('click', '#sho_ad', function(e){

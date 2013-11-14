@@ -1,0 +1,15 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title ClaimAuditQuestions
+  .panel-body
+    %table.table.table-striped.table-bordered.table-hover.span10
+      %tr
+        %th Category
+        %th Question
+      - @claim_audit_questions.each do |claim_audit_question|
+        %tr
+          %td
+            = claim_audit_question.category
+          %td
+            = claim_audit_question.question
+    = link_to "New", new_claim_audit_question_path, :class => "btn btn-default btn-sm btn-success pull-right"

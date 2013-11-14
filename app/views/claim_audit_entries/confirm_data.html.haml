@@ -8,7 +8,7 @@
         %tr
           %td Estimator
           %td
-            = @estimator
+            = estimitor_find(@estimator)
             = hidden_field_tag "claim_audit_entry[estimator]", @estimator
         %tr
           %td Claim
@@ -18,22 +18,27 @@
         %tr
           %td Carrier
           %td
-            = @carrier
+            = carrier_name_find(@carrier)
+            = hidden_field_tag "claim_audit_entry[carrier_branch_id]", @carrier
         %tr
           %td Estimate Date
           %td
             = @estimate_date
+            = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
         %tr
-          %td Date Review
+          %td Reviewer
           %td
-            = @review_date
+            - if employee_master_signed_in?
+              = current_employee_master.name
             = hidden_field_tag "claim_audit_entry[review]", @review_date
         %tr
           %td Estimate Total
           %td
             = @total
+            = hidden_field_tag "claim_audit_entry[severity]", @total
     
-    = hidden_field_tag "adm_que", @adm.to_json
+    = hidden_field_tag "adm_que", @admin_answer.to_json
+    = hidden_field_tag "com_que", @comp.to_json
     = hidden_field_tag "est_que", @est.to_json
     
     .adm_com.panel-body
@@ -48,7 +53,21 @@
             %td
               %b
                 = @adm_headers[0]
-          - @adm.each_with_index do |ques, i|
+          - @admin_answer.each_with_index do |ques, i|
+            %tr
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                = ques[1][:exception]
+              %td
+                = ques[1][:notes]
+          %tr
+            %td
+              %b
+                = @adm_headers[1]
+          - @comp.each_with_index do |ques, i|
             %tr
               %td
                 = ques[1][:question]
@@ -59,6 +78,7 @@
               %td
                 = ques[1][:notes]
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
+      %br
     
     .est_dec.panel-body{:style => "display:none;"}
       %table.table
@@ -125,9 +145,15 @@
             %b
               Total Audit Exception
           %td
-            - total = number_with_precision(@adm_exception.to_f + @com_exp.to_f + leakage_percent.to_f, :precision => 2)
-            = "#{total} %"
+            - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
+            = "#{total}%"
             = hidden_field_tag "claim_audit_entry[overall_score]", total
+      %br/
+      %br
+      %label 
+        %b
+          Comment
+      %textarea#comment_added{name: "comment_added",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
     %br
     %br

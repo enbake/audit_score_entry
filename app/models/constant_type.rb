@@ -1,6 +1,5 @@
 class ConstantType < ActiveRecord::Base
     self.table_name = 'constant_type'
-
     self.inheritance_column = :ruby_type
     has_many :claim_audits, :class_name => 'ClaimAudit'    
     has_many :constant_responses, :class_name => 'ConstantResponse'    
