@@ -176,5 +176,5 @@ SystemEstimatingCategory.create!([
 end
 
 unless EmployeeMaster.find_by_email('master@admin.com')
-  EmployeeMaster.create! :email => 'master@admin.com', :name => "Admin", :password => "master1234", :password_confirmation => "master1234"
+  EmployeeMaster.create! :email => 'master@admin.com', :name => "Admin", :password => "master1234", :password_confirmation => "master1234", :is_admin? => true
 end
