@@ -9,7 +9,6 @@ AuditControlEntry::Application.routes.draw do
     end
   end
 
-  resources :claim_awaiting_audits
   get "estimator_claim_audit_list/index"
   match "estimator_claim_audit_list/filtered_list" =>"estimator_claim_audit_list#filtered_list" ,via: [:post,:get]
   match "estimator_claim_audit_list/show_saved_audit_estimate" =>"estimator_claim_audit_list#show_saved_audit_estimate" ,via: [:post,:get]

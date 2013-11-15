@@ -24,8 +24,6 @@
                   %span.glyphicon.glyphicon-home
             - if employee_master_signed_in?
               %li
-            - if employee_master_signed_in?
-              %li
                 %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims Audit List
           .navbar.navbar-nav.navbar-right.seal-navbar-nav-right
             .seal-user-profile
@@ -34,7 +32,8 @@
                   %span.glyphicon.glyphicon-user.avatar{alt: "testing", height: "32", src: "nyi.png", width: "32"}
                 .col-md-9
                   .dropdown
-                    .title Action
+                    - name = employee_master_signed_in? ? current_employee_master.name : "Action"
+                    .title "#{name}"
                     %a.dropdown-trigger{"data-toggle" => "dropdown", href: "#"}
                       %span.name
                       %b.caret

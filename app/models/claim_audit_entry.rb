@@ -1,12 +1,17 @@
 class ClaimAuditEntry < ActiveRecord::Base
   #include ActiveModel::Model
   attr_accessor :adm_ans, :com_ans, :est_ans ,:comment
+
   belongs_to :reviewer, :class_name => 'Employee'#, :foreign_key => :reviewer_id
   belongs_to :carrier_branch, :class_name => 'CarrierBranch'
   has_many :claim_audit_detail_files
   has_many :claim_audit_comments
+  belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
+
   after_save :question_details,:add_comment
   validates :claim, presence: true, uniqueness: true
+
+  scope :comments, ->(claim) { where(:claim=> claim).first.claim_audit_comments}
 
   def self.cal_exp(attrs)
     result = 0
@@ -44,8 +49,8 @@ class ClaimAuditEntry < ActiveRecord::Base
       else
         self.claim_audit_detail_files.create!(category: question_category, claim_audit_question_id: question_id, answer: answer, exception: '0', note: note)      
       end  
-      
     end
+    
     com_ans.each do |ans|
       question = ClaimAuditQuestion.find_by_question(ans[1]["question"])
       answer = ans[1]["answer"]

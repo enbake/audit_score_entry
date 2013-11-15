@@ -6,35 +6,49 @@
     .panel-body
       %table
         %tr
-          %td Estimator
+          %td 
+            %b
+              Estimator:
           %td
             = estimitor_find(@estimator)
             = hidden_field_tag "claim_audit_entry[estimator]", @estimator
         %tr
-          %td Claim
+          %td 
+            %b
+              Claim#:
           %td
-            = @claim
+            = "#{@claim} #{@claim_type}"
             = hidden_field_tag "claim_audit_entry[claim]", @claim
+            = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]",@claim_awaiting_id
         %tr
-          %td Carrier
+          %td 
+            %b
+              Carrier:
           %td
             = carrier_name_find(@carrier)
             = hidden_field_tag "claim_audit_entry[carrier_branch_id]", @carrier
         %tr
-          %td Estimate Date
+          %td 
+            %b
+              Estimate Date:
           %td
             = @estimate_date
             = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
         %tr
-          %td Reviewer
+          %td 
+            %b
+              Reviewer:
           %td
             - if employee_master_signed_in?
               = current_employee_master.name
             = hidden_field_tag "claim_audit_entry[review]", @review_date
         %tr
-          %td Estimate Total
+          %td 
+            %b
+              Estimate Total:
           %td
-            = @total
+            = "$#{@total}"
+            = "in #{@duration_net} min"
             = hidden_field_tag "claim_audit_entry[severity]", @total
     
     = hidden_field_tag "adm_que", @admin_answer.to_json
@@ -109,6 +123,8 @@
     
     .sh_sum.well.seal-module.panel-body{:style => "background:white; width:315px; margin-left:30%; display:none"}
       %table
+        %b
+          SUMMARY
         %tr
           %td Administration Exception Percent
           %td
@@ -117,8 +133,8 @@
         %tr
           %td Compliance Exception Percent
           %td
-            = "#{@com_exp} %" if @com_exp
-            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exp
+            = "#{@com_exception} %" if @com_exception
+            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
         %tr
           %td Estimation Exception:
         %tr
