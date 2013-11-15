@@ -31,13 +31,7 @@ class EstimatorClaimAuditListController < ApplicationController
   end 
   # Show filtered claim audit entries
   def show_saved_audit_estimate
-    @claim = "#{params[:c_num]}"
-    @claim_type="#{params[:c_type]}"
-    @carrier = params[:carrier]
-    @estimate_date = "#{Date.parse(params[:estimate_date]).strftime('%m/%d/%Y')}"
-    @total = params[:total] 
-    @duration_net=params[:duration_net]
-    @claim_audit_entry = ClaimAuditEntry.where(:claim=> @claim).first
+    @claim_audit_entry = ClaimAuditEntry.where(:claim=> params[:c_num]).first
     admin_estimate_question_headers
     if !@claim_audit_entry.blank?
       find_reviewer_and_estimator(@claim_audit_entry.reviewer_id,@claim_audit_entry.estimator)
