@@ -22,9 +22,6 @@
               %a{href: "/"}
                 %div
                   %span.glyphicon.glyphicon-home
-            - if employee_master_signed_in?
-              %li
-                %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims Audit List
           .navbar.navbar-nav.navbar-right.seal-navbar-nav-right
             .seal-user-profile
               .row
@@ -72,6 +69,10 @@
                   .col-md-12
                     = link_to "Awaiting Audits", claim_awaiting_audits_path
                 %hr/
+                .row
+                  .col-md-12
+                    %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims List
+                %hr/                
                 - if current_employee_master.is_admin?
                   .row
                     .col-md-12

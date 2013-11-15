@@ -40,42 +40,43 @@
         %b
           Average time:
       %td
-        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}     
-%table.table.table-pointer.table-striped.table-bordered.table-hover
-  %tr
-    %th Claim No.
-    %th Claim Type
-    %th Carrier
-    %th Severity
-    %th Time
-    %th Adm
-    %th Comp
-    %th Est
-    %th Total
-    %th Leak
-
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}
+  %hr/
+  %table.table.table-pointer.table-striped.table-bordered.table-hover
+    %tr
+      %th Claim No.
+      %th Claim Type
+      %th Carrier
+      %th Severity
+      %th Time
+      %th Adm
+      %th Comp
+      %th Est
+      %th Total
+      %th Leak
   
-  - claim_audit_entry.each do |claim_audit_entry|
-    - estimate_date(claim_audit_entry.claim)
-    - entry_scores_find(claim_audit_entry.claim)
-    %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :c_type => claim_audit_entry.claim_type, :carrier => claim_audit_entry.carrier_branch.name, :estimate_date=>claim_audit_entry.estimate_date,:duration_net=>claim_audit_entry.duration_net,:total =>claim_audit_entry.severity)}'"}
-      %td
-        = claim_audit_entry.claim
-      %td
-        = "#{claim_audit_entry.claim_type}"
-      %td
-        = claim_audit_entry.carrier_branch.name
-      %td
-        = "#{claim_audit_entry.severity}"
-      %td
-        = "#{claim_audit_entry.duration_net}"
-      %td
-        = "#{claim_audit_entry.admin_score}"
-      %td
-        = "#{claim_audit_entry.compliance_score}"
-      %td
-        = "#{claim_audit_entry.estimating_score}"
-      %td
-        = "#{claim_audit_entry.overall_score}"
-      %td
-        = "#{claim_audit_entry.leakage_amount}"
+    
+    - claim_audit_entry.each do |claim_audit_entry|
+      - estimate_date(claim_audit_entry.claim)
+      - entry_scores_find(claim_audit_entry.claim)
+      %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :c_type => claim_audit_entry.claim_type, :carrier => claim_audit_entry.carrier_branch.name, :estimate_date=>claim_audit_entry.estimate_date,:duration_net=>claim_audit_entry.duration_net,:total =>claim_audit_entry.severity)}'"}
+        %td
+          = claim_audit_entry.claim
+        %td
+          = "#{claim_audit_entry.claim_type}"
+        %td
+          = claim_audit_entry.carrier_branch.name
+        %td
+          = "#{claim_audit_entry.severity}"
+        %td
+          = "#{claim_audit_entry.duration_net}"
+        %td
+          = "#{claim_audit_entry.admin_score}"
+        %td
+          = "#{claim_audit_entry.compliance_score}"
+        %td
+          = "#{claim_audit_entry.estimating_score}"
+        %td
+          = "#{claim_audit_entry.overall_score}"
+        %td
+          = "#{claim_audit_entry.leakage_amount}"

@@ -18,7 +18,7 @@ class ClaimAuditQuestionsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def claim_audit_question_params
-      params.require(:claim_audit_question).permit(:category, :question)
+      params.require(:claim_audit_question).permit(:category, :question, :min_exception, :max_exception, :min_amount)
     end
 
 end

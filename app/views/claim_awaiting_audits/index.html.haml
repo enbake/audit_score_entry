@@ -1,8 +1,10 @@
 .seal-module.seal-panel.panel.panel-default.large
   .panel-heading
     %h3.panel-title ClaimAwaitingAudits
-  .col-md-4.pull-right
-    = link_to "Upload", "#upload_list", :role => "button", :class => "btn btn-info btn-small pull-right", :style => "margin-top:20px;", "data-toggle" => "modal"
+  .col-md-2.pull-right
+    %label
+      %h3{:style => "margin-top:9px;margin-bottom:7px;"} Action
+    = link_to "Upload", "#upload_list", :role => "button", :class => "btn btn-info btn-small pull-right", :style => "margin-top:7px;margin-bottom:7px;", "data-toggle" => "modal"
   
   .panel-body
     %table.table.table-pointer.table-striped.table-bordered.table-hover.span10

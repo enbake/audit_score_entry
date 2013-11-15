@@ -9,7 +9,7 @@ class ClaimAuditDetailFile < ActiveRecord::Base
   scope :over, -> (entry) {where("claim_audit_entry_id=? and indicator=?", entry.id, "Over").map(&:amount).sum.to_f}
   scope :under, -> (entry) {where("claim_audit_entry_id=? and indicator=?", entry.id, "Under").map(&:amount).sum.to_f}
   scope :adm_com_ans, -> (entry) {where("claim_audit_entry_id = ? and (category=? or category=?)", entry.id, "Admin", "Compliance").order("id asc")}
-  scope :est_answers, -> (entry) {where(:claim_audit_entry_id=> entry.id, :category=>"Estimation Decisions")}
+  scope :est_answers, -> (entry) {where(:claim_audit_entry_id=> entry.id, :category=>"Estimation Decisions").order("id asc")}
   scope :claim_audit_details, -> (entry) {where(:claim_audit_entry_id => entry.id)}
 
   private

@@ -157,3 +157,24 @@ $(document).on('click', '#sho_ad', function(e){
 	$('.est_dec').hide();
 	$('.adm_com').show();
 })
+
+$(document).on('change', '#que_sel', function(e){
+	if($(this).val() != "Estimation Decisions"){
+		$('.sh_exp').show();
+		$('.sh_amt').hide();
+	}
+	else if($(this).val() == "Estimation Decisions"){
+		$('.sh_amt').show();
+		$('.sh_exp').hide();
+	}
+})
+
+$(document).on('blur', '.check_min_amt', function(e){
+	min_amt = $(this).parent().find('input:hidden').val();
+	if($(this).val() <= min_amt){
+		alert("Your value must be greater than "+min_amt +" ");
+		$(this).focus();
+		value = parseInt(min_amt) + 1;
+		$(this).val(value);
+	}
+})
