@@ -83,7 +83,7 @@ class ClaimAuditEntry < ActiveRecord::Base
 
   def add_comment
     if !comment.blank?
-      self.claim_audit_comments.create(:comment=>comment)
+      self.claim_audit_comments.create(:comment=>comment, :written_by => self.reviewer.id)
     end
   end
 end

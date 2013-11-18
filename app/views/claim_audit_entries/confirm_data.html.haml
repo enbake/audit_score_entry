@@ -46,8 +46,9 @@
             %b
               Estimate Total:
           %td
-            = "$#{params[:total]}"
-            = "in #{params[:duration_net]} min"
+            - unless params[:total].blank?
+              = "$ #{number_with_precision(params[:total], precision:2)}"
+              = "in #{params[:duration_net]} min"
             = hidden_field_tag "claim_audit_entry[severity]", params[:total]
     
     = hidden_field_tag "adm_que", params["1"].to_json
@@ -73,7 +74,8 @@
               %td
                 = ques[1][:answer]
               %td
-                = ques[1][:exception]
+                - unless ques[1][:exception].blank?
+                  = "#{ques[1][:exception]} %"
               %td
                 = ques[1][:notes]
           %tr
@@ -87,7 +89,8 @@
               %td
                 = ques[1][:answer]
               %td
-                = ques[1][:exception]
+                - unless  ques[1][:exception].blank?
+                  = "#{ques[1][:exception]} %"
               %td
                 = ques[1][:notes]
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
@@ -114,7 +117,8 @@
               %td
                 = ques[1][:impact]
               %td
-                = ques[1][:amount]
+                - unless ques[1][:amount].blank?
+                  = "#{ques[1][:amount].to_f.round}"
               %td
                 = ques[1][:ext_notes]
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
@@ -127,42 +131,49 @@
         %tr
           %td Administration Exception Percent
           %td
-            = "#{@adm_exception} %"
-            = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
+            - unless @adm_exception.blank?
+              = "#{@adm_exception.round} %"
+              = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
         %tr
           %td Compliance Exception Percent
           %td
-            = "#{@com_exception} %" if @com_exception
-            = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
-        %tr
+            - unless @com_exception.blank? 
+              = "#{@com_exception.round} %"
+              = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
+          %tr
           %td Estimation Exception:
         %tr
           %td - Leakage Over Amount
           %td
-            = "$ #{@over}"
+            - unless @over.blank?
+              = "$ #{@over}"
         %tr
           %td - Leakage Under Amount
           %td
-            = "$ #{@under}"
+            - unless @under.blank?
+              = "$ #{@under}"
         %tr
           %td - Leakage Percent (Exception)
           %td
             - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
-            = "#{leakage_percent} %"
-            = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+            - unless leakage_percent.blank?
+              = "#{leakage_percent} %"
+              = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
         %tr
           %td Total Leakage Amount
           %td
-            = "$ #{@over + @under}"
-            = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
+            - unless @over.blank? and @under.blank?
+              = "$ #{@over + @under}"
+              = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
         %tr
           %td
             %b
               Total Audit Exception
           %td
             - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
-            = "#{total}%"
-            = hidden_field_tag "claim_audit_entry[overall_score]", total
+            - unless total.blank?
+              = "#{total}%"
+              = hidden_field_tag "claim_audit_entry[overall_score]", total
       %br/
       %br
       %label 

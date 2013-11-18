@@ -14,17 +14,10 @@ class ClaimAuditEntriesController < ApplicationController
 
   # GET /claim_audit_entries/new
   def new
-    claim_audit_entry=ClaimAuditEntry.where(:claim=>"#{params[:c_num]}").first
+    claim_audit_entry=ClaimAuditEntry.where(:claim=> params[:c_num]).first
     if claim_audit_entry.blank?
-      @claim_awaiting_id = params[:claim_awaiting_id]
-      @estimator = params[:employee_id]
-      @claim = "#{params[:c_num]}"
-      @claim_type = params[:c_type]
-      @carrier = params[:carrier]
-      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%m/%d/%Y')}"
-      @total = params[:total]
-      @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
-      @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)
+      @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").order('id asc').group_by(&:category)
+      @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
       redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => params[:c_num], :c_type => params[:c_type], :carrier => params[:carrier], :estimate_date=>params[:estimate_date],:total => params[:total])
