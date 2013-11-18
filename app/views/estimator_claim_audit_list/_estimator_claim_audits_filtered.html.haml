@@ -34,13 +34,13 @@
         %b
           Severity:
       %td
-        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:severity]}
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:severity], precision: 2)}
     %tr
       %td
         %b
           Average time:
       %td
-        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:average_time]}
+        %input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:average_time], precision: 1)}
   %hr/
   %table.table.table-pointer.table-striped.table-bordered.table-hover
     %tr

@@ -40,8 +40,8 @@ class ClaimAuditEntriesController < ApplicationController
   def create
     @claim_audit_entry = ClaimAuditEntry.new(claim_audit_entry_params)
     @claim_awaiting= ClaimAwaitingAudit.where(:claim_number=>params[:claim_audit_entry][:c_num]).first
-    if employee_master_signed_in?
-      @claim_audit_entry.reviewer_id = current_employee_master.id
+    if employee_signed_in?
+      @claim_audit_entry.reviewer_id = current_employee.id
     end
     @claim_audit_entry.comment=params[:comment_added]
     @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
@@ -83,22 +83,10 @@ class ClaimAuditEntriesController < ApplicationController
   end
 
   def confirm_data
-    @estimator = params[:estimator]
-    @claim = params[:claim]
-    @claim_type=params[:claim_type]
-    @claim_awaiting_id=params[:claim_awaiting_id]
-    @duration_net=params[:duration_net]
-    @carrier = params[:carrier]
-    @estimate_date = params[:estimate_date]
-    @total = params[:total]
-    #@review_date = params[:claim_audit_entry][:review]
     @claim_audit_entry = ClaimAuditEntry.new
     @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
     @com_exception = ClaimAuditEntry.cal_exp(params["2"])
     @over, @under = ClaimAuditEntry.cal_amt(params["3"])
-    @est = params["3"]
-    @admin_answer=params["1"]
-    @comp=params["2"]
     admin_estimate_question_headers
   end
 

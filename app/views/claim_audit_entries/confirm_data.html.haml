@@ -10,50 +10,49 @@
             %b
               Estimator:
           %td
-            = estimitor_find(@estimator)
-            = hidden_field_tag "claim_audit_entry[estimator]", @estimator
+            = estimitor_find(params[:estimator])
+            = hidden_field_tag "claim_audit_entry[estimator]", params[:estimator]
         %tr
           %td 
             %b
               Claim#:
           %td
-            = "#{@claim} #{@claim_type}"
-            = hidden_field_tag "claim_audit_entry[claim]", @claim
-            = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]",@claim_awaiting_id
+            = "#{params[:claim]} #{params[:claim_type]}"
+            = hidden_field_tag "claim_audit_entry[claim]", params[:claim]
+            = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]", params[:claim_awaiting_id]
         %tr
           %td 
             %b
               Carrier:
           %td
-            = carrier_name_find(@carrier)
-            = hidden_field_tag "claim_audit_entry[carrier_branch_id]", @carrier
+            = carrier_name_find(params[:carrier])
+            = hidden_field_tag "claim_audit_entry[carrier_branch_id]", params[:carrier]
         %tr
           %td 
             %b
               Estimate Date:
           %td
-            = @estimate_date
-            = hidden_field_tag "claim_audit_entry[estimate_date]", @estimate_date
-        %tr
+            = params[:estimate_date]
+            = hidden_field_tag "claim_audit_entry[estimate_date]", params[:estimate_date]
           %td 
             %b
               Reviewer:
           %td
-            - if employee_master_signed_in?
-              = current_employee_master.name
-            = hidden_field_tag "claim_audit_entry[review]", @review_date
+            - if employee_signed_in?
+              = "#{current_employee.first_name} #{current_employee.last_name}"
+            = hidden_field_tag "claim_audit_entry[review]", params[:review]
         %tr
           %td 
             %b
               Estimate Total:
           %td
-            = "$#{@total}"
-            = "in #{@duration_net} min"
-            = hidden_field_tag "claim_audit_entry[severity]", @total
+            = "$#{params[:total]}"
+            = "in #{params[:duration_net]} min"
+            = hidden_field_tag "claim_audit_entry[severity]", params[:total]
     
-    = hidden_field_tag "adm_que", @admin_answer.to_json
-    = hidden_field_tag "com_que", @comp.to_json
-    = hidden_field_tag "est_que", @est.to_json
+    = hidden_field_tag "adm_que", params["1"].to_json
+    = hidden_field_tag "com_que", params["2"].to_json
+    = hidden_field_tag "est_que", params["3"].to_json
     
     .adm_com.panel-body
       %table.table
@@ -67,7 +66,7 @@
             %td
               %b
                 = @adm_headers[0]
-          - @admin_answer.each_with_index do |ques, i|
+          - params["1"].each_with_index do |ques, i|
             %tr
               %td
                 = ques[1][:question]
@@ -81,7 +80,7 @@
             %td
               %b
                 = @adm_headers[1]
-          - @comp.each_with_index do |ques, i|
+          - params["2"].each_with_index do |ques, i|
             %tr
               %td
                 = ques[1][:question]
@@ -106,7 +105,7 @@
           %td
             %b
               = @est_headers[0]
-          - @est.each_with_index do |ques, i|
+          - params["3"].each_with_index do |ques, i|
             %tr
               %td
                 = ques[1][:ext_question]
@@ -148,7 +147,7 @@
         %tr
           %td - Leakage Percent (Exception)
           %td
-            - leakage_percent = number_with_precision(((@over + @under)/@total.to_f) * 100, precision: 2)
+            - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
             = "#{leakage_percent} %"
             = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
         %tr

@@ -39,9 +39,9 @@
             %b
               Reviewer:
           %td
-            - if employee_master_signed_in?
-              = current_employee_master.name
-            = f.hidden_field :review,:value=>Date.today
+            - if employee_signed_in?
+              = "#{current_employee.first_name} #{current_employee.last_name}"
+            = f.hidden_field :review, :value=>Date.today
         %tr
           %td 
             %b

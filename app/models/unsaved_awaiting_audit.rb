@@ -1,3 +1,3 @@
 class UnsavedAwaitingAudit < ActiveRecord::Base
-  belongs_to :employee_master
+  belongs_to :employee
 end

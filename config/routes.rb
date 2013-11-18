@@ -1,7 +1,7 @@
 AuditControlEntry::Application.routes.draw do
 
+  devise_for :employees
   get "unsaved_awaiting_audits/index"
-  devise_for :employee_masters
   
   resources :claim_awaiting_audits do
     collection do

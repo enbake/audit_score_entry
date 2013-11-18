@@ -8,7 +8,7 @@ require 'csv'
   def upload_csv
     unsaved = Array.new
     unsavedCount = 0
-    batch = "#{current_employee_master.id}_#{Time.now}"
+    batch = "#{current_employee.id}_#{Time.now}"
     csv_text = File.read(params[:claim_awaiting_audit][:file].path)
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
@@ -20,7 +20,7 @@ require 'csv'
           unsaved << unsavedCount
           begin
             data = (row.to_hash).merge!(:batch => batch)
-            current_employee_master.unsaved_awaiting_audits.create!(data)
+            current_employee.unsaved_awaiting_audits.create!(data)
           rescue Exception => e
             puts e.message
           end

@@ -6,10 +6,24 @@
       %tr
         %th Category
         %th Question
+        %th Min Exception
+        %th Max Exception
+        %th Min Amount
+        %th Action
       - @claim_audit_questions.each do |claim_audit_question|
         %tr
           %td
             = claim_audit_question.category
           %td
             = claim_audit_question.question
+          %td
+            = claim_audit_question.min_exception
+          %td
+            = claim_audit_question.max_exception
+          %td
+            = claim_audit_question.min_amount
+          %td
+            = link_to "Edit", edit_claim_audit_question_path(claim_audit_question), class: "btn btn-default btn-sm btn-info"
+    = will_paginate @claim_audit_questions
+          
     = link_to "New", new_claim_audit_question_path, :class => "btn btn-default btn-sm btn-success pull-right"

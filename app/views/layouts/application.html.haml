@@ -29,21 +29,21 @@
                   %span.glyphicon.glyphicon-user.avatar{alt: "testing", height: "32", src: "nyi.png", width: "32"}
                 .col-md-9
                   .dropdown
-                    - name = employee_master_signed_in? ? current_employee_master.name : "Action"
+                    - name = employee_signed_in? ? "#{current_employee.first_name} #{current_employee.last_name}" : "Action"
                     .title "#{name}"
                     %a.dropdown-trigger{"data-toggle" => "dropdown", href: "#"}
                       %span.name
                       %b.caret
                     %ul.dropdown-menu{"aria-labelledby" => "dropdownUserProfile", role: "menu"}
-                      - if employee_master_signed_in?
+                      - if employee_signed_in?
                         %li
-                          = link_to "Log-Out", destroy_employee_master_session_path, :method => :delete
-                      -  unless employee_master_signed_in?
+                          = link_to "Log-Out", destroy_employee_session_path, :method => :delete
+                      -  unless employee_signed_in?
                         %li
-                          = link_to "Sign-Up", new_employee_master_registration_path
-                      -  unless employee_master_signed_in?
+                          = link_to "Sign-Up", new_employee_registration_path
+                      -  unless employee_signed_in?
                         %li
-                          = link_to "Sign-In", new_employee_master_session_path
+                          = link_to "Sign-In", new_employee_session_path
     - if flash.present?
       - if flash[:notice]
         .alert.alert-success
@@ -58,7 +58,7 @@
           %button.close{"data-dismiss" => "alert"} x
           = flash[:alert].html_safe
     .row
-      - if employee_master_signed_in?
+      - if employee_signed_in?
         .col-md-2
           #estimate-sidebar.seal-module.secondary
             .seal-panel.panel.panel-default.panel-estimate
@@ -73,7 +73,7 @@
                   .col-md-12
                     %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims List
                 %hr/                
-                - if current_employee_master.is_admin?
+                - if current_employee.is_admin?
                   .row
                     .col-md-12
                       = link_to "Audit Questions", claim_audit_questions_path

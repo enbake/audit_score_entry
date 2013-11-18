@@ -1,8 +1,8 @@
-class DeviseCreateEmployeeMasters < ActiveRecord::Migration
-  def change
-    create_table(:employee_masters) do |t|
+class AddDeviseToEmployees < ActiveRecord::Migration
+  def self.up
+    change_table(:employee) do |t|
       ## Database authenticatable
-      t.string :email,              :null => false, :default => ""
+      t.string :email,              :null => false, :default => "", :unique => true
       t.string :encrypted_password, :null => false, :default => ""
 
       ## Recoverable
@@ -31,12 +31,19 @@ class DeviseCreateEmployeeMasters < ActiveRecord::Migration
       # t.datetime :locked_at
 
 
-      t.timestamps
+      # Uncomment below if timestamps were not included in your original model.
+      # t.timestamps
     end
 
-    add_index :employee_masters, :email,                :unique => true
-    add_index :employee_masters, :reset_password_token, :unique => true
-    # add_index :employee_masters, :confirmation_token,   :unique => true
-    # add_index :employee_masters, :unlock_token,         :unique => true
+    #add_index :employee, :email,                :unique => true
+    add_index :employee, :reset_password_token, :unique => true
+    # add_index :employees, :confirmation_token,   :unique => true
+    # add_index :employees, :unlock_token,         :unique => true
+  end
+
+  def self.down
+    # By default, we don't want to make any assumption about how to roll back a migration when your
+    # model already existed. Please edit below which fields you would like to remove in this migration.
+    raise ActiveRecord::IrreversibleMigration
   end
 end

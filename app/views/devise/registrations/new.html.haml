@@ -9,35 +9,44 @@
         %hr
         = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
           .row
-            .col-md-3
-              %label Name
+            .col-md-4
+              %label First Name
             .col-md-8
-              = f.text_field :name, :placeholder => "Name", :required => true
+              = f.text_field :first_name, :placeholder => "First Name", :required => true
             %br
             %br
           .row
-            .col-md-3
+            .col-md-4
+              %label Last Name
+            .col-md-8
+              = f.text_field :last_name, :placeholder => "Last Name", :required => true
+            %br
+            %br
+          .row
+            .col-md-4
               %label Email
             .col-md-8
               = f.text_field :email, :placeholder => "Email", :required => true
             %br
             %br
           .row
-            .col-md-3
+            .col-md-4
               %label Password
             .col-md-8
               = f.password_field :password, :placeholder => "Password", :required => true
             %br
             %br
           .row
-            .col-md-3
+            .col-md-4
               %label Password Confirmation
             .col-md-8
               = f.password_field :password_confirmation, :placeholder => "Password Confirmation", :required => true
             %br
             %br
           .row
-            .col-md-3
+            .col-md-4
               %label
+                = f.hidden_field :role_id, value: 0
+                = f.hidden_field :timestamp, value: DateTime.now
             .col-md-7
               = f.submit 'Sign-Up', class: "btn btn-default btn-info btn-sm pull-right", style: "margin-right:14px;"
