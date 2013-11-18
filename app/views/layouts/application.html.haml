@@ -67,7 +67,7 @@
               .panel-body
                 .row
                   .col-md-12
-                    = link_to "Awaiting Audits", claim_awaiting_audits_path
+                    = link_to "Awaiting Audits", claim_awaiting_audits_path,{:id=>"claim_awaiting_audit"}
                 %hr/
                 .row
                   .col-md-12
@@ -76,7 +76,6 @@
                 - if current_employee_master.is_admin?
                   .row
                     .col-md-12
-                      = link_to "Audit Questions", claim_audit_questions_path
-                  %hr/
+                      = link_to "Audit Questions", claim_audit_questions_path,:id=>"claim_audit_question_btn"
       .col-md-10
         = yield

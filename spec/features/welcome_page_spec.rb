@@ -1,24 +1,28 @@
 require 'spec_helper'
 
 describe "welcome" do
-  it "displays the claim Awaiting Audits list", :js => :true do
-    sign_in
-    # FactoryGirl.create(:carrier_branch)
-    FactoryGirl.create(:claim_awaiting_audit)
-    visit root_path
-    find("#claim_awaiting_audit").click()
-    page.should have_content "Claim No."
+  before(:each) do
+   FactoryGirl.create(:claim_awaiting_audit)
+   FactoryGirl.create(:claim_audit_question)
+end
+
+after(:each) do
     ClaimAuditQuestion.delete_all
     CarrierBranch.delete_all
     ClaimAwaitingAudit.delete_all
     Employee.delete_all
     EmployeeMaster.delete_all
 end
+it "displays the claim Awaiting Audits list", :js => :true do
+    sign_in
+    visit root_path
+    find("#claim_awaiting_audit").click()
+    page.should have_content "Claim No."
+    
+end
 
 it "should render new claim audit entry page", :js => :true do
     sign_in
-    FactoryGirl.create(:claim_awaiting_audit)
-    FactoryGirl.create(:claim_audit_question)
     visit root_path
     find("#claim_awaiting_audit").click()
     find(:xpath, "//tr[last()]").click
@@ -27,11 +31,7 @@ it "should render new claim audit entry page", :js => :true do
     a = page.driver.browser.switch_to.alert
     a.text.should eq("Please fill the focused field")
     a.accept
-    ClaimAuditQuestion.delete_all
-    CarrierBranch.delete_all
-    ClaimAwaitingAudit.delete_all
-    Employee.delete_all
-    EmployeeMaster.delete_all
+    
 end
 
 end

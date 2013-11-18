@@ -76,7 +76,7 @@
                 = ques[1][:answer]
               %td
                 - unless ques[1][:exception].blank?
-                  = "#{ques[1][:exception].round} %"
+                  = "#{ques[1][:exception].to_f.round} %"
               %td
                 = ques[1][:notes]
           %tr
@@ -91,7 +91,7 @@
                 = ques[1][:answer]
               %td
                 - unless  ques[1][:exception].blank?
-                  = "#{ques[1][:exception].round} %"
+                  = "#{ques[1][:exception].to_f.round} %"
               %td
                 = ques[1][:notes]
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"

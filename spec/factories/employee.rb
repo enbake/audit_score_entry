@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :employee,class: Employee do
+  factory :employee do
     first_name "Benjamin"
     last_name "Hall"
     role_id "0"

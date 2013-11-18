@@ -9,5 +9,7 @@ describe ClaimAwaitingAudit do
   it "can be saved successfully" do
     claim_awaiting_audit.should be_persisted
     ClaimAwaitingAudit.delete_all
+    CarrierBranch.delete_all
+    Employee.delete_all
   end
 end

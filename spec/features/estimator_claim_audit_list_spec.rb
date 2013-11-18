@@ -1,30 +1,32 @@
 require 'spec_helper'
 
 describe "welcome" do
+   before(:each) do
+      @estimator=FactoryGirl.create(:employee)
+      @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:estimator=>@estimator.id)
+      ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
+      @claim_audit_entry.save
+  end
+
+  after(:each) do
+      ClaimAuditEntry.delete_all
+      CarrierBranch.delete_all
+      Employee.delete_all
+      EmployeeMaster.delete_all
+  end
   it "displays the claim Awaiting Audits list", :js => :true do
     sign_in
-    FactoryGirl.create(:claim_awaiting_audit)
     visit root_path
-    page.should have_content "ESTIMATOR CLAIMS AUDIT LIST"
-    ClaimAuditQuestion.delete_all
-    CarrierBranch.delete_all
-    ClaimAwaitingAudit.delete_all
-    Employee.delete_all
-    EmployeeMaster.delete_all
+    page.should have_content "Estimator Claims List"
+  
 end
 
 it "should render estimator claim filter", :js => :true do
     sign_in
-    FactoryGirl.create(:claim_awaiting_audit)
-    FactoryGirl.create(:claim_audit_question)
     visit root_path
     find("#Main_claim_audit_list").click
     page.should have_content "Time period:" 
-    ClaimAuditQuestion.delete_all
-    CarrierBranch.delete_all
-    ClaimAwaitingAudit.delete_all
-    Employee.delete_all
-    EmployeeMaster.delete_all
+  
 end
 
 end

@@ -17,6 +17,14 @@ module Features
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     find("#sign_in_employee").click
+  end 
+
+  def sign_in_as_admin
+    user =  FactoryGirl.create(:employee_master,is_admin?:"1")
+    visit new_employee_master_session_path
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    find("#sign_in_employee").click
   end
 end
 end

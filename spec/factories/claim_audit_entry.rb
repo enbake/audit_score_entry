@@ -10,13 +10,12 @@ FactoryGirl.define do
   factory :claim_audit_entry do
     reviewer_id "12"
     claim "123456708"
-    estimator "10"
     overall_score "1000"
     admin_score "1000"
     compliance_score "1000"
     estimating_score "1000"
     leakage_amount "1000"
-    created_at Time.now
-    updated_at Time.now
+    created_at "01-11-2013"
+    updated_at "01-11-2013"
   end
 end

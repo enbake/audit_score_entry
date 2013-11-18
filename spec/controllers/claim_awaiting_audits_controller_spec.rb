@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UnsavedAwaitingAuditsController do
+describe ClaimAwaitingAuditsController do
 
   describe "GET 'index'" do
   	login_user
