@@ -57,9 +57,7 @@
   
     
     - claim_audit_entry.each do |claim_audit_entry|
-      - estimate_date(claim_audit_entry.claim)
-      - entry_scores_find(claim_audit_entry.claim)
-      %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :c_type => claim_audit_entry.claim_type, :carrier => claim_audit_entry.carrier_branch.name, :estimate_date=>claim_audit_entry.estimate_date,:duration_net=>claim_audit_entry.duration_net,:total =>claim_audit_entry.severity)}'"}
+      %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim, :filter_from_date=>above_var_list[:filter_from_date],:filter_to_date=>above_var_list[:filter_to_date],:filter_estimator_id=>above_var_list[:estimator_id],:filter_carrier_id=>above_var_list[:carrier_id])}'"}
         %td
           = claim_audit_entry.claim
         %td
@@ -67,7 +65,8 @@
         %td
           = claim_audit_entry.carrier_branch.name
         %td
-          = "#{claim_audit_entry.severity}"
+          - unless claim_audit_entry.severity.blank?
+            = "#{number_with_precision(claim_audit_entry.severity, precision: 2)}"
         %td
           = "#{claim_audit_entry.duration_net}"
         %td

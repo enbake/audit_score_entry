@@ -47,8 +47,9 @@
             %b
               Estimate Total:
           %td
-            = "$#{@total}"
-            = "in #{params[:duration_net]} min"
+            - unless @total.blank?
+              = "$ #{ number_with_precision(@total, precision: 2)}"
+              = "in #{params[:duration_net]} min"
             = hidden_field_tag "total", @total
             = hidden_field_tag "duration_net",params[:duration_net]
       
@@ -78,7 +79,7 @@
               %td
                 = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question)), :prompt => "Select", :class => "form-control"
               %td
-                = text_area_tag "#{tab}[#{row}][notes]", "", :class => "normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                = text_area_tag "#{tab}[#{row}][notes]", "", :class => "normal aut_sz form-control note_text_first", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_ad"
       %br
       %br
@@ -108,9 +109,9 @@
               %td
                 = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"]), :class => "form-control"
               %td
-                = text_field_tag "#{tab}[#{row}][amount]", "", :class => "check_min_amt"
+                = text_field_tag "#{tab}[#{row}][amount]", "",:class => "check_min_amt"
                 = hidden_field_tag "set_min_amt", select_range(question)
               %td
-                = text_area_tag "#{tab}[#{row}][ext_notes]", "", :class => "normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                = text_area_tag "#{tab}[#{row}][ext_notes]", "",  :class => "normal aut_sz form-control note_text_second", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sh_ad"
       = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right", :id => "su_btn"

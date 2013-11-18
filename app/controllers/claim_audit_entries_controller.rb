@@ -21,7 +21,7 @@ class ClaimAuditEntriesController < ApplicationController
       @claim = "#{params[:c_num]}"
       @claim_type = params[:c_type]
       @carrier = params[:carrier]
-      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%m/%d/%Y')}"
+      @estimate_date ="#{Date.parse(params[:estimate_date]).strftime('%m-%d-%Y')}"
       @total = params[:total]
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").group_by(&:category)
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").group_by(&:category)

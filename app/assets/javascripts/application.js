@@ -26,7 +26,7 @@ $(document).ready(function(){
 })
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
- window.location="/estimator_claim_audit_list/index"
+	window.location="/estimator_claim_audit_list/index"
 })
 
 $(document).on('click', '#submit_to_filter_audit', function(e){
@@ -35,27 +35,51 @@ $(document).on('click', '#submit_to_filter_audit', function(e){
 	var estimator_id=$("#estimator").val();
 	var carrier_id=$("#carrier").val();
 	if(from_date=="" || to_date=="" || estimator_id=="") {
-     alert("Please fill up the dates and select estimator!")
+		alert("Please fill up the dates and select estimator!")
 	}
 	else
 	{
-	 $.ajax({url:"/estimator_claim_audit_list/filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
+		$.ajax({url:"/estimator_claim_audit_list/filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
 	}
- 
+
 });
 $(document).on('click', '#hd_ad', function(e){
 	e.preventDefault();
-	if($('#in_fo')[0].checkValidity('input:visible')){
+	response=false;
+	$( ".sel_ans" ).each(function() {
+		if ($(this).val()=='')
+		{
+			response=true
+		}
+		else
+		{
+			response=false
+		}
+	});
+	$(".note_text_first").each(function(){
+		if($(this).attr("required")=="required")
+		{
+			if ($(this).val()=='')
+			{
+				response=true
+			}
+			else
+			{
+				response=false
+			}
+		}
+	})
+	
+	if(response==false){
 		$('.adm_com').hide();
 		$('.est_dec').show();
 		$('.sel_est').attr('required', true);
 	}
 	else{
-		//alert("please fill in the corresponding fields for the questions where your answer is No");
 		alert("Please fill the focused field");
-		$('#in_fo').find('input:required, select:required').each(function(){
-			 if($(this).val()==""){
-			 	$(this).focus();
+		$('#in_fo').find('input:required, select:required,textarea:required').each(function(){
+			if($(this).val()==""){
+				$(this).focus();
 			}
 		});
 	}
@@ -87,46 +111,41 @@ $(document).on('click', '#comment_btn', function(e){
 })
 
 $(document).on('click', '#sh_ad', function(e){
-	e.preventDefault();
-	if ($('#in_fo')[0].checkValidity('input:visible')) {
-		$('.est_dec').hide();
-		$('.adm_com').show();
-	}
-	else{
-		alert("Please fill the focused field");
-		$('#in_fo').find('input:required, select:required').each(function(){
-			if($(this).val()==""){
-				$(this).focus();
-			}
-		});
-	}
+	$('.est_dec').hide();
+	$('.adm_com').show();
+	
+	
 })
 
 $(document).on('change', '.sel_ans', function(){
 	if($(this).val() == "No"){
 		$(this).parent().parent().find('input:last, select:last').attr('disabled', false);
+		$(this).parent().next().next().children('textarea').attr('required', 'required');
 		//alert("Please fill the comments in the notes field");
-		$(this).parent().parent().find('input').attr('required', true);
-		$(this).parent().parent().find('select:last').attr('required', true);
+		$(this).parent().parent().find('input').attr('required', 'required');
+		$(this).parent().parent().find('select:last').attr('required', 'required');
 		$(this).parent().parent().find('select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('select:last').attr('disabled', true);
-		$(this).parent().parent().find('input, select').attr('required', false);
+		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
 
 $(document).on('change', '.sel_est', function(){
 	if($(this).val() == "No"){
 		//alert("Please fill the ammount, impact and comments in their respective fields");
+		$(this).parent().next().next().next().children('textarea').attr('required', 'required');
 		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false);
-		$(this).parent().parent().find('input').attr('required', true);
-		$(this).parent().parent().find('select:last').attr('required', true);
+		$(this).parent().parent().find('input').attr('required', 'required');
+		$(this).parent().parent().find('select:last').attr('required', 'required');
 		$(this).parent().parent().find('input:select').focus();
 	}
 	else if($(this).val()== "Yes"){
+		$(this).parent().next().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('input:visible, select:last').attr('disabled', true);
-		$(this).parent().parent().find('input, select').attr('required', false);
+		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
 
@@ -141,6 +160,13 @@ $(document).on('click', 'su_btn', function(e){
 })
 $(document).on('click', '#go_back_to_edit', function(e){
 	history.go(-1);
+})
+$(document).on('click', '#go_back_to_result', function(e){
+	var from_date=$("#filter_from_date").val();
+	var to_date=$("#filter_to_date").val();
+	var estimator_id=$("#filter_estimator_id").val();
+	var carrier_id=$("#filter_carrier_id").val();
+	$.ajax({url:"/estimator_claim_audit_list/back_filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
 	
 })
 
