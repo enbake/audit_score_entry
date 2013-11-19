@@ -10,5 +10,12 @@ describe ClaimAuditEntry do
 	it "can be saved successfully" do
 		claim_audit_entry.should be_persisted
 		ClaimAuditEntry.delete_all
-	end
+  end
+  
+  let (:claim_audit_entri) { FactoryGirl.build(:claim_audit_entri) }
+  it "can be saved successfully" do
+    claim_audit_entri.should_not be_valid
+    ClaimAuditEntry.delete_all
+  end
+  
 end

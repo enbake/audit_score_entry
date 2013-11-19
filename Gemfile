@@ -56,6 +56,7 @@ end
    gem 'capybara'
    gem 'factory_girl_rails'
    gem 'selenium-webdriver'
+   gem 'ffaker'
  end
  
  # Use devise for authentication

@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :unsaved_awaiting_audit do
+    association :employee_id, :factory => :employee
     claim_number "MyString"
     claim_type "MyString"
     carrier_branch_id 1
@@ -12,6 +13,5 @@ FactoryGirl.define do
     created_employee_id 1
     completed "2013-11-13 13:12:04"
     completed_employee_id 1
-    employee_id 1
   end
 end
