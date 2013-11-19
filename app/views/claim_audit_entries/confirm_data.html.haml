@@ -4,7 +4,7 @@
       %h3.panel-title Claim Audit Entry
     %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
     .panel-body
-      %table
+      %table{style:"width:35%;"}
         %tr
           %td 
             %b
@@ -34,6 +34,7 @@
           %td
             = params[:estimate_date]
             = hidden_field_tag "claim_audit_entry[estimate_date]", params[:estimate_date]
+        %tr
           %td 
             %b
               Reviewer:
@@ -179,7 +180,7 @@
       %label 
         %b
           Comment
-      %textarea#comment_added{name: "comment_added",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
+      %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here"}
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
     %br
     %br

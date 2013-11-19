@@ -177,7 +177,7 @@
               %td
                 = comment.created_at.strftime('%m-%d-%Y')
               %td
-                = "#{comment.claim_audit_entry.reviewer.first_name} #{comment.claim_audit_entry.reviewer.last_name}"
+                = give_author_name(comment.written_by)
               %td{style:"width:40%!important"}
                 %span{style:"overflow: hidden; word-wrap: break-word;"}
                   = comment.comment
@@ -190,6 +190,7 @@
           = hidden_field_tag "claim_id",@claim_audit_entry.id
           %div{style:"width: auto; padding-left: 37%;"}
             %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
+            %br
             %br
             %div{style:"width:288px;"}
               = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"

@@ -17,7 +17,7 @@ it "displays the claim Awaiting Audits list", :js => :true do
     sign_in
     visit root_path
     find("#claim_awaiting_audit").click()
-    page.should have_content "Claim No."
+    page.should have_content "Claim#"
     
 end
 

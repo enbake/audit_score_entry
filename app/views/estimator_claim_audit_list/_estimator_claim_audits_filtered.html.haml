@@ -1,16 +1,20 @@
 .panel-heading
   %h3.panel-title Claim Audit Entry
 .panel-body
-  %table
+  %table{style:"width:40%"}
     %tr
       %td
         %b
           Time Period
       %td
-        %span{style:"margin-left:4px;"} From:
+        %span{style:"margin-left:4px;"}
+          %b
+            From:
         //%input{readonly:"readonly",:value=>above_var_list[:from_date]}
         = above_var_list[:from_date] 
-        %span{style:"margin-left:10px;"} To:
+        %span{style:"margin-left:10px;"}
+          %b
+            To:
         //%input{readonly:"readonly",:value=>above_var_list[:to_date]}
         = above_var_list[:to_date]
     %tr
@@ -50,8 +54,8 @@
   %hr/
   %table.table.table-pointer.table-striped.table-bordered.table-hover
     %tr
-      %th Claim No.
-      %th Claim Type
+      %th Claim#
+      %th I/C
       %th Carrier
       %th Severity
       %th Time
