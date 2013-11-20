@@ -7,6 +7,7 @@ class EstimatorClaimAuditListController < ApplicationController
     @claim_estimator=Employee.all
   end
 
+  # to search claim audit entries
   def search
     str_sq = params[:carrier_id].blank? ? "" : "and claim_audit_entries.carrier_branch_id = #{params[:carrier]}"
     @claim_audit_entry = ClaimAuditEntry.select("*").where("estimator=? and DATE(created_at) between ? and ? #{str_sq}","#{params[:estimator]}",

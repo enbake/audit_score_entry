@@ -13,14 +13,12 @@
             Estimator:
         %td
           = estimitor_find @claim_audit_entry.estimator
-          = hidden_field_tag "claim_audit_entry[estimator]", @estimator
       %tr
         %td
           %b
             Claim#:
         %td
           = "#{params[:c_num]} #{@claim_audit_entry.claim_awaiting_audit.claim_type}"
-          = hidden_field_tag "claim_audit_entry[claim]", params[:c_num]
       %tr
         %td 
           %b
@@ -47,10 +45,6 @@
           - unless @claim_audit_entry.claim_awaiting_audit.severity.blank? 
             = "$ #{number_with_precision(@claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
             ="in #{@claim_audit_entry.claim_awaiting_audit.duration_net} min"
-          = hidden_field_tag "filter_from_date", params[:filter_from_date]
-          = hidden_field_tag "filter_to_date", params[:filter_to_date] 
-          = hidden_field_tag "filter_estimator_id", params[:filter_estimator_id]
-          = hidden_field_tag "filter_carrier_id", params[:filter_carrier_id]    
     - unless @claim_audit_entry.blank?
       .adm_com
         %table.table
@@ -161,12 +155,8 @@
                 - unless total.blank?
                   = "#{total} %"
                 = hidden_field_tag "claim_audit_entry[overall_score]", total
-          //%br/
-          //%br
           %label 
             %b
-              //Comment
-          //%textarea#comment_added{name: "comment_added",style:"width: 258px; height: 77px;",disabled:"disabled",placeholder:"Add a comment here"}
         %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History
         = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary" 
       .comment_block#div_ref{:style => "background:white; width:100%;display:none;"}
@@ -196,6 +186,5 @@
               %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
               %br
               %div{style:"width:288px;"}
-                //= submit_tag "Update", :class => "btn btn-mini btn-info pull-right"
                 = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"
           = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"

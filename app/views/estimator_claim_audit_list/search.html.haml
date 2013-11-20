@@ -9,10 +9,8 @@
             Time Period
         %td
           %span{style:"margin-left:4px;"} From:
-          //%input{readonly:"readonly",:value=>params[:from_date]}
           = params[:from_date] 
           %span{style:"margin-left:10px;"} To:
-          //%input{readonly:"readonly",:value=>params[:to_date]}
           = params[:to_date]
       %tr
         %td
@@ -25,21 +23,18 @@
           %b
             Carrier:
         %td
-          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:carrier]}
           = carrier_name_find params[:carrier]
       %tr
         %td
           %b
             Count:
         %td
-          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:count]}
           = @claim_audit_entry.count
       %tr
         %td
           %b
             Severity:
         %td
-          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:severity], precision: 2)}
           - amt = severity @claim_audit_entry
           = "$ #{number_with_precision(amt, precision: 2)}"
       %tr
@@ -47,7 +42,6 @@
           %b
             Average time:
         %td
-          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:average_time], precision: 1)}
           - avg_time = average_time @claim_audit_entry
           = number_with_precision(avg_time, precision: 1)
     %hr/

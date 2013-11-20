@@ -8,8 +8,7 @@ describe EstimatorClaimAuditListController do
 		@claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:carrier_branch_id=>@carrier_branch.id,:estimator=>@employee.id)
 		ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
 		@claim_audit_entry.save
-		@params={"from_date"=>"01-11-2013", "to_date"=>"01-11-2013", "estimator_id"=>@employee.id, "carrier_id"=>@carrier_branch.id}
-  end
+    end
 
 	after(:each) do
 		ClaimAuditEntry.delete_all
@@ -29,15 +28,7 @@ describe EstimatorClaimAuditListController do
 	describe "Post 'filtered_list'" do
 		login_user
 		it "returns http success" do
-			xhr :post, :back_filtered_list, @params
-			response.should be_success
-			Employee.delete_all
-		end
-	end
-	describe "Post 'back_filtered_list'" do
-		login_user
-		it "returns http success" do
-			xhr :post, :back_filtered_list, @params
+			post 'search', {"from_date"=>"01-11-2013", "to_date"=>"01-11-2013", "estimator"=>@employee.id, "carrier"=>@carrier_branch.id}
 			response.should be_success
 			Employee.delete_all
 		end
@@ -45,7 +36,7 @@ describe EstimatorClaimAuditListController do
 	describe "Get 'show_saved_audit_estimate'" do
 		login_user
 		it "returns http success" do
-            get 'show_saved_audit_estimate', {"c_num"=>"123456708", "filter_carrier_id"=>@carrier_branch.id, "filter_estimator_id"=>@employee.id, "filter_from_date"=>"01-11-2013", "filter_to_date"=>"01-11-2013"}
+            get 'show_saved_audit_estimate', {"c_num"=>"123456708"}
 			response.should be_success
 			Employee.delete_all
 		end
