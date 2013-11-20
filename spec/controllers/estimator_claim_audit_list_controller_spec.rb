@@ -9,7 +9,8 @@ describe EstimatorClaimAuditListController do
 		ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
 		@claim_audit_entry.save
 		@params={"from_date"=>"01-11-2013", "to_date"=>"01-11-2013", "estimator_id"=>@employee.id, "carrier_id"=>@carrier_branch.id}
-	end
+  end
+
 	after(:each) do
 		ClaimAuditEntry.delete_all
 		CarrierBranch.delete_all
@@ -47,15 +48,6 @@ describe EstimatorClaimAuditListController do
             get 'show_saved_audit_estimate', {"c_num"=>"123456708", "filter_carrier_id"=>@carrier_branch.id, "filter_estimator_id"=>@employee.id, "filter_from_date"=>"01-11-2013", "filter_to_date"=>"01-11-2013"}
 			response.should be_success
 			Employee.delete_all
-		end
-	end
-	describe "POST 'comment'" do
-		login_user
-		it "returns http success" do
-            post 'comment_history', {"comment_new_review"=>"testing comment", "claim_id"=>@claim_audit_entry.id}
-			response.should redirect_to root_path
-			Employee.delete_all
-			ClaimAuditComment.delete_all
 		end
 	end
 

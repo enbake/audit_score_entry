@@ -27,7 +27,7 @@ describe ClaimAuditEntriesController do
   describe "GET 'new'" do
     login_user
     it "returns http success" do
-      get 'new',{estimate_date: "12-10-2013"}
+      get 'new',{claim_awaiting_id: @claim_awaiting_audit.id}
       response.should be_success
     end
   end 
@@ -40,13 +40,13 @@ describe ClaimAuditEntriesController do
     end
   end
 
-   describe "GET 'new redirect'" do
-    login_user
-    it "redirect to estimate audit show" do
-      get 'new',{c_num: "123456708"}
-      response.should redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => "123456708")
-    end
-  end
+#   describe "GET 'new redirect'" do
+#    login_user
+#    it "redirect to estimate audit show" do
+#      get 'new',{claim_awaiting_id: @claim_awaiting_audit.id}
+#      response.should redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => "123456708")
+#    end
+#  end
 
   describe "Post 'create'" do
     login_user
