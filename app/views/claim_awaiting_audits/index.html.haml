@@ -47,7 +47,7 @@
         %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
         %h4#myModalLabel.modal-title Upload Awaiting Claims
       .modal-body
-        = form_for ClaimAwaitingAudit.new, :url =>{:action => "upload_csv"}, :multipart => true do |f|
+        = form_for ClaimAwaitingAudit.new, :url =>{:controller => "claim_awaiting_audits", :action => "upload_csv"}, :multipart => true do |f|
           = f.file_field "file"
           = f.submit "Submit", :class => "btn btn-default btn-sm btn-info pull-right"
           %br
