@@ -1,8 +1,11 @@
 = form_for @claim_audit_entry do |f|
   .seal-module.seal-panel.panel.panel-default.large
     .panel-heading
-      %h3.panel-title Claim Audit Entry
-    %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
+      .row
+        .col-md-3
+          %h3.panel-title Claim Audit Entry
+        .col-md-9
+          %a#go_back_to_edit{class:"btn btn-sm btn-info pull-right"} Edit
     .panel-body
       %table{style:"width:35%;"}
         %tr
@@ -125,62 +128,64 @@
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
       = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh"
     
-    .sh_sum.well.seal-module.panel-body{:style => "background:white; width:315px; margin-left:30%; display:none"}
-      %table
-        %b
-          SUMMARY
-        %tr
-          %td Administration Exception Percent
-          %td
-            - unless @adm_exception.blank?
-              = "#{@adm_exception.round} %"
-              = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
-        %tr
-          %td Compliance Exception Percent
-          %td
-            - unless @com_exception.blank? 
-              = "#{@com_exception.round} %"
-              = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
+    .sh_sum{:style => "display:none"}
+      .well{:style => "background:white; width:315px; margin-left:30%;"}
+        %table
+          %b
+            SUMMARY
           %tr
-          %td Estimation Exception:
-        %tr
-          %td - Leakage Over Amount
-          %td
-            - unless @over.blank?
-              = "$ #{@over}"
-        %tr
-          %td - Leakage Under Amount
-          %td
-            - unless @under.blank?
-              = "$ #{@under}"
-        %tr
-          %td - Leakage Percent (Exception)
-          %td
-            - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
-            - unless leakage_percent.blank?
-              = "#{leakage_percent} %"
-              = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
-        %tr
-          %td Total Leakage Amount
-          %td
-            - unless @over.blank? and @under.blank?
-              = "$ #{@over + @under}"
-              = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
-        %tr
-          %td
-            %b
-              Total Audit Exception
-          %td
-            - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
-            - unless total.blank?
-              = "#{total}%"
-              = hidden_field_tag "claim_audit_entry[overall_score]", total
-      %br/
-      %br
-      %label 
-        %b
-          Comment
-      %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here"}
+            %td Administration Exception Percent
+            %td
+              - unless @adm_exception.blank?
+                = "#{@adm_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
+          %tr
+            %td Compliance Exception Percent
+            %td
+              - unless @com_exception.blank? 
+                = "#{@com_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
+            %tr
+            %td Estimation Exception:
+          %tr
+            %td - Leakage Over Amount
+            %td
+              - unless @over.blank?
+                = "$ #{@over}"
+          %tr
+            %td - Leakage Under Amount
+            %td
+              - unless @under.blank?
+                = "$ #{@under}"
+          %tr
+            %td - Leakage Percent (Exception)
+            %td
+              - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
+              - unless leakage_percent.blank?
+                = "#{leakage_percent} %"
+                = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+          %tr
+            %td Total Leakage Amount
+            %td
+              - unless @over.blank? and @under.blank?
+                = "$ #{@over + @under}"
+                = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
+          %tr
+            %td
+              %b
+                Total Audit Exception
+            %td
+              - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
+              - unless total.blank?
+                = "#{total}%"
+                = hidden_field_tag "claim_audit_entry[overall_score]", total
+        %br/
+        %br
+        %label 
+          %b
+            Comment
+        %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here"}
+      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary1", :style => "margin-left:15px;" 
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
     %br
     %br

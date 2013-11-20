@@ -1,8 +1,11 @@
 .seal-module.seal-panel.panel.panel-default.large#main_content_page_2
   .panel-heading
-    %h3.panel-title Claim Audit Score Review
+    .row
+      .col-md-3
+        %h3.panel-title Claim Audit Score Review
+      .col-md-12
+        %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
   .panel-body
-    %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
     %table{:style=>"width:35%!important;"}
       %tr
         %td 
@@ -103,67 +106,69 @@
         = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_ll"
         = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
       
-      .sh_sum.well{:style => "background:white; width:319px;display:none; margin-left:30%;"}
-        - adm_exception = adm_exception(@claim_audit_entry)
-        - com_exp = com_exception(@claim_audit_entry)
-        - over = over(@claim_audit_entry)
-        - under = under(@claim_audit_entry)
-        %table{style:"width:100%;"}
-          %b
-            SUMMARY
-          %tr
-            %td Administration Exception Percent
-            %td
-              - unless adm_exception.blank?
-                = "#{adm_exception.round} %"
-              = hidden_field_tag "claim_audit_entry[admin_score]", adm_exception
-          %tr
-            %td Compliance Exception Percent
-            %td
-              - unless com_exp.blank?
-                = "#{com_exp.round} %"
-              = hidden_field_tag "claim_audit_entry[compliance_score]", com_exp
-          %tr
-            %td Estimation Exception:
-          %tr
-            %td - Leakage Over Amount
-            %td
-              - unless over.blank?
-                = "$ #{over}"
-          %tr
-            %td - Leakage Under Amount
-            %td
-              - unless under.blank?
-                = "$ #{under}"
-          %tr
-            %td - Leakage Percent (Exception)
-            %td
-              - leakage_percent = number_with_precision(((over + under)/@claim_audit_entry.claim_awaiting_audit.severity.to_f) * 100, precision: 2)
-              - unless leakage_percent.blank?
-                = "#{leakage_percent} %"
-              = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
-          %tr
-            %td Total Leakage Amount
-            %td
-              - unless over.blank? and under.blank?
-                = "$ #{over + under}"
-              = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{over + under}"
-          %tr
-            %td
-              %b
-                Total Audit Exception
-            %td
-              - total = number_with_precision(adm_exception.to_f + com_exp.to_f + leakage_percent.to_f, :precision => 2)
-              - unless total.blank?
-                = "#{total} %"
-              = hidden_field_tag "claim_audit_entry[overall_score]", total
-        //%br/
-        //%br
-        %label 
-          %b
-            //Comment
-        //%textarea#comment_added{name: "comment_added",style:"width: 258px; height: 77px;",disabled:"disabled",placeholder:"Add a comment here"}
-        %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History 
+      .sh_sum{:style => "display:none;"}
+        .well{:style => "background:white; width:319px;margin-left:30%;"}
+          - adm_exception = adm_exception(@claim_audit_entry)
+          - com_exp = com_exception(@claim_audit_entry)
+          - over = over(@claim_audit_entry)
+          - under = under(@claim_audit_entry)
+          %table{style:"width:100%;"}
+            %b
+              SUMMARY
+            %tr
+              %td Administration Exception Percent
+              %td
+                - unless adm_exception.blank?
+                  = "#{adm_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[admin_score]", adm_exception
+            %tr
+              %td Compliance Exception Percent
+              %td
+                - unless com_exp.blank?
+                  = "#{com_exp.round} %"
+                = hidden_field_tag "claim_audit_entry[compliance_score]", com_exp
+            %tr
+              %td Estimation Exception:
+            %tr
+              %td - Leakage Over Amount
+              %td
+                - unless over.blank?
+                  = "$ #{over}"
+            %tr
+              %td - Leakage Under Amount
+              %td
+                - unless under.blank?
+                  = "$ #{under}"
+            %tr
+              %td - Leakage Percent (Exception)
+              %td
+                - leakage_percent = number_with_precision(((over + under)/@claim_audit_entry.claim_awaiting_audit.severity.to_f) * 100, precision: 2)
+                - unless leakage_percent.blank?
+                  = "#{leakage_percent} %"
+                = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+            %tr
+              %td Total Leakage Amount
+              %td
+                - unless over.blank? and under.blank?
+                  = "$ #{over + under}"
+                = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{over + under}"
+            %tr
+              %td
+                %b
+                  Total Audit Exception
+              %td
+                - total = number_with_precision(adm_exception.to_f + com_exp.to_f + leakage_percent.to_f, :precision => 2)
+                - unless total.blank?
+                  = "#{total} %"
+                = hidden_field_tag "claim_audit_entry[overall_score]", total
+          //%br/
+          //%br
+          %label 
+            %b
+              //Comment
+          //%textarea#comment_added{name: "comment_added",style:"width: 258px; height: 77px;",disabled:"disabled",placeholder:"Add a comment here"}
+        %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary" 
       .comment_block#div_ref{:style => "background:white; width:100%;display:none;"}
         #test-div
           %h3{:style=>"text-align:center;"} Comment History
@@ -191,6 +196,6 @@
               %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
               %br
               %div{style:"width:288px;"}
-                = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"
                 //= submit_tag "Update", :class => "btn btn-mini btn-info pull-right"
                 = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"
+          = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"

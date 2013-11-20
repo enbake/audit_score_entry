@@ -230,3 +230,19 @@ $(document).on('click', '#save_comment', function(e){
 		}
     })
 })
+
+$(document).on('click', '#prev_from_summary', function(e){
+	e.preventDefault();
+	$('.adm_com').hide();
+	$('.est_dec').show();
+	$('.sh_sum').hide();
+	$('.comment_block').hide();
+})
+
+$(document).on('click', '#prev_from_summary1', function(e){
+	e.preventDefault();
+	$('.adm_com').hide();
+	$('.est_dec').show();
+	$('.sh_sum').hide();
+	$('#sh_btn').hide();
+})
