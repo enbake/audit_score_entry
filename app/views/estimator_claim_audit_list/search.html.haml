@@ -1,0 +1,89 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Claim Audit Entry
+  .panel-body
+    %table
+      %tr
+        %td
+          %b
+            Time Period
+        %td
+          %span{style:"margin-left:4px;"} From:
+          //%input{readonly:"readonly",:value=>params[:from_date]}
+          = params[:from_date] 
+          %span{style:"margin-left:10px;"} To:
+          //%input{readonly:"readonly",:value=>params[:to_date]}
+          = params[:to_date]
+      %tr
+        %td
+          %b
+            Estimator:
+        %td
+          = estimitor_find params[:estimator]
+      %tr
+        %td
+          %b
+            Carrier:
+        %td
+          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:carrier]}
+          = carrier_name_find params[:carrier]
+      %tr
+        %td
+          %b
+            Count:
+        %td
+          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>above_var_list[:count]}
+          = @claim_audit_entry.count
+      %tr
+        %td
+          %b
+            Severity:
+        %td
+          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:severity], precision: 2)}
+          - amt = severity @claim_audit_entry
+          = "$ #{number_with_precision(amt, precision: 2)}"
+      %tr
+        %td
+          %b
+            Average time:
+        %td
+          //%input{:style=>"margin-left:46px",readonly:"readonly",:value=>number_with_precision(above_var_list[:average_time], precision: 1)}
+          - avg_time = average_time @claim_audit_entry
+          = number_with_precision(avg_time, precision: 1)
+    %hr/
+    %table.table.table-pointer.table-striped.table-bordered.table-hover
+      %tr
+        %th Claim No.
+        %th Claim Type
+        %th Carrier
+        %th Severity
+        %th Time
+        %th Adm
+        %th Comp
+        %th Est
+        %th Total
+        %th Leak
+    
+      - @claim_audit_entry.each do |claim_audit_entry|
+        %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim)}'"}
+          %td
+            = claim_audit_entry.claim
+          %td
+            = "#{claim_audit_entry.claim_type}"
+          %td
+            = claim_audit_entry.carrier_branch.name
+          %td
+            - unless claim_audit_entry.severity.blank?
+              = "#{number_with_precision(claim_audit_entry.severity, precision: 2)}"
+          %td
+            = "#{claim_audit_entry.duration_net}"
+          %td
+            = "#{claim_audit_entry.admin_score}"
+          %td
+            = "#{claim_audit_entry.compliance_score}"
+          %td
+            = "#{claim_audit_entry.estimating_score}"
+          %td
+            = "#{claim_audit_entry.overall_score}"
+          %td
+            = "#{claim_audit_entry.leakage_amount}"

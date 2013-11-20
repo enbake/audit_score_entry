@@ -58,4 +58,16 @@ module EstimatorClaimAuditListHelper
 				end	
 			end	
 		end
+  def severity entries
+    if entries.length > 0
+      entries.collect{|entry| entry.severity.to_f }.sum.to_f/entries.length
+    end
+  end
+
+  def average_time entries
+    if entries.length > 0
+      entries.collect{|entry| entry.duration_net.to_f }.sum.to_f/entries.length
+    end
+  end
+
 end

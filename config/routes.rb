@@ -15,6 +15,12 @@ AuditControlEntry::Application.routes.draw do
   match "estimator_claim_audit_list/show_saved_audit_estimate" =>"estimator_claim_audit_list#show_saved_audit_estimate" ,via: [:post,:get]
   match "estimator_claim_audit_list/comment_history" =>"estimator_claim_audit_list#comment_history" ,via: [:post,:get]
   
+  resources :estimator_claim_audit_list do
+    collection do
+      post :search
+    end
+  end
+  
   resources :claim_audit_entries do
     collection do
       post :confirm_data
@@ -29,6 +35,12 @@ AuditControlEntry::Application.routes.draw do
   end
   
   resources :claim_audit_questions
+  
+  resources :claim_audit_comments do
+    collection do
+      post :save
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

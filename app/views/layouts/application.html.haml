@@ -46,7 +46,7 @@
                           = link_to "Sign-In", new_employee_session_path
     - if flash.present?
       - if flash[:notice]
-        .alert.alert-success
+        .alert.alert-success.alert_html
           %button.close{"data-dismiss" => "alert"} x
           = flash[:notice].html_safe
       - if flash[:danger]
@@ -57,6 +57,7 @@
         .alert.alert-error
           %button.close{"data-dismiss" => "alert"} x
           = flash[:alert].html_safe
+    .alert_html
     .row
       - if employee_signed_in?
         .col-md-2

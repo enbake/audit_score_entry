@@ -2,16 +2,15 @@
   .panel-heading
     %h3.panel-title Claim Audit Score Review
   .panel-body
-    %a#go_back_to_result{class:"btn btn-mini btn-info pull-right"} Results
+    %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
     %table{:style=>"width:35%!important;"}
       %tr
         %td 
           %b
             Estimator:
         %td
-          - unless !@estimator.present?
-            = @estimator
-            = hidden_field_tag "claim_audit_entry[estimator]", @estimator
+          = estimitor_find @claim_audit_entry.estimator
+          = hidden_field_tag "claim_audit_entry[estimator]", @estimator
       %tr
         %td
           %b
@@ -36,8 +35,7 @@
           %b
             Reviewer:
         %td
-          - unless !@reviewer.present?
-            = @reviewer
+          = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
       %tr
         %td
           %b
@@ -166,32 +164,33 @@
             //Comment
         //%textarea#comment_added{name: "comment_added",style:"width: 258px; height: 77px;",disabled:"disabled",placeholder:"Add a comment here"}
         %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History 
-      .comment_block{:style => "background:white; width:100%;display:none;"}
-        %h3{:style=>"text-align:center;"} Comment History
-        %table{style:"width: 100%;",class:"table"}
-          %th Date
-          %th Author
-          %th Comment
-          - comments(params[:c_num]).each do |comment|
-            %tr
-              %td
-                = comment.created_at.strftime('%m-%d-%Y')
-              %td
-                = give_author_name(comment.written_by)
-              %td{style:"width:40%!important"}
-                %span{style:"overflow: hidden; word-wrap: break-word;"}
-                  = comment.comment
-        %br/
-        %br/
-        = form_tag(estimator_claim_audit_list_comment_history_path, :method => :post) do
-          %div{style:"text-align:center;"} 
-            %b
-              Comment
-          = hidden_field_tag "claim_id",@claim_audit_entry.id
-          %div{style:"width: auto; padding-left: 37%;"}
-            %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
-            %br
-            %br
-            %div{style:"width:288px;"}
-              = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"
-              = submit_tag "Update", :class => "btn btn-mini btn-info pull-right"
+      .comment_block#div_ref{:style => "background:white; width:100%;display:none;"}
+        #test-div
+          %h3{:style=>"text-align:center;"} Comment History
+          %table{style:"width: 100%;",class:"table"}
+            %th Date
+            %th Author
+            %th Comment
+            - comments(params[:c_num]).each do |comment|
+              %tr
+                %td
+                  = comment.created_at.strftime('%m-%d-%Y')
+                %td
+                  = give_author_name(comment.written_by)
+                %td{style:"width:40%!important"}
+                  %span{style:"overflow: hidden; word-wrap: break-word;"}
+                    = comment.comment
+          %br/
+          %br/
+          = form_tag(estimator_claim_audit_list_comment_history_path, :method => :post, :id => "sv_ad_cm") do
+            %div{style:"text-align:center;"} 
+              %b
+                Comment
+            = hidden_field_tag "claim_entry_id",@claim_audit_entry.id
+            %div{style:"width: auto; padding-left: 37%;"}
+              %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
+              %br
+              %div{style:"width:288px;"}
+                = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"
+                //= submit_tag "Update", :class => "btn btn-mini btn-info pull-right"
+                = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"

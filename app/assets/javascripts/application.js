@@ -39,7 +39,7 @@ $(document).on('click', '#submit_to_filter_audit', function(e){
 	}
 	else
 	{
-		$.ajax({url:"/estimator_claim_audit_list/filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
+		$.ajax({url:"/estimator_claim_audit_list/filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator="+estimator_id+"&carrier="+carrier_id})
 	}
 
 });
@@ -161,6 +161,7 @@ $(document).on('click', 'su_btn', function(e){
 $(document).on('click', '#go_back_to_edit', function(e){
 	history.go(-1);
 })
+
 $(document).on('click', '#go_back_to_result', function(e){
 	var from_date=$("#filter_from_date").val();
 	var to_date=$("#filter_to_date").val();
@@ -203,4 +204,29 @@ $(document).on('blur', '.check_min_amt', function(e){
 		value = parseInt(min_amt) + 1;
 		$(this).val(value);
 	}
+})
+
+$(document).on('click', '#back_to_result', function(e){
+	history.go(-1);
+})
+
+$(document).on('click', '#save_comment', function(e){
+	e.preventDefault();
+    $.ajax({
+        url: '/claim_audit_comments/save',
+		type: 'post',
+        data: $("form#sv_ad_cm").serialize(),
+        dataType: "JSON",
+		async: false,
+		success: function(data){
+			if(data == true){
+				$('body').find('.alert_html').html('<div class="alert alert-success"><button class="close" data-dismiss="alert" type="button">x</button>Comment Successfully Added</div>');
+				$('#div_ref').load(window.location + " #test-div");
+				$('.comment_block').show();
+			}
+		},
+		error: function(error){
+			alert("Request failed. Sorry, we are analyzing the cause of this problem");
+		}
+    })
 })
