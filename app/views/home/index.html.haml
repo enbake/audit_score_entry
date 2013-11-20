@@ -1,1 +1,1 @@
-= render :template => "devise/sessions/new" unless employee_signed_in?
+= employee_signed_in? ? (render :template => "claim_awaiting_audits/index") : (render :template => "devise/sessions/new")

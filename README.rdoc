@@ -3,26 +3,13 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+Setting up the app on your machine
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+1. We've used rails 4.0.0 and ruby 2.0.0
+2. First of all clone the app from https://github.com/ishwinder/audit_score_entry.git
+3. run “bundle” command to install all the gems.
+4. Change the database adapter  to postgresql and dbname in config/database.yml
+5. run rake db:create and then rake db:migrate
+6. To get the data from seeds run rake db:seed
+7. Before commiting any change, ensure that you run automated tests using rspec command:
+   rspec spec
