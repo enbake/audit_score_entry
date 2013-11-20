@@ -14,6 +14,7 @@ class ClaimAuditEntriesController < ApplicationController
 
   # GET /claim_audit_entries/new
   def new
+    @claim_awaiting_audit = ClaimAwaitingAudit.find(params[:claim_awaiting_id])
     claim_audit_entry=ClaimAuditEntry.where(:claim=> params[:c_num]).first
     if claim_audit_entry.blank?
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").order('id asc').group_by(&:category)

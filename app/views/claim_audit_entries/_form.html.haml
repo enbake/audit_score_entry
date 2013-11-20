@@ -9,30 +9,30 @@
             %b
               Estimator:
           %td
-            = estimitor_find(params[:employee_id])
-            = hidden_field_tag "estimator", params[:employee_id]
+            = estimitor_find(@claim_awaiting_audit.employee_id)
+            = hidden_field_tag "estimator", @claim_awaiting_audit.employee_id
         %tr
           %td 
             %b
               Claim#:
           %td
-            = "#{params[:c_num]} #{params[:c_type]}"
-            = hidden_field_tag "claim", params[:c_num]
+            = "#{@claim_awaiting_audit.claim_number} #{@claim_awaiting_audit.claim_type}"
+            = hidden_field_tag "claim", @claim_awaiting_audit.claim_number
             = hidden_field_tag "claim_type", params[:c_type]
-            = hidden_field_tag "claim_awaiting_id", params[:claim_awaiting_id]
+            = hidden_field_tag "claim_awaiting_id", @claim_awaiting_audit.id
         %tr
           %td 
             %b
               Carrier:
           %td
-            = carrier_name_find(params[:carrier])
-            = hidden_field_tag "carrier", params[:carrier]
+            = carrier_name_find(@claim_awaiting_audit.carrier_branch_id)
+            = hidden_field_tag "carrier", @claim_awaiting_audit.carrier_branch_id
         %tr
           %td 
             %b
               Estimate Date:
           %td
-            - estimate_date = Date.parse(params[:estimate_date]).strftime('%m-%d-%Y')
+            - estimate_date = @claim_awaiting_audit.estimate_date.strftime('%m-%d-%Y')
             = estimate_date
             = hidden_field_tag "estimate_date", estimate_date
         %tr
@@ -48,11 +48,10 @@
             %b
               Estimate Total:
           %td
-            - unless params[:total].blank?
-              = "$ #{ number_with_precision(params[:total], precision: 2)}"
-              = "in #{params[:duration_net]} min"
-            = hidden_field_tag "total", params[:total]
-            = hidden_field_tag "duration_net", params[:duration_net]
+            = "$ #{ number_with_precision(@claim_awaiting_audit.severity, precision: 2)}"
+            = "in #{@claim_awaiting_audit.duration_net} min"
+            = hidden_field_tag "total", @claim_awaiting_audit.severity
+            = hidden_field_tag "duration_net", @claim_awaiting_audit.duration_net
       
       - tab = 0
       - row = 0
