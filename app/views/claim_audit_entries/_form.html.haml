@@ -18,7 +18,7 @@
           %td
             = "#{@claim_awaiting_audit.claim_number} #{@claim_awaiting_audit.claim_type}"
             = hidden_field_tag "claim", @claim_awaiting_audit.claim_number
-            = hidden_field_tag "claim_type", params[:c_type]
+            = hidden_field_tag "claim_type", @claim_awaiting_audit.claim_type
             = hidden_field_tag "claim_awaiting_id", @claim_awaiting_audit.id
         %tr
           %td 

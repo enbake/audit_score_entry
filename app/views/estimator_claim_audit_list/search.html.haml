@@ -2,7 +2,7 @@
   .panel-heading
     %h3.panel-title Claim Audit Entry
   .panel-body
-    %table
+    %table{style:"width:35%;"}
       %tr
         %td
           %b
@@ -68,7 +68,7 @@
             = claim_audit_entry.carrier_branch.name
           %td
             - unless claim_audit_entry.severity.blank?
-              = "#{number_with_precision(claim_audit_entry.severity, precision: 2)}"
+              = "$ #{number_with_precision(claim_audit_entry.severity, precision: 2)}"
           %td
             = "#{claim_audit_entry.duration_net}"
           %td

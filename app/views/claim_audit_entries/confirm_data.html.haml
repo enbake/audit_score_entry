@@ -158,22 +158,22 @@
               - unless @under.blank?
                 = "$ #{@under}"
           %tr
-            %td - Leakage Percent (Exception)
-            %td
-              - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
-              - unless leakage_percent.blank?
-                = "#{leakage_percent} %"
-                = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
-          %tr
-            %td Total Leakage Amount
+            %td - Total Leakage Amount
             %td
               - unless @over.blank? and @under.blank?
                 = "$ #{@over + @under}"
                 = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
           %tr
+            %td Leakage Percent (Exception)
+            %td
+              - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
+              - unless leakage_percent.blank?
+                = "#{leakage_percent} %"
+              = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+          %tr
             %td
               %b
-                Total Audit Exception
+                TOTAL AUDIT EXCEPTIONS
             %td
               - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
               - unless total.blank?
