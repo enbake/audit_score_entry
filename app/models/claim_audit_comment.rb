@@ -1,3 +1,3 @@
 class ClaimAuditComment < ActiveRecord::Base
-  belongs_to :claim_audit_entry
+  belongs_to :reference, :polymorphic => true
 end

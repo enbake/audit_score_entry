@@ -5,7 +5,7 @@ class ClaimAuditEntry < ActiveRecord::Base
   belongs_to :reviewer, :class_name => 'Employee'#, :foreign_key => :reviewer_id
   belongs_to :carrier_branch, :class_name => 'CarrierBranch'
   has_many :claim_audit_detail_files
-  has_many :claim_audit_comments
+  has_many :claim_audit_comments, :as => :reference
   belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
 
   after_save :question_details,:add_comment
