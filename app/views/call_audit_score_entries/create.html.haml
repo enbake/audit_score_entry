@@ -1,0 +1,112 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Claim Audit Entry
+  .panel-body
+    %table
+      %tr
+        %td 
+          %b
+            Business Unit:
+        %td
+          = params[:call_audit_entry]['business_unit']
+      %tr
+        %td 
+          %b
+            CSS:
+        %td
+          = params[:call_audit_entry]['css']
+      %tr
+        %td 
+          %b
+            Call Date/Time:
+        %td
+          = params[:call_audit_entry]['call_time']
+      %tr
+        %td 
+          %b
+            Reviewer:
+        %td
+          = params[:call_audit_entry]['reviewer']
+      %tr
+        %td 
+          %b
+            Date Review:
+        %td
+          = params[:call_audit_entry]['date_review']
+      %tr
+        %td 
+          %b
+            Call Type:
+          %td
+            = params[:call_audit_entry]['call_type']
+      %tr
+        %td 
+          %b
+            Call Length:
+        %td
+          = params[:call_audit_entry]['call_length']
+
+    = content_tag(:div, "Confirm",class: "btn btn-default btn-sm btn-info pull-right", id: "su_btn")
+    .adm_com.panel-body.text-center
+      %h3
+        %b
+          Summary
+    %div
+      %div{:style => "width:70%;float:left"}
+        %table.table
+          %tr
+            %th Category
+            %th Grade
+            %th Weight
+            %th Score
+            %th Possible
+            %th Percent
+          - weight_num = (-1)
+          - tab = 0
+          - score_total = 0
+          - possible_total = 0
+          - percent_total = 0
+          - questions =['Introduction','Description of Process','Call to Action','General Demeanor','Addressing Concerns']
+          - weights = ['10','20','30','40','50']
+          - questions.each do |question|
+            -weight_num +=1
+            -tab +=1
+            %tr
+              %td
+                = question
+              %td 
+                = params[:answer]["#{tab}"]
+              %td
+                = weights[weight_num]
+              %td
+                - score = params[:answer]["#{tab}"].to_i * weights[weight_num].to_i
+                = score
+                - score_total += score
+              %td
+                - possible_score = 5 * weights[weight_num].to_i
+                = possible_score
+                - possible_total += possible_score
+              %td
+                - percent = (score*100)/possible_score
+                = percent
+                - percent_total += percent
+          %tr
+            %td
+              Total
+            %td
+            
+            %td
+          
+            %td
+              =score_total
+            %td
+              =possible_total
+            %td
+              - overall = (percent_total/questions.count)
+              = overall
+      %div.span3
+        %h1.text-center
+          %b
+            OVERALL SCORE
+            = overall.to_s + "%"  
+     
