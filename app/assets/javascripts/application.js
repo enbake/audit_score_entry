@@ -246,3 +246,23 @@ $(document).on('click', '#prev_from_summary1', function(e){
 	$('.sh_sum').hide();
 	$('#sh_btn').hide();
 })
+
+/* Js for call_audit_score_entries/confirm_data  */  
+
+   
+$(document).on('change', '.call_sel_ans', function(){
+	if($(this).val() <= 3){
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').attr('disabled', false);
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').attr('required', 'required');
+		//alert("Please fill the comments in the notes field");
+	}
+	else {
+	    //$(this).parent().parent().find('.note_text').find('.note_text_area').attr('disabled', true);		
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').removeAttr('required');
+	}
+})
+
+
+
+/* js ends here */
+

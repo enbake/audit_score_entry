@@ -1,0 +1,72 @@
+= form_for @claim_audit_entry, :url => {:action => "create"} do |f|
+  = hidden_field_tag "call_audit_entry", params[:call_audit_entry].to_json
+  = hidden_field_tag "answer", params[:answer].to_json
+  = hidden_field_tag "notes", params[:notes].to_json
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Claim Audit Entry
+    %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
+    .panel-body
+      %table
+        %tr
+          %td 
+            %b
+              Business Unit:
+          %td
+            = params[:call_audit_entry]['business_unit']
+        %tr
+          %td 
+            %b
+              CSS:
+          %td
+            = params[:call_audit_entry]['css']
+        %tr
+          %td 
+            %b
+              Call Date/Time:
+          %td
+            = params[:call_audit_entry]['call_time']
+        %tr
+          %td 
+            %b
+              Reviewer:
+          %td
+            = params[:call_audit_entry]['reviewer']
+        %tr
+          %td 
+            %b
+              Date Review:
+          %td
+            = params[:call_audit_entry]['date_review']
+        %tr
+          %td 
+            %b
+              Call Type:
+          %td
+            = params[:call_audit_entry]['call_type']
+        %tr
+          %td 
+            %b
+              Call Length:
+          %td
+            = params[:call_audit_entry]['call_length']
+
+      .adm_com.panel-body
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - tab=0
+        - questions =['Introduction','Description of Process','Call to Action','General Demeanor','Addressing Concerns']
+        - questions.each do |question|
+          -tab +=1
+          %tr
+            %td
+              = question
+            %td
+              = params[:answer]["#{tab}"]
+            %td.note_text
+              = params[:notes]["#{tab}"]
+    = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn"
+           

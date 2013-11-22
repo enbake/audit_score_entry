@@ -1,0 +1,37 @@
+= form_for @claim_audit_entry,:url => {:action => "new"}, :method => "GET",:html => {:id => "in_fo"} do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title New Call Audit Score Entry
+    .panel-body
+      %table
+        %tr
+          %td 
+            %b
+              Business Unit:
+          %td
+            = select_tag "[business_unit]", options_for_select([["Select One", ""], "Flying Squirrels", "Archies", "Bloomies", "Western Hogs", "Black Hawks", "Roger’s Rats"]), :class => "sel_ans form-control", :required => true
+        %tr
+        %tr
+          %td 
+            %b
+              CSS:
+          %td
+            = select_tag "[css]", options_for_select([["Select One", ""], "James", "Don"]), :class => "sel_ans form-control", :required => true
+        %tr
+        %tr
+          %td 
+            %b
+              Call Date/Time:
+          %td
+            = text_field_tag "[call_time]", "", :class => "sel_ans form-control", :required => true
+        %tr
+        %tr
+          %td 
+            %b
+              Import wav file:
+          %td
+            = file_field :attachment, "", :class => "sel_ans form-control", :required => true
+        %tr
+
+  = f.submit "Upload", :class => "btn btn-default btn-sm btn-info", :id => "su_btn"
+
