@@ -175,4 +175,40 @@ end
 
 unless Employee.find_by_email('master@admin.com')
   Employee.create! :email => 'master@admin.com', :first_name => "Admin", :last_name => "Master", :password => "master1234", :password_confirmation => "master1234", :is_admin? => true, :role_id => 0, :timestamp => DateTime.now
+end 
+# To create records for call type table
+
+if CallType.count == 0
+ CallType.create!([
+  {:name=>"First Call"},
+  {:name=>"Follow-up call"},
+  {:name=>"Review estimate"},
+  {:name=>"Verify options"},
+  {:name=>"Incoming call"}
+  ])
 end
+
+# To create records for business unit table
+if BusinessUnit.count == 0
+ BusinessUnit.create!([
+  {:name=>"Flying Squirrels"},
+  {:name=>"Archies"},
+  {:name=>"Bloomies"},
+  {:name=>"Western Hogs"},
+  {:name=>"Black Hawks"},
+  {:name=>"Roger’s Rats"}
+  ])
+end
+  # To create records for css question table
+if CallAuditQuestion.count == 0
+ CallAuditQuestion.create!([
+  {:question=>'Introduction',:category=>"call",:sequence=>1,:weight=>1},
+  {:question=>'Description of Process',:category=>"call",:sequence=>2,:weight=>2},
+  {:question=>'Call to Action',:category=>"call",:sequence=>3,:weight=>3},
+  {:question=>'General Demeanor',:category=>"call",:sequence=>4,:weight=>4},
+  {:question=>'Addressing Concerns',:category=>"call",:sequence=>5,:weight=>5}
+  ])
+end
+
+
+

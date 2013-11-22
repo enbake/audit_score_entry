@@ -17,11 +17,11 @@
 //= require jquery.autosize.min
 //= require jquery-ui
 
-
 $(document).ready(function(){
 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#call_time" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
 })
 
@@ -245,6 +245,16 @@ $(document).on('click', '#prev_from_summary1', function(e){
 	$('.est_dec').show();
 	$('.sh_sum').hide();
 	$('#sh_btn').hide();
+})
+$(document).on('click', '#confirm_block_id', function(e){
+	e.preventDefault();
+	$('.confirm_block').hide();
+	$('.summary_block').show();
+})
+$(document).on('click', '#back_to_confirm_block', function(e){
+	e.preventDefault();
+	$('.summary_block').hide();
+    $('.confirm_block').show();
 })
 
 /* Js for call_audit_score_entries/confirm_data  */  

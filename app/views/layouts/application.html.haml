@@ -73,6 +73,10 @@
                 .row
                   .col-md-12
                     %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims List
+                %hr/
+                .row
+                  .col-md-12
+                    %a{:style=>"cursor:pointer;",:onclick => "window.location.href='#{call_audit_score_entries_path}'"} Call Audit Entry
                 %hr/                
                 - if current_employee.is_admin?
                   .row

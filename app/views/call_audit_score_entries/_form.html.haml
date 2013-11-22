@@ -1,0 +1,76 @@
+= form_for @call_audit_score_entry, :url => {:action => "confirm_data"} do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Claim Audit Entry
+    .panel-body
+      %table{style:"width:35%"}
+        %tr
+          %td 
+            %b
+              Business Unit:
+          %td
+            = business_unit_name(params[:business_unit])
+            = hidden_field_tag "business_unit", params[:business_unit]
+        %tr
+          %td 
+            %b
+              CSS:
+          %td
+            = css_name(params[:css])
+            = hidden_field_tag "call_audit_score_entry[css_id]", params[:css]
+        %tr
+          %td 
+            %b
+              Call Date/Time:
+          %td
+            = Date.parse("#{params[:call_time]}").strftime('%m-%d-%Y')
+            = hidden_field_tag "call_audit_score_entry[call_date]", params[:call_time]
+        %tr
+          %td 
+            %b
+              Reviewer:
+          %td
+            = employee_name
+        %tr
+          %td 
+            %b
+              Date Review:
+          %td
+            = Time.now.strftime("%d-%m-%Y")
+            = hidden_field_tag "call_audit_score_entry[review]", Time.now
+      %table{style:"float:right;margin-top: -113px;margin-right: 110px;"}
+        %tr
+          %td 
+            %b
+              Call Type:
+          %td
+            = select_tag "call_audit_score_entry[call_type]", options_for_select(@call_type.collect{ |u| [u.name]}),:prompt => 'Select Call Type',:require=>true, :class => "sel_ans form-control", :required => true
+        %tr
+          %td 
+            %b
+              Call Length:
+          %td
+            = text_field_tag "call_audit_score_entry[call_length]",'',:required=>true
+         
+    .adm_com.panel-body
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - tab=1
+        - row=0
+        - @call_audit_question.each do |question|
+          -row +=1
+          %tr
+            %td
+              = question.question
+              = hidden_field_tag "#{tab}[#{row}][question]", question.question
+            %td
+              = select_tag "#{tab}[#{row}][grade]", options_for_select([["Select One", ""], "1", "2", "3", "4", "5"]), :class => "call_sel_ans form-control", :required => true
+            %td.note_text
+              = text_area_tag "#{tab}[#{row}][notes]", "", :class => "note_text_area normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+              = hidden_field_tag "#{tab}[#{row}][weight]", question.weight
+              = hidden_field_tag "#{tab}[#{row}][sequence]", question.sequence
+    = f.submit "Next", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn"
+           

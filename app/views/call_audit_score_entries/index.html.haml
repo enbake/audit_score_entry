@@ -1,37 +1,34 @@
-= form_for @claim_audit_entry,:url => {:action => "new"}, :method => "GET",:html => {:id => "in_fo"} do |f|
+
+= form_tag(new_call_audit_score_entry_path, :method => :get) do |f|
   .seal-module.seal-panel.panel.panel-default.large
     .panel-heading
       %h3.panel-title New Call Audit Score Entry
     .panel-body
-      %table
+      %table{cellpadding:"8"}
         %tr
           %td 
             %b
               Business Unit:
           %td
-            = select_tag "[business_unit]", options_for_select([["Select One", ""], "Flying Squirrels", "Archies", "Bloomies", "Western Hogs", "Black Hawks", "Roger’s Rats"]), :class => "sel_ans form-control", :required => true
-        %tr
+            = select_tag "business_unit", options_for_select(@business_unit.collect{ |u| [u.name, u.id]}),:prompt => 'Select Business Unit', :class => "sel_ans form-control", :required => true
         %tr
           %td 
             %b
               CSS:
           %td
-            = select_tag "[css]", options_for_select([["Select One", ""], "James", "Don"]), :class => "sel_ans form-control", :required => true
-        %tr
+            = select_tag "css", options_for_select(@css.collect{ |u| [u.first_name, u.id]}),:prompt => 'Select Css', :class => "sel_ans form-control", :required => true
         %tr
           %td 
             %b
               Call Date/Time:
           %td
-            = text_field_tag "[call_time]", "", :class => "sel_ans form-control", :required => true
-        %tr
+            = text_field_tag "call_time", "", :class => "sel_ans form-control", :required => true
         %tr
           %td 
             %b
               Import wav file:
           %td
-            = file_field :attachment, "", :class => "sel_ans form-control", :required => true
-        %tr
+            = file_field :attachment, "", :class => "sel_ans form-control"
 
-  = f.submit "Upload", :class => "btn btn-default btn-sm btn-info", :id => "su_btn"
+  = submit_tag "Continue", :class => "btn btn-default btn-sm btn-info"
 

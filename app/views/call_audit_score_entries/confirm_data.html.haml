@@ -1,72 +1,144 @@
-= form_for @claim_audit_entry, :url => {:action => "create"} do |f|
-  = hidden_field_tag "call_audit_entry", params[:call_audit_entry].to_json
-  = hidden_field_tag "answer", params[:answer].to_json
-  = hidden_field_tag "notes", params[:notes].to_json
+= form_for @call_audit_score_entry,:url => {:action => "create"}  do |f|
+  = hidden_field_tag "answer_fields", params["1"].to_json
   .seal-module.seal-panel.panel.panel-default.large
     .panel-heading
       %h3.panel-title Claim Audit Entry
     %a#go_back_to_edit{class:"btn btn-mini btn-info pull-right"} Edit
     .panel-body
-      %table
+      %table{style:"width:35%"}
         %tr
           %td 
             %b
               Business Unit:
           %td
-            = params[:call_audit_entry]['business_unit']
+            = business_unit_name(params[:business_unit])
+            = hidden_field_tag "business_unit", params[:business_unit]
         %tr
           %td 
             %b
               CSS:
           %td
-            = params[:call_audit_entry]['css']
+            = css_name(params[:call_audit_score_entry][:css_id])
+            = hidden_field_tag "call_audit_score_entry[css_id]", params[:call_audit_score_entry][:css_id]
         %tr
           %td 
             %b
               Call Date/Time:
           %td
-            = params[:call_audit_entry]['call_time']
+            = Date.parse("#{params[:call_audit_score_entry][:call_date]}").strftime('%m-%d-%Y')
+            = hidden_field_tag "call_audit_score_entry[call_date]", params[:call_audit_score_entry][:call_date]
         %tr
           %td 
             %b
               Reviewer:
           %td
-            = params[:call_audit_entry]['reviewer']
+            - employee_name
+            = @emp_name
+            = hidden_field_tag "call_audit_score_entry[reviewer_id]",current_employee.id
+            = hidden_field_tag "call_audit_score_entry[claim_awaiting_audit_id]",@claim_awaiting_audit_id
+            = hidden_field_tag "call_audit_score_entry[carrier_branch_id]",@carrier_branch_id
         %tr
           %td 
             %b
               Date Review:
           %td
-            = params[:call_audit_entry]['date_review']
+            = Date.parse("#{params[:call_audit_score_entry]['review']}").strftime('%m-%d-%Y')
+            = hidden_field_tag "call_audit_score_entry[review]",params[:call_audit_score_entry]['review']
+      %table{style:"float:right;margin-top: -113px;margin-right: 110px;"}
         %tr
           %td 
             %b
               Call Type:
           %td
-            = params[:call_audit_entry]['call_type']
+            = params[:call_audit_score_entry]['call_type']
+            = hidden_field_tag "call_audit_score_entry[call_type]",params[:call_audit_score_entry]['call_type']
         %tr
           %td 
             %b
               Call Length:
           %td
-            = params[:call_audit_entry]['call_length']
+            = params[:call_audit_score_entry]['call_length']
+            = hidden_field_tag "call_audit_score_entry[call_length]",params[:call_audit_score_entry]['call_length']
 
-      .adm_com.panel-body
-      %table.table
-        %tr
-          %th Category
-          %th Grade 1 – 5
-          %th Notes
-        - tab=0
-        - questions =['Introduction','Description of Process','Call to Action','General Demeanor','Addressing Concerns']
-        - questions.each do |question|
-          -tab +=1
+      .confirm_block.panel-body
+        %table.table
           %tr
-            %td
-              = question
-            %td
-              = params[:answer]["#{tab}"]
-            %td.note_text
-              = params[:notes]["#{tab}"]
-    = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn"
+            %th Category
+            %th Grade 1 – 5
+            %th Notes
+          - params["1"].each do |question|
+            %tr
+              %td
+                = question[1][:question]
+              %td
+                = question[1][:grade]
+              %td.note_text
+                = question[1][:notes]
+        = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "confirm_block_id"
+      .summary_block.panel-body.text-center{style:"display:none;"}
+        %h3
+          %b
+            Summary
+        %div
+          %div{:style => "width:70%;float:left"}
+            %table.table
+              %tr
+                %th Category
+                %th Grade
+                %th Weight
+                %th Score
+                %th Possible
+                %th Percent
+              - weight_num = (-1)
+              - tab = 0
+              - score_total = 0
+              - possible_total = 0
+              - percent_total = 0
+              - params["1"].each do |question|
+                -weight_num +=1
+                -tab +=1
+                %tr
+                  %td
+                    = question[1][:question]
+                  %td 
+                    = question[1][:grade]
+                  %td
+                    = question[1][:weight]
+                  %td
+                    - score = question[1][:grade].to_i * question[1][:weight].to_i
+                    = score
+                    - score_total += score
+                  %td
+                    - possible_score = 5 * question[1][:weight].to_i
+                    = possible_score
+                    - possible_total += possible_score
+                  %td
+                    - percent = (score*100)/possible_score
+                    = percent
+                    - percent_total += percent
+              %tr
+                %td
+                  Total
+                %td
+                
+                %td
+              
+                %td
+                  =score_total
+                  = hidden_field_tag "call_audit_score_entry[total_score]",score_total
+                %td
+                  =possible_total
+                  = hidden_field_tag "call_audit_score_entry[total_possible_score]",possible_total
+                %td
+                  - overall = (percent_total/params["1"].count)
+                  = overall
+                  = hidden_field_tag "call_audit_score_entry[overall_score]",overall
+          %div.span3
+            %h1.text-center
+              %b
+                OVERALL SCORE
+                = overall.to_s + "%"  
+            = text_area_tag 'comment', nil, size: "38x3",style:"resize:none",placeholder: "Comment";
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success pull-left", :id => "back_to_confirm_block", :style => "margin-left:15px;" 
+        = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right"
            
