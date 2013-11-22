@@ -17,19 +17,19 @@ class CallAuditScoreEntriesController < ApplicationController
   end
 
    # GET /call_audit_score_entries/1/edit
-  def edit
-  end
+   def edit
+   end
 
-  def confirm_data
-  	@call_audit_score_entry=CallAuditEntry.new
-  end
+   def confirm_data
+     @call_audit_score_entry=CallAuditEntry.new
+   end
 
-  def create
-  	@call_audit_score_entry = CallAuditEntry.new(call_audit_score_entry_params)
-    @call_audit_score_entry.comment=params[:comment]
-    @call_audit_score_entry.quest_answers = JSON.parse params[:answer_fields]
+   def create
+     @call_audit_score_entry = CallAuditEntry.new(call_audit_score_entry_params)
+     @call_audit_score_entry.comment=params[:comment]
+     @call_audit_score_entry.quest_answers = JSON.parse params[:answer_fields]
 
-    respond_to do |format|
+     respond_to do |format|
       if @call_audit_score_entry.save
         format.html { redirect_to root_path, notice: 'Call audit score entry was successfully created.' }
         format.json { render action: 'show', status: :created, location: @call_audit_score_entry }
@@ -74,4 +74,4 @@ class CallAuditScoreEntriesController < ApplicationController
     def call_audit_score_entry_params
       params.require(:call_audit_score_entry).permit(:reviewer_id, :review, :css_id, :call_type, :call_length,:call_date, :call_file_url, :total_score, :total_possible_score, :overall_score,:carrier_branch_id,:claim_awaiting_audit_id)
     end
-end
+  end
