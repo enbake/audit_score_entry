@@ -11,7 +11,6 @@ after(:each) do
     CarrierBranch.delete_all
     ClaimAwaitingAudit.delete_all
     Employee.delete_all
-    Employee.delete_all
 end
 it "displays the claim Awaiting Audits list", :js => :true do
     sign_in

@@ -76,7 +76,7 @@
                 %hr/
                 .row
                   .col-md-12
-                    %a{:style=>"cursor:pointer;",:onclick => "window.location.href='#{call_audit_score_entries_path}'"} Call Audit Entry
+                    %a{:style=>"cursor:pointer;",:id=>"main_call_audit_index",:onclick => "window.location.href='#{call_audit_score_entries_path}'"} Call Audit Entry
                 %hr/                
                 - if current_employee.is_admin?
                   .row
