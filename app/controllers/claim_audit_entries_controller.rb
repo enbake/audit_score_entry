@@ -10,18 +10,20 @@ class ClaimAuditEntriesController < ApplicationController
   # GET /claim_audit_entries/1
   # GET /claim_audit_entries/1.json
   def show
+    admin_estimate_question_headers
   end
 
   # GET /claim_audit_entries/new
   def new
     @claim_awaiting_audit = ClaimAwaitingAudit.find(params[:claim_awaiting_id])
-    claim_audit_entry=ClaimAuditEntry.where(:claim=> params[:c_num]).first
+    claim_audit_entry = @claim_awaiting_audit.claim_audit_entry
     if claim_audit_entry.blank?
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
-      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => params[:c_num], :c_type => params[:c_type], :carrier => params[:carrier], :estimate_date=>params[:estimate_date],:total => params[:total])
+#      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => @claim_awaiting_audit.claim_number)
+      redirect_to claim_audit_entry
     end
   end
 
@@ -37,7 +39,7 @@ class ClaimAuditEntriesController < ApplicationController
     if employee_signed_in?
       @claim_audit_entry.reviewer_id = current_employee.id
     end
-    @claim_audit_entry.comment=params[:comment_added]
+    @claim_audit_entry.comment = params[:comment_added]
     @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
     @claim_audit_entry.com_ans = JSON.parse params[:com_que]
     @claim_audit_entry.est_ans = JSON.parse params[:est_que]

@@ -16,6 +16,7 @@
 //= require bootstrap
 //= require jquery.autosize.min
 //= require jquery-ui
+//= require dataTables/jquery.dataTables
 
 
 $(document).ready(function(){
@@ -23,6 +24,7 @@ $(document).ready(function(){
 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
+	$('#sort_cols').dataTable();
 })
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
@@ -245,4 +247,14 @@ $(document).on('click', '#prev_from_summary1', function(e){
 	$('.est_dec').show();
 	$('.sh_sum').hide();
 	$('#sh_btn').hide();
+})
+
+$(document).on('focus', '.req_fd', function(e){
+	$(this).attr('required', true);
+	$('.cla_only').attr('required', false);
+})
+
+$(document).on('focus', '.cla_only', function(e){
+	$(this).attr('required', true);
+	$('.req_fd').attr('required', false);
 })

@@ -64,3 +64,5 @@ end
  
  # For pagination
  gem 'will_paginate', '~> 3.0'
+ 
+ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'

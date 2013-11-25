@@ -1,0 +1,193 @@
+.seal-module.seal-panel.panel.panel-default.large#main_content_page_2
+  .panel-heading
+    .row
+      .col-md-3
+        %h3.panel-title Claim Audit Score Review
+      .col-md-12
+        %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
+  .panel-body
+    - claim_num = @claim_audit_entry.claim
+    %table{:style=>"width:35%!important;"}
+      %tr
+        %td 
+          %b
+            Estimator:
+        %td
+          = estimitor_find @claim_audit_entry.estimator
+      %tr
+        %td
+          %b
+            Claim#:
+        %td
+          //= "#{params[:c_num]} #{@claim_audit_entry.claim_awaiting_audit.claim_type}"
+          = @claim_audit_entry.claim
+      %tr
+        %td 
+          %b
+            Carrier:
+        %td
+          = @claim_audit_entry.carrier_branch.name
+      %tr
+        %td
+          %b
+            Estimate Date:
+        %td
+          = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m-%d-%Y')
+      %tr
+        %td
+          %b
+            Reviewer:
+        %td
+          = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
+      %tr
+        %td
+          %b
+            Estimate Total:
+        %td
+          - unless @claim_audit_entry.claim_awaiting_audit.severity.blank? 
+            = "$ #{number_with_precision(@claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
+            ="in #{@claim_audit_entry.claim_awaiting_audit.duration_net} min"
+    - unless @claim_audit_entry.blank?
+      .adm_com
+        %table.table
+          %tr
+            %th Question
+            %th Answer
+            %th Exception
+            %th Notes
+          - admin_comp_answer(@claim_audit_entry).each do |questions|
+            %tr
+              %td
+                %b
+                  = questions[0]
+            - questions[1].each_with_index do |admin_answer,i|
+              %tr
+                %td
+                  = admin_answer.claim_audit_question.question
+                %td
+                  = admin_answer.answer 
+                %td
+                  - if !admin_answer.exception.blank?
+                    = admin_answer.exception.round
+                    = "%"
+                %td
+                  = admin_answer.note
+        = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_add"
+      
+      .est_dec{style:"display:none;"}
+        %table.table
+          %tr
+            %th Question
+            %th Answer
+            %th Impact
+            %th Amount
+            %th Notes
+          %tr
+            %td
+              %b
+                = @est_headers[0]
+            - est_answer(@claim_audit_entry).each_with_index do |answer, i|
+              %tr
+                %td
+                  = @est_questions[i]
+                %td
+                  = answer.answer
+                %td
+                  = answer.indicator
+                %td
+                  - unless answer.amount.blank? 
+                    = answer.amount.round
+                %td
+                  = answer.note
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_ll"
+        = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
+      
+      .sh_sum{:style => "display:none;"}
+        .well{:style => "background:white; width:319px;margin-left:30%;"}
+          - adm_exception = adm_exception(@claim_audit_entry)
+          - com_exp = com_exception(@claim_audit_entry)
+          - over = over(@claim_audit_entry)
+          - under = under(@claim_audit_entry)
+          %table{style:"width:100%;"}
+            %b
+              SUMMARY
+            %tr
+              %td Administration Exception Percent
+              %td
+                - unless adm_exception.blank?
+                  = "#{adm_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[admin_score]", adm_exception
+            %tr
+              %td Compliance Exception Percent
+              %td
+                - unless com_exp.blank?
+                  = "#{com_exp.round} %"
+                = hidden_field_tag "claim_audit_entry[compliance_score]", com_exp
+            %tr
+              %td Estimation Exception:
+            %tr
+              %td - Leakage Over Amount
+              %td
+                - unless over.blank?
+                  = "$ #{over}"
+            %tr
+              %td - Leakage Under Amount
+              %td
+                - unless under.blank?
+                  = "$ #{under}"
+            %tr
+              %td - Total Leakage Amount
+              %td
+                - unless over.blank? and under.blank?
+                  = "$ #{over + under}"
+                = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{over + under}"
+            %tr
+              %td Leakage Percent (Exception)
+              %td
+                - leakage_percent = number_with_precision(((over + under)/@claim_audit_entry.claim_awaiting_audit.severity.to_f) * 100, precision: 2)
+                - unless leakage_percent.blank?
+                  = "#{leakage_percent} %"
+                = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+            
+            %tr
+              %td
+                %b
+                  TOTAL AUDIT EXCEPTIONS
+              %td
+                - total = number_with_precision(adm_exception.to_f + com_exp.to_f + leakage_percent.to_f, :precision => 2)
+                - unless total.blank?
+                  = "#{total} %"
+                = hidden_field_tag "claim_audit_entry[overall_score]", total
+          %label 
+            %b
+        %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary" 
+      .comment_block#div_ref{:style => "background:white; width:100%;display:none;"}
+        #test-div
+          %h3{:style=>"text-align:center;"} Comment History
+          %table{style:"width: 100%;",class:"table"}
+            %th Date
+            %th Author
+            %th Comment
+            - comments(claim_num).each do |comment|
+              %tr
+                %td
+                  = comment.created_at.strftime('%m-%d-%Y')
+                %td
+                  = give_author_name(comment.written_by)
+                %td{style:"width:40%!important"}
+                  %span{style:"overflow: hidden; word-wrap: break-word;"}
+                    = comment.comment
+          %br/
+          %br/
+          = form_tag(estimator_claim_audit_list_comment_history_path, :method => :post, :id => "sv_ad_cm") do
+            %div{style:"text-align:center;"} 
+              %b
+                Comment
+            = hidden_field_tag "claim_entry_id",@claim_audit_entry.id
+            %div{style:"width: auto; padding-left: 37%;"}
+              %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
+              %br
+              %div{style:"width:288px;"}
+                = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"
+          = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_comment_history"

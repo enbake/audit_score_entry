@@ -44,7 +44,7 @@
           %td
             - if employee_signed_in?
               = "#{current_employee.first_name} #{current_employee.last_name}"
-            = hidden_field_tag "claim_audit_entry[review]", params[:review]
+            = hidden_field_tag "claim_audit_entry[review]", params[:claim_audit_entry][:review]
         %tr
           %td 
             %b

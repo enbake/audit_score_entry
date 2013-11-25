@@ -37,7 +37,7 @@ def filter_fill_up(from_date,to_date,estimator)
     fill_in 'fromdate_estimator', with: from_date
     fill_in 'todate_estimator', with: to_date
     select estimator, :from => 'estimator'
-    find("#submit_to_filter_audit").click
+    find("#submit_to_filter").click
 end
 
 end

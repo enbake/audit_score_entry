@@ -16,6 +16,7 @@
         %th Time
         %th Date
         %th Estimator
+        %th Last Reviewed Date
       
       - @claim_awaiting_audits.each do |claim_awaiting_audit|
         %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id)}'"}
@@ -35,6 +36,8 @@
           %td
             - unless claim_awaiting_audit.estimator.blank?
               = "#{claim_awaiting_audit.estimator.first_name} #{claim_awaiting_audit.estimator.last_name}"
+          %td
+            = claim_awaiting_audit.last_reviewed_date ? claim_awaiting_audit.last_reviewed_date.strftime('%m-%d-%Y') : ""
 
   
   .pull-right

@@ -50,23 +50,36 @@ module EstimatorClaimAuditListHelper
 		ClaimAuditEntry.comments claim
 	end
 
-	def give_author_name(author)
-		unless author.blank?
-			user=Employee.find(author)
-				unless user.blank?
-					return "#{user.first_name} #{user.last_name}"	
-				end	
-			end	
-		end
+  def give_author_name(author)
+    unless author.blank?
+      user=Employee.find(author)
+      unless user.blank?
+        return "#{user.first_name} #{user.last_name}"	
+      end
+    end
+  end
+
   def severity entries
     if entries.length > 0
-      entries.collect{|entry| entry.severity.to_f }.sum.to_f/entries.length
+      entries.collect{|entry| entry.claim_awaiting_audit.severity.to_f }.sum.to_f/entries.length
     end
   end
 
   def average_time entries
     if entries.length > 0
-      entries.collect{|entry| entry.duration_net.to_f }.sum.to_f/entries.length
+      entries.collect{|entry| entry.claim_awaiting_audit.duration_net.to_f }.sum.to_f/entries.length
+    end
+  end
+
+  def average_exp_admin entries
+    if entries.length > 0
+      entries.map(&:admin_score).sum/entries.length
+    end
+  end
+
+  def average_exp_com entries
+    if entries.length > 0
+      entries.collect{|e| e.compliance_score.to_f}.sum/entries.length
     end
   end
 
