@@ -4,7 +4,9 @@
       .col-md-3
         %h3.panel-title Claim Audit Score Review
       .col-md-12
-        %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
+        - if current_employee.id!=@claim_audit_entry.estimator.to_i 
+          = link_to "Edit", edit_claim_audit_entry_path(@claim_audit_entry.id),:class=>"btn btn-mini btn-info pull-right" 
+        %a#back_to_result{style:"margin-right:10px;",class:"btn btn-mini btn-info pull-right"} Back
   .panel-body
     %table{:style=>"width:35%!important;"}
       %tr
@@ -80,14 +82,15 @@
             %th Impact
             %th Amount
             %th Notes
-          %tr
-            %td
-              %b
-                = @est_headers[0]
-            - est_answer(@claim_audit_entry).each_with_index do |answer, i|
+          - est_answer(@claim_audit_entry).each do |questions|
+            %tr
+              %td
+                %b
+                  = questions[0]
+            - questions[1].each_with_index do |answer, i|
               %tr
                 %td
-                  = @est_questions[i]
+                  = answer.claim_audit_question.question
                 %td
                   = answer.answer
                 %td

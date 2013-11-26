@@ -1,0 +1,107 @@
+= form_for @claim_audit_entry, :url => {:action => "confirm_edit_data",:id=>@claim_audit_entry.id}, :method => "post", :html => {:id => "in_fo"} do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Edit Claim Audit Entry
+    .panel-body
+      %table{style:"width:35%;"}
+        %tr
+          %td 
+            %b
+              Estimator:
+          %td
+            = estimitor_find @claim_audit_entry.estimator
+        %tr
+          %td
+            %b
+              Claim#:
+          %td
+            = "#{@claim_audit_entry.claim} #{@claim_audit_entry.claim_awaiting_audit.claim_type}"
+        %tr
+          %td 
+            %b
+              Carrier:
+          %td
+            = @claim_audit_entry.carrier_branch.name
+        %tr
+          %td
+            %b
+              Estimate Date:
+          %td
+            = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m-%d-%Y')
+        %tr
+          %td
+            %b
+              Reviewer:
+          %td
+            = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
+        %tr
+          %td
+            %b
+              Estimate Total:
+          %td
+            - unless @claim_audit_entry.claim_awaiting_audit.severity.blank? 
+              = "$ #{number_with_precision(@claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
+              ="in #{@claim_audit_entry.claim_awaiting_audit.duration_net} min"
+      
+      - tab = 0
+      - row = 0
+    .adm_com.panel-body
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Exception (%)
+          %th Notes
+        - admin_comp_answer(@claim_audit_entry).each do |questions|
+          - tab +=1
+          %tr
+            %td
+              %b
+                = questions[0]
+          - questions[1].each do |question|
+            - row += 1
+            %tr
+              %td
+                = question.claim_audit_question.question
+                = hidden_field_tag "#{tab}[#{row}][question]", question.claim_audit_question.question,:class=>"exc_question"
+              %td
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"],question.answer), :class => "sel_ans form-control", :required => true
+              %td
+                = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question.claim_audit_question),question.exception), :prompt => "Select", :class => "form-control",:disabled=>question.answer=="Yes" ? true:false 
+              %td
+                = text_area_tag "#{tab}[#{row}][notes]", question.note, :class => "normal aut_sz form-control note_text_first", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+      = link_to "Next", "#",:class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_ad"
+      %br
+      %br
+    
+    .est_dec.panel-body{:style => "display:none;"}
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Impact
+          %th Amount ($)
+          %th Notes
+          - est_answer(@claim_audit_entry).each do |questions|
+            - tab += 1
+            %tr
+              %td
+                %b
+                  = questions[0]
+            - questions[1].each do |question|
+              - row += 1
+              %tr
+                %td
+                  = question.claim_audit_question.question
+                  = hidden_field_tag "#{tab}[#{row}][ext_question]", question.claim_audit_question.question
+                %td
+                  = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"],question.answer), :class => "sel_est form-control"
+                %td
+                  = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"],question.indicator), :class => "form-control",:disabled=>question.answer=="Yes" ? true:false 
+                %td
+                  = text_field_tag "#{tab}[#{row}][amount]",question.amount,:class => "check_min_amt",:disabled=>question.answer=="Yes" ? true:false 
+                  = hidden_field_tag "set_min_amt", select_range(question.claim_audit_question)
+                %td
+                  = text_area_tag "#{tab}[#{row}][ext_notes]", question.note,  :class => "normal aut_sz form-control note_text_second", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+      = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sh_ad"
+      = f.submit "Update", :onclick=>"return store_exceptions();",:class => "btn btn-default btn-sm btn-info pull-right", :id => "su_btn"

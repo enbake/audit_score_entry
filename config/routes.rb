@@ -24,6 +24,7 @@ AuditControlEntry::Application.routes.draw do
   resources :claim_audit_entries do
     collection do
       post :confirm_data
+      post :confirm_edit_data
     end
   end
 

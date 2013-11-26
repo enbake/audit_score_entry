@@ -17,8 +17,114 @@
 //= require jquery.autosize.min
 //= require jquery-ui
 
+function store_exceptions(){
+	var exception_ary = [];
+	var question_exc_ary=[];
+	var amount_ary = [];
+	var question_amount_ary=[]
+	$('[id*=_exception]').each(function(){
+		exception_ary.push($(this).val());
+	})
+	$(".exc_question").each(function(){
+		question_exc_ary.push($(this).val());
+	})
+	$('[id*=_ext_question]').each(function(){
+		question_amount_ary.push($(this).val());
+	})
+	$('[id*=_amount]').each(function(){
+		amount_ary.push($(this).val());
+	})
+	sessionStorage.setItem("exception_ary_final", exception_ary);
+	sessionStorage.setItem("question_exc_ary_final", question_exc_ary);
+
+	sessionStorage.setItem("amount_ary_final",amount_ary);
+	sessionStorage.setItem("question_amount_ary_final",question_amount_ary);
+	return true;
+}
+
+ function store_prev_exceptions(){
+	var pathname = window.location.pathname;
+	if(pathname.indexOf("/edit") > -1) {
+		sessionStorage.setItem("exception_ary", null);
+		sessionStorage.setItem("amount_ary",null);
+		var exception_ary = [];
+		var amount_ary = [];
+		$('[id*=_exception]').each(function(){
+			exception_ary.push($(this).val());
+		})
+		$('[id*=_amount]').each(function(){
+			amount_ary.push($(this).val());
+		})
+		sessionStorage.setItem("exception_ary", exception_ary);
+		sessionStorage.setItem("amount_ary",amount_ary);
+
+	}
+}
+
+
+$(document).on('click', '#sum_sh_for_edit', function(e){
+	e.preventDefault();
+	$('.est_dec').hide();
+	$('.adm_com').hide();
+	$('.sh_sum').show();
+	$('#sh_btn').css('display', 'block');
+	$('#comment_btn').css('display', 'block');
+
+	var exception_ary=sessionStorage.getItem("exception_ary").split(",")
+	var exception_ary_final=sessionStorage.getItem("exception_ary_final").split(",")
+	var question_exc_ary=sessionStorage.getItem("question_exc_ary_final").split(",")
+
+	$.each(exception_ary, function(index, item) {
+		if(item!=exception_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(exception_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=exception_ary_final[index]
+			}
+			$("#comment_added").append("the exception got changed from "+item1+" to "+item2+" for "+question_exc_ary[index]+".\n") }
+		});
+
+	var amount_ary=sessionStorage.getItem("amount_ary").split(",")
+	var amount_ary_final=sessionStorage.getItem("amount_ary_final").split(",")
+	var question_amount_ary_final=sessionStorage.getItem("question_amount_ary_final").split(",")
+
+	$.each(amount_ary, function(index, item) {
+		if(item!=amount_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(amount_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=amount_ary_final[index]
+			}
+			$("#comment_added").append("the exception got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+})
 
 $(document).ready(function(){
+	store_prev_exceptions();
 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -129,6 +235,7 @@ $(document).on('change', '.sel_ans', function(){
 	else if($(this).val()== "Yes"){
 		$(this).parent().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('select:last').attr('disabled', true);
+		$(this).parent().parent().find('select:last').val('0');
 		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
@@ -150,6 +257,7 @@ $(document).on('change', '.sel_est', function(){
 })
 
 $(document).on('click', 'su_btn', function(e){
+	store_exceptions();
 	e.preventDefault();
 	if($('#in_fo')[0].checkValidity('input:visible')){
 		$('#in_fo')[0].submit();
@@ -212,11 +320,11 @@ $(document).on('click', '#back_to_result', function(e){
 
 $(document).on('click', '#save_comment', function(e){
 	e.preventDefault();
-    $.ajax({
-        url: '/claim_audit_comments/save',
+	$.ajax({
+		url: '/claim_audit_comments/save',
 		type: 'post',
-        data: $("form#sv_ad_cm").serialize(),
-        dataType: "JSON",
+		data: $("form#sv_ad_cm").serialize(),
+		dataType: "JSON",
 		async: false,
 		success: function(data){
 			if(data == true){
@@ -228,7 +336,7 @@ $(document).on('click', '#save_comment', function(e){
 		error: function(error){
 			alert("Request failed. Sorry, we are analyzing the cause of this problem");
 		}
-    })
+	})
 })
 
 $(document).on('click', '#prev_from_summary', function(e){

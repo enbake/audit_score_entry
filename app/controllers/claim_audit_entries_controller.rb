@@ -1,5 +1,5 @@
 class ClaimAuditEntriesController < ApplicationController
-  before_action :set_claim_audit_entry, only: [:show, :edit, :update, :destroy]
+  before_action :set_claim_audit_entry, only: [:show, :edit, :update, :destroy,:confirm_edit_data]
 
   # GET /claim_audit_entries
   # GET /claim_audit_entries.json
@@ -14,19 +14,27 @@ class ClaimAuditEntriesController < ApplicationController
 
   # GET /claim_audit_entries/new
   def new
-    @claim_awaiting_audit = ClaimAwaitingAudit.find(params[:claim_awaiting_id])
-    claim_audit_entry=ClaimAuditEntry.where(:claim=> params[:c_num]).first
-    if claim_audit_entry.blank?
+    @claim_awaiting_audit = ClaimAwaitingAudit.find_by_id(params[:claim_awaiting_id])
+    @claim_audit_entry=@claim_awaiting_audit.claim_audit_entry
+    if @claim_audit_entry.blank?
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
-      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => params[:c_num], :c_type => params[:c_type], :carrier => params[:carrier], :estimate_date=>params[:estimate_date],:total => params[:total])
+      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num =>@claim_audit_entry.claim)
     end
   end
 
   # GET /claim_audit_entries/1/edit
   def edit
+    @claim_awaiting_audit = ClaimAwaitingAudit.find_by_id(@claim_audit_entry.claim_awaiting_audit_id)
+  end
+
+  def confirm_edit_data
+    @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
+    @com_exception = ClaimAuditEntry.cal_exp(params["2"])
+    @over, @under = ClaimAuditEntry.cal_amt(params["3"])
+    admin_estimate_question_headers
   end
 
   # POST /claim_audit_entries
@@ -55,12 +63,17 @@ class ClaimAuditEntriesController < ApplicationController
   # PATCH/PUT /claim_audit_entries/1
   # PATCH/PUT /claim_audit_entries/1.json
   def update
+    @claim_audit_entry.delete_prev_detail_records
+    @claim_audit_entry.comment=params[:comment_added]
+    @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
+    @claim_audit_entry.com_ans = JSON.parse params[:com_que]
+    @claim_audit_entry.est_ans = JSON.parse params[:est_que]
     respond_to do |format|
       if @claim_audit_entry.update(claim_audit_entry_params)
-        format.html { redirect_to @claim_audit_entry, notice: 'Claim audit entry was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Claim audit entry was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { redirect_to action: 'edit',:id=>@claim_audit_entry.id,notice: "#{@claim_audit_entry.errors.full_messages.first}" }
         format.json { render json: @claim_audit_entry.errors, status: :unprocessable_entity }
       end
     end
