@@ -65,7 +65,7 @@
                 = question.claim_audit_question.question
                 = hidden_field_tag "#{tab}[#{row}][question]", question.claim_audit_question.question,:class=>"exc_question"
               %td
-                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"],question.answer), :class => "sel_ans form-control", :required => true
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"],question.answer), :class => "sel_ans form-control ary_answer", :required => true
               %td
                 = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question.claim_audit_question),question.exception), :prompt => "Select", :class => "form-control",:disabled=>question.answer=="Yes" ? true:false 
               %td

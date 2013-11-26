@@ -16,14 +16,56 @@
 //= require bootstrap
 //= require jquery.autosize.min
 //= require jquery-ui
+function store_prev_exceptions(){
+	var pathname = window.location.pathname;
+	if(pathname.indexOf("/edit") > -1) {
+		sessionStorage.setItem("exception_ary", null);
+		sessionStorage.setItem("answer_ary", null);
+		sessionStorage.setItem("amount_ary",null);
+		sessionStorage.setItem("ext_answer_ary",null);
+		sessionStorage.setItem("ext_impact",null);
+		var exception_ary = [];
+		var amount_ary = [];
+		var answer_ary= [];
+		var ext_answer_ary= [];
+		var ext_impact= [];
+		$('[id*=_exception]').each(function(){
+			exception_ary.push($(this).val());
+		})
+		$('.ary_answer').each(function(){
+			answer_ary.push($(this).val());
+		})
+		$('[id*=_amount]').each(function(){
+			amount_ary.push($(this).val());
+		})
+		$('[id*=_ext_answer]').each(function(){
+			ext_answer_ary.push($(this).val());
+		})
+		$('[id*=_impact]').each(function(){
+			ext_impact.push($(this).val());
+		})
+		sessionStorage.setItem("exception_ary", exception_ary);
+		sessionStorage.setItem("answer_ary", answer_ary);
+		sessionStorage.setItem("amount_ary",amount_ary);
+		sessionStorage.setItem("ext_answer_ary",ext_answer_ary);
+		sessionStorage.setItem("ext_impact",ext_impact);
+
+	}
+}
 
 function store_exceptions(){
 	var exception_ary = [];
+	var answer_ary =[];
 	var question_exc_ary=[];
 	var amount_ary = [];
+	var ext_answer_ary= [];
+	var ext_impact= [];
 	var question_amount_ary=[]
 	$('[id*=_exception]').each(function(){
 		exception_ary.push($(this).val());
+	})
+	$('.ary_answer').each(function(){
+		answer_ary.push($(this).val());
 	})
 	$(".exc_question").each(function(){
 		question_exc_ary.push($(this).val());
@@ -34,33 +76,22 @@ function store_exceptions(){
 	$('[id*=_amount]').each(function(){
 		amount_ary.push($(this).val());
 	})
+	$('[id*=_ext_answer]').each(function(){
+		ext_answer_ary.push($(this).val());
+	})
+	$('[id*=_impact]').each(function(){
+		ext_impact.push($(this).val());
+	})
 	sessionStorage.setItem("exception_ary_final", exception_ary);
 	sessionStorage.setItem("question_exc_ary_final", question_exc_ary);
+	sessionStorage.setItem("answer_ary_final", answer_ary);
 
 	sessionStorage.setItem("amount_ary_final",amount_ary);
 	sessionStorage.setItem("question_amount_ary_final",question_amount_ary);
+	sessionStorage.setItem("ext_answer_ary_final",ext_answer_ary);
+	sessionStorage.setItem("ext_impact_final",ext_impact);
 	return true;
 }
-
- function store_prev_exceptions(){
-	var pathname = window.location.pathname;
-	if(pathname.indexOf("/edit") > -1) {
-		sessionStorage.setItem("exception_ary", null);
-		sessionStorage.setItem("amount_ary",null);
-		var exception_ary = [];
-		var amount_ary = [];
-		$('[id*=_exception]').each(function(){
-			exception_ary.push($(this).val());
-		})
-		$('[id*=_amount]').each(function(){
-			amount_ary.push($(this).val());
-		})
-		sessionStorage.setItem("exception_ary", exception_ary);
-		sessionStorage.setItem("amount_ary",amount_ary);
-
-	}
-}
-
 
 $(document).on('click', '#sum_sh_for_edit', function(e){
 	e.preventDefault();
@@ -95,6 +126,29 @@ $(document).on('click', '#sum_sh_for_edit', function(e){
 			}
 			$("#comment_added").append("the exception got changed from "+item1+" to "+item2+" for "+question_exc_ary[index]+".\n") }
 		});
+	var answer_ary=sessionStorage.getItem("answer_ary").split(",")
+	var answer_ary_final=sessionStorage.getItem("answer_ary_final").split(",")
+	$.each(answer_ary, function(index, item) {
+		if(item!=answer_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(answer_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=answer_ary_final[index]
+			}
+			$("#comment_added").append("the answer got changed from "+item1+" to "+item2+" for "+question_exc_ary[index]+".\n") }
+		});
 
 	var amount_ary=sessionStorage.getItem("amount_ary").split(",")
 	var amount_ary_final=sessionStorage.getItem("amount_ary_final").split(",")
@@ -119,17 +173,73 @@ $(document).on('click', '#sum_sh_for_edit', function(e){
 			{
 				var item2=amount_ary_final[index]
 			}
-			$("#comment_added").append("the exception got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+			$("#comment_added").append("the amount got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+	var ext_answer_ary=sessionStorage.getItem("ext_answer_ary").split(",")
+	var ext_answer_ary_final=sessionStorage.getItem("ext_answer_ary_final").split(",")
+	
+	$.each(ext_answer_ary, function(index, item) {
+		if(item!=ext_answer_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(ext_answer_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=ext_answer_ary_final[index]
+			}
+			$("#comment_added").append("the answer got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+	var ext_impact=sessionStorage.getItem("ext_impact").split(",")
+	var ext_impact_final=sessionStorage.getItem("ext_impact_final").split(",")
+	
+	$.each(ext_impact, function(index, item) {
+		if(item!=ext_impact_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(ext_impact_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=ext_impact_final[index]
+			}
+			$("#comment_added").append("the impact got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
 		});
 })
 
-$(document).ready(function(){
+$(document).on('ready page:load', function () {
 	store_prev_exceptions();
 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
-})
+});
+
+// $(document).ready(function(){
+// 	store_prev_exceptions();
+// 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
+// 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+// 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
+// 	$('.aut_sz').autosize();
+// })
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
 	window.location="/estimator_claim_audit_list/index"
