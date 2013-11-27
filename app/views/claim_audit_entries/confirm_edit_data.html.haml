@@ -13,47 +13,39 @@
             %b
               Estimator:
           %td
-            = estimitor_find(params[:estimator])
-            = hidden_field_tag "claim_audit_entry[estimator]", params[:estimator]
+            = estimitor_find @claim_audit_entry.estimator
         %tr
-          %td 
+          %td
             %b
               Claim#:
           %td
-            = "#{params[:claim]} #{params[:claim_type]}"
-            = hidden_field_tag "claim_audit_entry[claim]", params[:claim]
-            = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]", params[:claim_awaiting_id]
+            = "#{@claim_audit_entry.claim} #{@claim_audit_entry.claim_awaiting_audit.claim_type}"
         %tr
           %td 
             %b
               Carrier:
           %td
-            = carrier_name_find(params[:carrier])
-            = hidden_field_tag "claim_audit_entry[carrier_branch_id]", params[:carrier]
+            = @claim_audit_entry.carrier_branch.name
         %tr
-          %td 
+          %td
             %b
               Estimate Date:
           %td
-            = params[:estimate_date]
-            = hidden_field_tag "claim_audit_entry[estimate_date]", params[:estimate_date]
+            = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m-%d-%Y')
         %tr
-          %td 
+          %td
             %b
               Reviewer:
           %td
-            - if employee_signed_in?
-              = "#{current_employee.first_name} #{current_employee.last_name}"
-            = hidden_field_tag "claim_audit_entry[review]", params[:claim_audit_entry][:review]
+            = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
         %tr
-          %td 
+          %td
             %b
               Estimate Total:
           %td
-            - unless params[:total].blank?
-              = "$ #{number_with_precision(params[:total], precision:2)}"
-              = "in #{params[:duration_net]} min"
-            = hidden_field_tag "claim_audit_entry[severity]", params[:total]
+            - unless @claim_audit_entry.claim_awaiting_audit.severity.blank? 
+              = "$ #{number_with_precision(@claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
+              ="in #{@claim_audit_entry.claim_awaiting_audit.duration_net} min"
     
     = hidden_field_tag "adm_que", params["1"].to_json
     = hidden_field_tag "com_que", params["2"].to_json
@@ -126,7 +118,7 @@
               %td
                 = ques[1][:ext_notes]
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
-      = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh"
+      = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh_for_edit"
     
     .sh_sum{:style => "display:none"}
       .well{:style => "background:white; width:315px; margin-left:30%;"}
@@ -184,7 +176,7 @@
         %label 
           %b
             Comment
-        %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here"}
+        %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here",:readonly=>true}
       = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary1", :style => "margin-left:15px;" 
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
     %br

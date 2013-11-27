@@ -1,5 +1,5 @@
 class ClaimAuditEntriesController < ApplicationController
-  before_action :set_claim_audit_entry, only: [:show, :edit, :update, :destroy]
+  before_action :set_claim_audit_entry, only: [:show, :edit, :update, :destroy,:confirm_edit_data]
 
   # GET /claim_audit_entries
   # GET /claim_audit_entries.json
@@ -10,37 +10,37 @@ class ClaimAuditEntriesController < ApplicationController
   # GET /claim_audit_entries/1
   # GET /claim_audit_entries/1.json
   def show
+    admin_estimate_question_headers
   end
 
   # GET /claim_audit_entries/new
   def new
     @claim_awaiting_audit = ClaimAwaitingAudit.find(params[:claim_awaiting_id])
-    claim_audit_entry=ClaimAuditEntry.where(:claim=> params[:c_num]).first
+    claim_audit_entry = @claim_awaiting_audit.claim_audit_entry
     if claim_audit_entry.blank?
       @questions1 = ClaimAuditQuestion.where("category <> ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
-      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => params[:c_num], :c_type => params[:c_type], :carrier => params[:carrier], :estimate_date=>params[:estimate_date],:total => params[:total])
+#      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => @claim_awaiting_audit.claim_number)
+      redirect_to claim_audit_entry
     end
   end
 
   # GET /claim_audit_entries/1/edit
   def edit
+    @claim_awaiting_audit = ClaimAwaitingAudit.find(@claim_audit_entry.claim_awaiting_audit_id)
+  end
+
+  def confirm_edit_data
+    assign_adm_comp_over_under
   end
 
   # POST /claim_audit_entries
   # POST /claim_audit_entries.json
   def create
-    @claim_audit_entry = ClaimAuditEntry.new(claim_audit_entry_params)
-    @claim_awaiting= ClaimAwaitingAudit.where(:claim_number=>params[:claim_audit_entry][:c_num]).first
-    if employee_signed_in?
-      @claim_audit_entry.reviewer_id = current_employee.id
-    end
-    @claim_audit_entry.comment=params[:comment_added]
-    @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
-    @claim_audit_entry.com_ans = JSON.parse params[:com_que]
-    @claim_audit_entry.est_ans = JSON.parse params[:est_que]
+    @claim_audit_entry = current_employee.claim_audit_entries.new(claim_audit_entry_params)
+    parsing_answers
     respond_to do |format|
       if @claim_audit_entry.save
         format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }
@@ -55,12 +55,14 @@ class ClaimAuditEntriesController < ApplicationController
   # PATCH/PUT /claim_audit_entries/1
   # PATCH/PUT /claim_audit_entries/1.json
   def update
+    @claim_audit_entry.delete_prev_detail_records
+    parsing_answers
     respond_to do |format|
       if @claim_audit_entry.update(claim_audit_entry_params)
-        format.html { redirect_to @claim_audit_entry, notice: 'Claim audit entry was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Claim audit entry was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { redirect_to action: 'edit',:id=>@claim_audit_entry.id,notice: "#{@claim_audit_entry.errors.full_messages.first}" }
         format.json { render json: @claim_audit_entry.errors, status: :unprocessable_entity }
       end
     end
@@ -78,20 +80,32 @@ class ClaimAuditEntriesController < ApplicationController
 
   def confirm_data
     @claim_audit_entry = ClaimAuditEntry.new
+    assign_adm_comp_over_under
+  end
+
+  private
+
+  def parsing_answers
+    @claim_audit_entry.comment=params[:comment_added]
+    @claim_audit_entry.adm_ans = JSON.parse params[:adm_que]
+    @claim_audit_entry.com_ans = JSON.parse params[:com_que]
+    @claim_audit_entry.est_ans = JSON.parse params[:est_que]
+  end
+  
+  def assign_adm_comp_over_under
     @adm_exception = ClaimAuditEntry.cal_exp(params["1"])
     @com_exception = ClaimAuditEntry.cal_exp(params["2"])
     @over, @under = ClaimAuditEntry.cal_amt(params["3"])
     admin_estimate_question_headers
-  end
-
-  private
+  end  
     # Use callbacks to share common setup or constraints between actions.
-    def set_claim_audit_entry
-      @claim_audit_entry = ClaimAuditEntry.find(params[:id])
-    end
+  def set_claim_audit_entry
+    @claim_audit_entry = ClaimAuditEntry.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def claim_audit_entry_params
-      params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id,:claim_awaiting_audit_id)
-    end
+  def claim_audit_entry_params
+    params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id,:claim_awaiting_audit_id)
   end
+
+end

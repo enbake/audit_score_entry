@@ -18,6 +18,7 @@ FactoryGirl.define do
     created_at "01-11-2013"
     updated_at "01-11-2013"
   end
+  
   factory :claim_audit_entri, :class => 'ClaimAuditEntry' do
     association :reviewer_id, :factory => :employee
     overall_score "1000"

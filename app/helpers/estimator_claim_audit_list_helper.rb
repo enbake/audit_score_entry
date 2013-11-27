@@ -43,30 +43,65 @@ module EstimatorClaimAuditListHelper
 	end
 
 	def est_answer(entry)
-		ClaimAuditDetailFile.est_answers entry
+		ClaimAuditDetailFile.est_answers(entry).group_by(&:category)
 	end
 
 	def comments(claim)
 		ClaimAuditEntry.comments claim
 	end
 
-	def give_author_name(author)
-		unless author.blank?
-			user=Employee.find(author)
-				unless user.blank?
-					return "#{user.first_name} #{user.last_name}"	
-				end	
-			end	
-		end
+  def give_author_name(author)
+    unless author.blank?
+      user=Employee.find(author)
+      unless user.blank?
+        return "#{user.first_name} #{user.last_name}"	
+      end
+    end
+  end
+
   def severity entries
     if entries.length > 0
-      entries.collect{|entry| entry.severity.to_f }.sum.to_f/entries.length
+      entries.collect{|entry| entry.claim_awaiting_audit.severity.to_f }.sum.to_f/entries.length
     end
   end
 
   def average_time entries
     if entries.length > 0
-      entries.collect{|entry| entry.duration_net.to_f }.sum.to_f/entries.length
+      entries.collect{|entry| entry.claim_awaiting_audit.duration_net.to_f }.sum.to_f/entries.length
+    end
+  end
+
+  def average_exp_admin entries
+    if entries.length > 0
+      entries.map(&:admin_score).sum/entries.length
+    end
+  end
+
+  def average_exp_com entries
+    if entries.length > 0
+      entries.collect{|e| e.compliance_score.to_f}.sum/entries.length
+    end
+  end
+
+  def avg_leakge_over entries
+  	leakage_list=Array.new
+  	entries.each do |entry|
+  		leakage_list<<ClaimAuditDetailFile.over(entry)
+  	end
+	leakage_list.inject{ |sum, el| sum + el }.to_f / leakage_list.size
+  end
+
+  def avg_leakge_under entries
+  	leakage_list=Array.new
+  	entries.each do |entry|
+  		leakage_list<<ClaimAuditDetailFile.under(entry)
+  	end
+  	leakage_list.inject{ |sum, el| sum + el }.to_f / leakage_list.size
+  end
+
+  def avg_leakage entries
+  	if entries.length > 0
+      entries.map(&:leakage_amount).sum/entries.length
     end
   end
 

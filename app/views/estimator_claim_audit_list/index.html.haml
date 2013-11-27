@@ -8,24 +8,32 @@
           %label Time period:
         .col-md-3
           %label From
-          %input{ size: "24", id:"fromdate_estimator", type: "text", :name => "from_date", :required => true}/
+          %input{ size: "24", id:"fromdate_estimator", type: "text", :name => "from_date", :required => true, :class => "req_fd"}/
         .col-md-3
           %label To
-          %input{ size: "24", id:"todate_estimator", type: "text", :name => "to_date", :required => true}/
+          %input{ size: "24", id:"todate_estimator", type: "text", :name => "to_date", :required => true, :class => "req_fd"}/
       %br
       .row
         .col-md-2
           %label  Estimator:
         .col-md-3
-          = select_tag "estimator", options_for_select(@claim_estimator.collect{ |u| [u.first_name, u.id]}),:prompt => 'Select Estimator', :class => "form-control", :required => true
+          = select_tag "estimator", options_for_select(@claim_estimator.collect{ |u| [u.first_name, u.id]}),:prompt => 'Select Estimator', :class => "form-control req_fd", :required => true
       %br
       .row
         .col-md-2
           %label Carrier(optional):
         .col-md-3
-          = select_tag "carrier", options_for_select(@carrier_branch.collect{ |u| [u.name, u.id]}),:prompt => 'Select Carrier', :class => "form-control" 
+          = select_tag "carrier", options_for_select(@carrier_branch.collect{ |u| [u.name, u.id]}),:prompt => 'Select Carrier', :class => "form-control"
+      %br
+      %h3 OR
+      %br
+      .row
+        .col-md-2
+          %label Claim#:
+        .col-md-3
+          = text_field_tag "claim_number", "", :class => "cla_only form-control", :required => true
       %br
       .row
         .col-md-2
         .col-md-3
-          = submit_tag "Continue", :class=>"btn btn-default btn-sm btn-info pull-right", :id => "submit_to_filter_audit"
+          = submit_tag "Continue", :class=>"btn btn-default btn-sm btn-info pull-right", :id => "submit_to_filter"

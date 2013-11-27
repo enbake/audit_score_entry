@@ -2,9 +2,9 @@ class ClaimAuditEntry < ActiveRecord::Base
   #include ActiveModel::Model
   attr_accessor :adm_ans, :com_ans, :est_ans ,:comment
 
-  belongs_to :reviewer, :class_name => 'Employee'#, :foreign_key => :reviewer_id
+  belongs_to :reviewer, :class_name => 'Employee'
   belongs_to :carrier_branch, :class_name => 'CarrierBranch'
-  has_many :claim_audit_detail_files
+  has_many :claim_audit_detail_files ,:dependent=>:destroy
   has_many :claim_audit_comments, :as => :reference
   belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
 
@@ -33,8 +33,12 @@ class ClaimAuditEntry < ActiveRecord::Base
     end
     return over, under
   end
+  def delete_prev_detail_records
+    self.claim_audit_detail_files.delete_all
+  end
 
   private
+
   
   def question_details
     adm_ans.each do |ans|

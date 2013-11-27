@@ -16,14 +16,226 @@
 //= require bootstrap
 //= require jquery.autosize.min
 //= require jquery-ui
+//= require dataTables/jquery.dataTables
 
-$(document).ready(function(){
+function store_prev_exceptions(){
+	var pathname = window.location.pathname;
+	if(pathname.indexOf("/edit") > -1) {
+		sessionStorage.setItem("exception_ary", null);
+		sessionStorage.setItem("answer_ary", null);
+		sessionStorage.setItem("amount_ary",null);
+		sessionStorage.setItem("ext_answer_ary",null);
+		sessionStorage.setItem("ext_impact",null);
+		var exception_ary = [];
+		var amount_ary = [];
+		var answer_ary= [];
+		var ext_answer_ary= [];
+		var ext_impact= [];
+		$('[id*=_exception]').each(function(){
+			exception_ary.push($(this).val());
+		})
+		$('.ary_answer').each(function(){
+			answer_ary.push($(this).val());
+		})
+		$('[id*=_amount]').each(function(){
+			amount_ary.push($(this).val());
+		})
+		$('[id*=_ext_answer]').each(function(){
+			ext_answer_ary.push($(this).val());
+		})
+		$('[id*=_impact]').each(function(){
+			ext_impact.push($(this).val());
+		})
+		sessionStorage.setItem("exception_ary", exception_ary);
+		sessionStorage.setItem("answer_ary", answer_ary);
+		sessionStorage.setItem("amount_ary",amount_ary);
+		sessionStorage.setItem("ext_answer_ary",ext_answer_ary);
+		sessionStorage.setItem("ext_impact",ext_impact);
+	}
+}
+
+function store_exceptions(){
+	var exception_ary = [];
+	var answer_ary =[];
+	var question_exc_ary=[];
+	var amount_ary = [];
+	var ext_answer_ary= [];
+	var ext_impact= [];
+	var question_amount_ary=[]
+	$('[id*=_exception]').each(function(){
+		exception_ary.push($(this).val());
+	})
+	$('.ary_answer').each(function(){
+		answer_ary.push($(this).val());
+	})
+	$(".exc_question").each(function(){
+		question_exc_ary.push($(this).val());
+	})
+	$('[id*=_ext_question]').each(function(){
+		question_amount_ary.push($(this).val());
+	})
+	$('[id*=_amount]').each(function(){
+		amount_ary.push($(this).val());
+	})
+	$('[id*=_ext_answer]').each(function(){
+		ext_answer_ary.push($(this).val());
+	})
+	$('[id*=_impact]').each(function(){
+		ext_impact.push($(this).val());
+	})
+	sessionStorage.setItem("exception_ary_final", exception_ary);
+	sessionStorage.setItem("question_exc_ary_final", question_exc_ary);
+	sessionStorage.setItem("answer_ary_final", answer_ary);
+
+	sessionStorage.setItem("amount_ary_final",amount_ary);
+	sessionStorage.setItem("question_amount_ary_final",question_amount_ary);
+	sessionStorage.setItem("ext_answer_ary_final",ext_answer_ary);
+	sessionStorage.setItem("ext_impact_final",ext_impact);
+	return true;
+}
+
+$(document).on('click', '#sum_sh_for_edit', function(e){
+	e.preventDefault();
+	$("#comment_added").text("");
+	$('.est_dec').hide();
+	$('.adm_com').hide();
+	$('.sh_sum').show();
+	$('#sh_btn').css('display', 'block');
+	$('#comment_btn').css('display', 'block');
+
+	var exception_ary=sessionStorage.getItem("exception_ary").split(",")
+	var exception_ary_final=sessionStorage.getItem("exception_ary_final").split(",")
+	var question_exc_ary=sessionStorage.getItem("question_exc_ary_final").split(",")
+
+	$.each(exception_ary, function(index, item) {
+		if(item!=exception_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(exception_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=exception_ary_final[index]
+			}
+			$("#comment_added").append("the exception got changed from "+item1+" to "+item2+" for "+question_exc_ary[index]+".\n") }
+		});
+	var answer_ary=sessionStorage.getItem("answer_ary").split(",")
+	var answer_ary_final=sessionStorage.getItem("answer_ary_final").split(",")
+	$.each(answer_ary, function(index, item) {
+		if(item!=answer_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(answer_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=answer_ary_final[index]
+			}
+			$("#comment_added").append("the answer got changed from "+item1+" to "+item2+" for "+question_exc_ary[index]+".\n") }
+		});
+
+	var amount_ary=sessionStorage.getItem("amount_ary").split(",")
+	var amount_ary_final=sessionStorage.getItem("amount_ary_final").split(",")
+	var question_amount_ary_final=sessionStorage.getItem("question_amount_ary_final").split(",")
+
+	$.each(amount_ary, function(index, item) {
+		if(item!=amount_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(amount_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=amount_ary_final[index]
+			}
+			$("#comment_added").append("the amount got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+	var ext_answer_ary=sessionStorage.getItem("ext_answer_ary").split(",")
+	var ext_answer_ary_final=sessionStorage.getItem("ext_answer_ary_final").split(",")
+	
+	$.each(ext_answer_ary, function(index, item) {
+		if(item!=ext_answer_ary_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(ext_answer_ary_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=ext_answer_ary_final[index]
+			}
+			$("#comment_added").append("the answer got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+	var ext_impact=sessionStorage.getItem("ext_impact").split(",")
+	var ext_impact_final=sessionStorage.getItem("ext_impact_final").split(",")
+	
+	$.each(ext_impact, function(index, item) {
+		if(item!=ext_impact_final[index])
+		{
+			if(item=="")
+			{
+				var item1="nil";
+			}
+			else
+			{
+				var item1=item	
+			}
+			if(ext_impact_final[index]=="")
+			{
+				var item2="nil"
+			}
+			else
+			{
+				var item2=ext_impact_final[index]
+			}
+			$("#comment_added").append("the impact got changed from "+item1+" to "+item2+" for "+question_amount_ary_final[index]+".\n") }
+		});
+})
+
+$(document).on('ready page:load', function () {
+	store_prev_exceptions();
 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#todate_estimator" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#call_time" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
-})
+	$('#sort_cols').dataTable();
+});
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
 	window.location="/estimator_claim_audit_list/index"
@@ -129,6 +341,7 @@ $(document).on('change', '.sel_ans', function(){
 	else if($(this).val()== "Yes"){
 		$(this).parent().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('select:last').attr('disabled', true);
+		$(this).parent().parent().find('select:last').val('0');
 		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
@@ -150,6 +363,7 @@ $(document).on('change', '.sel_est', function(){
 })
 
 $(document).on('click', 'su_btn', function(e){
+	store_exceptions();
 	e.preventDefault();
 	if($('#in_fo')[0].checkValidity('input:visible')){
 		$('#in_fo')[0].submit();
@@ -212,11 +426,11 @@ $(document).on('click', '#back_to_result', function(e){
 
 $(document).on('click', '#save_comment', function(e){
 	e.preventDefault();
-    $.ajax({
-        url: '/claim_audit_comments/save',
+	$.ajax({
+		url: '/claim_audit_comments/save',
 		type: 'post',
-        data: $("form#sv_ad_cm").serialize(),
-        dataType: "JSON",
+		data: $("form#sv_ad_cm").serialize(),
+		dataType: "JSON",
 		async: false,
 		success: function(data){
 			if(data == true){
@@ -228,7 +442,7 @@ $(document).on('click', '#save_comment', function(e){
 		error: function(error){
 			alert("Request failed. Sorry, we are analyzing the cause of this problem");
 		}
-    })
+	})
 })
 
 $(document).on('click', '#prev_from_summary', function(e){
@@ -257,6 +471,17 @@ $(document).on('click', '#back_to_confirm_block', function(e){
     $('.confirm_block').show();
 })
 
+$(document).on('focus', '.req_fd', function(e){
+	$(this).attr('required', true);
+	$('.cla_only').attr('required', false);
+})
+
+$(document).on('focus', '.cla_only', function(e){
+	$(this).attr('required', true);
+	$('.req_fd').attr('required', false);
+})
+
+
 /* Js for call_audit_score_entries/confirm_data  */  
 
    
@@ -271,6 +496,7 @@ $(document).on('change', '.call_sel_ans', function(){
 	    $(this).parent().parent().find('.note_text').find('.note_text_area').removeAttr('required');
 	}
 })
+
 
 
 

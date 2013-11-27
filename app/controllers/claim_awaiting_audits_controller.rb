@@ -2,7 +2,7 @@ class ClaimAwaitingAuditsController < ApplicationController
 require 'csv'
 
   def index
-    @claim_awaiting_audits = ClaimAwaitingAudit.includes(:claim_audit_entry).where("claim_audit_entries.claim_awaiting_audit_id is ?", nil).order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
+    @claim_awaiting_audits = current_employee.claim_awaiting_audits.order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
   end
 
   def upload_csv
@@ -14,7 +14,14 @@ require 'csv'
     csv.each do |row|
       unsavedCount += 1
       begin
-        ClaimAwaitingAudit.create!(row.to_hash)
+        claim_audit_entry = current_employee.claim_audit_entries.find_by_claim(row.to_hash["claim_number"])
+        data = row.to_hash
+        if claim_audit_entry
+          data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.review)
+          claim_audit_entry.claim_awaiting_audit.update_attributes(data)
+        else
+          current_employee.claim_awaiting_audits.create!(data)
+        end
       rescue Exception => e
         if e.message == "Validation failed: Content invalid"
           unsaved << unsavedCount

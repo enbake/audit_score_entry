@@ -24,60 +24,119 @@
             Carrier:
         %td
           = carrier_name_find params[:carrier]
-      %tr
-        %td
-          %b
-            Count:
-        %td
-          = @claim_audit_entry.count
-      %tr
-        %td
-          %b
-            Severity:
-        %td
-          - amt = severity @claim_audit_entry
-          = "$ #{number_with_precision(amt, precision: 2)}"
-      %tr
-        %td
-          %b
-            Average time:
-        %td
-          - avg_time = average_time @claim_audit_entry
-          = number_with_precision(avg_time, precision: 1)
+    .well{:style => "background:white"}
+      %h4
+        %b Summary
+      .row
+        .col-md-4
+          %table{cellpadding:"5"}
+            %tr
+              %td
+                %b
+                  Count:
+              %td
+                = @claim_audit_entries.count
+            %tr
+              %td
+                %b
+                  Avg Severity:
+              %td
+                - amt = severity @claim_audit_entries
+                = " $ #{number_with_precision(amt, precision: 2)}"
+            %tr
+              %td
+                %b
+                  Avg Time:
+              %td
+                - avg_time = average_time @claim_audit_entries
+                = number_with_precision(avg_time, precision: 1)
+        .col-md-4
+          %table{cellpadding:"5"}
+            %tr
+              %td
+                %b
+                  Adm Exc % Avg:
+              %td
+                - avg_exp_adm = average_exp_admin @claim_audit_entries
+                = " #{number_with_precision(avg_exp_adm, precision: 1)} %"
+            %tr
+              %td
+                %b
+                  Com Exc % Avg:
+              %td
+                - avg_exp_com = average_exp_com @claim_audit_entries
+                = " #{number_with_precision(avg_exp_com, precision: 1)} %"
+            %tr
+              %td
+                %b
+                  Leakage % Avg:
+              %td
+                - avg_leakage=avg_leakage @claim_audit_entries
+                = " #{number_with_precision(avg_leakage,precision:1)} %"
+            %tr
+              %td
+                %b
+                  Total Exc% Avg:
+              %td
+                = " #{number_with_precision(avg_exp_adm+avg_exp_com+avg_leakage,precision:1)} %"
+        .col-md-4
+          %table{cellpadding:"5"}
+            %tr
+              %td
+                %b
+                  Avg Leakage Over
+              %td
+                - avg_leakage_over=avg_leakge_over @claim_audit_entries
+                = " $ #{number_with_precision(avg_leakage_over,precision:1)}"
+            %tr
+              %td
+                %b
+                  Avg Leakage Under
+              %td
+                - avg_leakage_under=avg_leakge_under @claim_audit_entries
+                = " $ #{number_with_precision(avg_leakage_under,precision:1)}"
+            %tr
+              %td
+                %b
+                  Avg Leakage Amount
+              %td
+                = " $ #{number_with_precision(avg_leakage_over+avg_leakage_under,precision:1)}"
     %hr/
-    %table.table.table-pointer.table-striped.table-bordered.table-hover
-      %tr
-        %th Claim No.
-        %th Claim Type
-        %th Carrier
-        %th Severity
-        %th Time
-        %th Adm
-        %th Comp
-        %th Est
-        %th Total
-        %th Leak
+    %table.table.table-pointer.table-striped.table-bordered.table-hover#sort_cols
+      %thead
+        %tr
+          %th Claim No.
+          %th Claim Type
+          %th Carrier
+          %th Severity
+          %th Time
+          %th Adm
+          %th Comp
+          %th Est
+          %th Total
+          %th Leak
     
-      - @claim_audit_entry.each do |claim_audit_entry|
-        %tr{:onclick => "window.location.href='#{estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => claim_audit_entry.claim)}'"}
-          %td
-            = claim_audit_entry.claim
-          %td
-            = "#{claim_audit_entry.claim_type}"
-          %td
-            = claim_audit_entry.carrier_branch.name
-          %td
-            - unless claim_audit_entry.severity.blank?
-              = "$ #{number_with_precision(claim_audit_entry.severity, precision: 2)}"
-          %td
-            = "#{claim_audit_entry.duration_net}"
-          %td
-            = "#{claim_audit_entry.admin_score}"
-          %td
-            = "#{claim_audit_entry.compliance_score}"
-          %td
-            = "#{claim_audit_entry.estimating_score}"
-          %td
-            = "#{claim_audit_entry.overall_score}"
-          %td
-            = "#{claim_audit_entry.leakage_amount}"
+      %tbody
+        - @claim_audit_entries.each do |claim_audit_entry|
+          %tr{:onclick => "window.location.href='#{claim_audit_entry_path(claim_audit_entry)}'",:class=>"to_click_in_test"}
+            %td
+              = claim_audit_entry.claim
+            %td
+              = "#{claim_audit_entry.claim_awaiting_audit.claim_type}"
+            %td
+              = claim_audit_entry.carrier_branch.name
+            %td
+              - unless claim_audit_entry.claim_awaiting_audit.severity.blank?
+                = "$ #{number_with_precision(claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
+            %td
+              = "#{claim_audit_entry.claim_awaiting_audit.duration_net}"
+            %td
+              = "#{claim_audit_entry.admin_score}"
+            %td
+              = "#{claim_audit_entry.compliance_score}"
+            %td
+              = "#{claim_audit_entry.estimating_score}"
+            %td
+              = "#{claim_audit_entry.overall_score}"
+            %td
+              = "#{claim_audit_entry.leakage_amount}"
