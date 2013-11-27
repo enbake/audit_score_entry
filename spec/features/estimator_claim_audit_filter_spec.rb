@@ -6,7 +6,7 @@ describe "welcome" do
   @carrier_branch=FactoryGirl.create(:carrier_branch)
   @claim_awaiting_audit=FactoryGirl.create(:claim_awaiting_audit)
   @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:estimator=>@estimator.id,:claim_awaiting_audit_id=>@claim_awaiting_audit.id,:carrier_branch_id=>@carrier_branch.id)
-  ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
+  ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment,:save_last_reviewed)
   @claim_audit_entry.save
  end
 

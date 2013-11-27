@@ -4,7 +4,7 @@ describe ClaimAuditEntriesController do
   before(:each) do
     @claim_awaiting_audit= FactoryGirl.create(:claim_awaiting_audit)
     @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:claim_awaiting_audit_id=>@claim_awaiting_audit.id)
-    ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
+    ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment,:save_last_reviewed)
     @claim_audit_entry.save
     
   end

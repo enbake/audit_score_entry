@@ -8,7 +8,7 @@ class ClaimAuditEntry < ActiveRecord::Base
   has_many :claim_audit_comments, :as => :reference
   belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
 
-  after_save :question_details,:add_comment
+  after_save :question_details,:add_comment,:save_last_reviewed
   validates :claim, presence: true, uniqueness: true
 
   scope :comments, ->(claim) { where(:claim=> claim).first.claim_audit_comments}
@@ -89,5 +89,8 @@ class ClaimAuditEntry < ActiveRecord::Base
     if !comment.blank?
       self.claim_audit_comments.create(:comment=>comment, :written_by => self.reviewer.id)
     end
+  end
+  def save_last_reviewed
+    self.claim_awaiting_audit.update_attributes(:last_reviewed_date=>self.review)
   end
 end

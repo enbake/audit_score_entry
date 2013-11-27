@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "welcome" do
  before(:each) do
   @estimator=FactoryGirl.create(:employee_first)
-  ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
+  ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment,:save_last_reviewed)
   @claim_awaiting_audit=FactoryGirl.create(:claim_awaiting_audit)
   @carrier_branch=FactoryGirl.create(:carrier_branch)
   @claim_audit_entry=FactoryGirl.create(:claim_audit_entry,:estimator=>@estimator.id,:claim_awaiting_audit_id=>@claim_awaiting_audit.id,:carrier_branch_id=>@carrier_branch.id,:reviewer_id=>@estimator.id)

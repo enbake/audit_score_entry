@@ -5,7 +5,7 @@ describe ClaimAuditEntry do
 		ClaimAuditEntry.new.should be_an_instance_of(ClaimAuditEntry)
 	end
 
-	ClaimAuditEntry.skip_callback(:save, :after, :question_details)
+	ClaimAuditEntry.skip_callback(:save, :after, :question_details,:save_last_reviewed)
 	let (:claim_audit_entry) { FactoryGirl.create(:claim_audit_entry) }
 	it "can be saved successfully" do
 		claim_audit_entry.should be_persisted

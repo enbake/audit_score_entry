@@ -4,7 +4,7 @@ describe "welcome" do
   before(:each) do
     @estimator=FactoryGirl.create(:employee)
     @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:estimator=>@estimator.id)
-    ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
+    ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment,:save_last_reviewed)
     @claim_audit_entry.save
   end
 
