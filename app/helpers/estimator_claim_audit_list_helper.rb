@@ -83,4 +83,26 @@ module EstimatorClaimAuditListHelper
     end
   end
 
+  def avg_leakge_over entries
+  	leakage_list=Array.new
+  	entries.each do |entry|
+  		leakage_list<<ClaimAuditDetailFile.over(entry)
+  	end
+	leakage_list.inject{ |sum, el| sum + el }.to_f / leakage_list.size
+  end
+
+  def avg_leakge_under entries
+  	leakage_list=Array.new
+  	entries.each do |entry|
+  		leakage_list<<ClaimAuditDetailFile.under(entry)
+  	end
+  	leakage_list.inject{ |sum, el| sum + el }.to_f / leakage_list.size
+  end
+
+  def avg_leakage entries
+  	if entries.length > 0
+      entries.map(&:leakage_amount).sum/entries.length
+    end
+  end
+
 end

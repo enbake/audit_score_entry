@@ -5,7 +5,7 @@
         %h3.panel-title Claim Audit Score Review
       .col-md-12
         - if current_employee.id != @claim_audit_entry.estimator.to_i 
-          = link_to "Edit", edit_claim_audit_entry_path(@claim_audit_entry.id),:class=>"btn btn-mini btn-info pull-right"
+          = link_to "Edit", edit_claim_audit_entry_path(@claim_audit_entry.id),:class=>"btn btn-mini btn-info pull-right",:id=>"open_edit_page"
         %a#back_to_result{class:"btn btn-mini btn-info pull-right", style: "margin-right:10px;"} Back
   .panel-body
     - claim_num = @claim_audit_entry.claim

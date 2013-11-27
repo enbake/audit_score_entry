@@ -3,15 +3,17 @@ require 'spec_helper'
 describe "welcome" do
  before(:each) do
   @estimator=FactoryGirl.create(:employee_first)
-  @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:estimator=>@estimator.id)
+  @carrier_branch=FactoryGirl.create(:carrier_branch)
+  @claim_awaiting_audit=FactoryGirl.create(:claim_awaiting_audit)
+  @claim_audit_entry=FactoryGirl.build(:claim_audit_entry,:estimator=>@estimator.id,:claim_awaiting_audit_id=>@claim_awaiting_audit.id,:carrier_branch_id=>@carrier_branch.id)
   ClaimAuditEntry.skip_callback(:save, :after, :question_details,:add_comment)
   @claim_audit_entry.save
  end
 
  after(:each) do
   ClaimAuditEntry.delete_all
+  ClaimAwaitingAudit.delete_all
   CarrierBranch.delete_all
-  Employee.delete_all
   Employee.delete_all
  end
 
@@ -19,7 +21,7 @@ describe "welcome" do
     sign_in
     visit root_path
     find("#Main_claim_audit_list").click
-    filter_fill_up "01-11-2013","01-11-2013","Benjamin"
+    filter_fill_up "01-11-2013","01-11-2013","Ben"
     page.should have_content "Claim Audit Entry"
  end
 
@@ -27,10 +29,8 @@ it "should return alert for validation", :js => :true do
     sign_in
     visit root_path
     find("#Main_claim_audit_list").click
-    filter_fill_up "","","Benjamin"
-    a = page.driver.browser.switch_to.alert
-    a.text.should eq("Please fill up the dates and select estimator!")
-    a.accept
+    filter_fill_up "","","Ben"
+     current_path.should eq("/estimator_claim_audit_list/index")
 end
 
 def filter_fill_up(from_date,to_date,estimator)
