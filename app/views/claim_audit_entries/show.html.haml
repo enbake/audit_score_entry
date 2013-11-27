@@ -9,7 +9,7 @@
         %a#back_to_result{class:"btn btn-mini btn-info pull-right", style: "margin-right:10px;"} Back
   .panel-body
     - claim_num = @claim_audit_entry.claim
-    %table{:style=>"width:35%!important;"}
+    %table{:class=>"table-claim-show"}
       %tr
         %td 
           %b
@@ -34,7 +34,7 @@
           %b
             Estimate Date:
         %td
-          = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m-%d-%Y')
+          = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m/%d/%Y')
       %tr
         %td
           %b
@@ -106,7 +106,7 @@
         = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
       
       .sh_sum{:style => "display:none;"}
-        .well{:style => "background:white; width:319px;margin-left:30%;"}
+        .well{:class=>"table-claim-show-second"}
           - adm_exception = adm_exception(@claim_audit_entry)
           - com_exp = com_exception(@claim_audit_entry)
           - over = over(@claim_audit_entry)
@@ -163,9 +163,9 @@
                 = hidden_field_tag "claim_audit_entry[overall_score]", total
           %label 
             %b
-        %a{:class => "btn btn-small btn-info pull-right", :id => "comment_btn", :style => "position: absolute; right: 122px;display:none;"} Comment History
+        %a{:class => "btn btn-small btn-info pull-right comment-history-claim-show", :id => "comment_btn"} Comment History
         = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary" 
-      .comment_block#div_ref{:style => "background:white; width:100%;display:none;"}
+      .comment_block#div_ref{:class=>"comment-history-claim-sec"}
         #test-div
           %h3{:style=>"text-align:center;"} Comment History
           %table{style:"width: 100%;",class:"table"}
@@ -175,7 +175,7 @@
             - comments(claim_num).each do |comment|
               %tr
                 %td
-                  = comment.created_at.strftime('%m-%d-%Y')
+                  = comment.created_at.strftime('%m/%d/%Y')
                 %td
                   = give_author_name(comment.written_by)
                 %td{style:"width:40%!important"}

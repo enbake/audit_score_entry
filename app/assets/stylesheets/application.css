@@ -10123,4 +10123,55 @@ z-index: 1040;
 display: none;
 overflow: auto;
 }
+
 .date_field {position: relative; z-index:100;}
+
+.change_selects select{
+  background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555555;
+    /*display: block;*/
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    /*vertical-align: middle;*/
+    width: 40%;
+}
+.confirm_sum{
+  background:white;
+  width:315px; 
+  margin-left:30%;
+}
+.table-right-call-review{
+  float:right;
+  margin-right: 18%;
+  margin-top:-10%;
+  width: 25%;
+}
+.table-right-call-edit{
+float:right;
+margin-top: -113px;
+margin-right: 110px;
+}
+.table-claim-show{
+  width:35%!important;
+}
+.table-claim-show-second{
+  background:white; 
+  width:319px;
+  margin-left:30%;
+}
+.comment-history-claim-show{
+  position: absolute;
+  right: 122px;
+  display:none;
+}
+.comment-history-claim-sec{
+  background:white;
+  width:100%;
+  display:none;
+}
