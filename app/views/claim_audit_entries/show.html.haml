@@ -178,9 +178,8 @@
                   = comment.created_at.strftime('%m/%d/%Y')
                 %td
                   = give_author_name(comment.written_by)
-                %td{style:"width:40%!important"}
-                  %span{style:"overflow: hidden; word-wrap: break-word;"}
-                    = comment.comment
+                %td{class: "comment_width"}
+                  = comment.comment
           %br/
           %br/
           = form_tag(estimator_claim_audit_list_comment_history_path, :method => :post, :id => "sv_ad_cm") do

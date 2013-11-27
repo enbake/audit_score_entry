@@ -10175,3 +10175,10 @@ margin-right: 110px;
   width:100%;
   display:none;
 }
+
+.comment_width{
+	word-wrap: break-word; 
+	word-break: break-all; 
+	table-layout: fixed;
+	width:30%;
+}
