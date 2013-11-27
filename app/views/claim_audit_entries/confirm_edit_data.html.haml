@@ -1,0 +1,183 @@
+= form_for @claim_audit_entry do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      .row
+        .col-md-3
+          %h3.panel-title Claim Audit Entry
+        .col-md-9
+          %a#go_back_to_edit{class:"btn btn-sm btn-info pull-right"} Edit
+    .panel-body
+      %table{style:"width:35%;"}
+        %tr
+          %td 
+            %b
+              Estimator:
+          %td
+            = estimitor_find @claim_audit_entry.estimator
+        %tr
+          %td
+            %b
+              Claim#:
+          %td
+            = "#{@claim_audit_entry.claim} #{@claim_audit_entry.claim_awaiting_audit.claim_type}"
+        %tr
+          %td 
+            %b
+              Carrier:
+          %td
+            = @claim_audit_entry.carrier_branch.name
+        %tr
+          %td
+            %b
+              Estimate Date:
+          %td
+            = Date.parse("#{@claim_audit_entry.claim_awaiting_audit.estimate_date}").strftime('%m-%d-%Y')
+        %tr
+          %td
+            %b
+              Reviewer:
+          %td
+            = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
+        %tr
+          %td
+            %b
+              Estimate Total:
+          %td
+            - unless @claim_audit_entry.claim_awaiting_audit.severity.blank? 
+              = "$ #{number_with_precision(@claim_audit_entry.claim_awaiting_audit.severity, precision: 2)}"
+              ="in #{@claim_audit_entry.claim_awaiting_audit.duration_net} min"
+    
+    = hidden_field_tag "adm_que", params["1"].to_json
+    = hidden_field_tag "com_que", params["2"].to_json
+    = hidden_field_tag "est_que", params["3"].to_json
+    
+    .adm_com.panel-body
+      %table.table
+        %tr
+          %tr
+            %th Question
+            %th Answer
+            %th Exception
+            %th Notes
+          %tr
+            %td
+              %b
+                = @adm_headers[0]
+          - params["1"].each_with_index do |ques, i|
+            %tr
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                - unless ques[1][:exception].blank?
+                  = "#{ques[1][:exception]} %"
+              %td
+                = ques[1][:notes]
+          %tr
+            %td
+              %b
+                = @adm_headers[1]
+          - params["2"].each_with_index do |ques, i|
+            %tr
+              %td
+                = ques[1][:question]
+              %td
+                = ques[1][:answer]
+              %td
+                - unless  ques[1][:exception].blank?
+                  = "#{ques[1][:exception]} %"
+              %td
+                = ques[1][:notes]
+      = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_add"
+      %br
+    
+    .est_dec.panel-body{:style => "display:none;"}
+      %table.table
+        %tr
+          %th Question
+          %th Answer
+          %th Impact
+          %th Amount
+          %th Notes
+        %tr
+          %td
+            %b
+              = @est_headers[0]
+          - params["3"].each_with_index do |ques, i|
+            %tr
+              %td
+                = ques[1][:ext_question]
+              %td
+                = ques[1][:ext_answer]
+              %td
+                = ques[1][:impact]
+              %td
+                - unless ques[1][:amount].blank?
+                  = "#{ques[1][:amount].to_f.round}"
+              %td
+                = ques[1][:ext_notes]
+      = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sho_ad"
+      = link_to "Summary", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sum_sh_for_edit"
+    
+    .sh_sum{:style => "display:none"}
+      .well{:style => "background:white; width:315px; margin-left:30%;"}
+        %table
+          %b
+            SUMMARY
+          %tr
+            %td Administration Exception Percent
+            %td
+              - unless @adm_exception.blank?
+                = "#{@adm_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[admin_score]", @adm_exception
+          %tr
+            %td Compliance Exception Percent
+            %td
+              - unless @com_exception.blank? 
+                = "#{@com_exception.round} %"
+                = hidden_field_tag "claim_audit_entry[compliance_score]", @com_exception
+            %tr
+            %td Estimation Exception:
+          %tr
+            %td - Leakage Over Amount
+            %td
+              - unless @over.blank?
+                = "$ #{@over}"
+          %tr
+            %td - Leakage Under Amount
+            %td
+              - unless @under.blank?
+                = "$ #{@under}"
+          %tr
+            %td - Total Leakage Amount
+            %td
+              - unless @over.blank? and @under.blank?
+                = "$ #{@over + @under}"
+                = hidden_field_tag "claim_audit_entry[leakage_amount]", "#{@over + @under}"
+          %tr
+            %td Leakage Percent (Exception)
+            %td
+              - leakage_percent = number_with_precision(((@over + @under)/params[:total].to_f) * 100, precision: 2)
+              - unless leakage_percent.blank?
+                = "#{leakage_percent} %"
+              = hidden_field_tag "claim_audit_entry[estimating_score]", leakage_percent
+          %tr
+            %td
+              %b
+                TOTAL AUDIT EXCEPTIONS
+            %td
+              - total = number_with_precision(@adm_exception.to_f + @com_exception.to_f + leakage_percent.to_f, :precision => 2)
+              - unless total.blank?
+                = "#{total}%"
+                = hidden_field_tag "claim_audit_entry[overall_score]", total
+        %br/
+        %br
+        %label 
+          %b
+            Comment
+        %textarea#comment_added{name: "comment_added",style:"width: 278px; height: 77px;",placeholder:"Add a comment here",:readonly=>true}
+      = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary1", :style => "margin-left:15px;" 
+    = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
+    %br
+    %br

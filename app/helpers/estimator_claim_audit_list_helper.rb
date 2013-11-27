@@ -43,7 +43,7 @@ module EstimatorClaimAuditListHelper
 	end
 
 	def est_answer(entry)
-		ClaimAuditDetailFile.est_answers entry
+		ClaimAuditDetailFile.est_answers(entry).group_by(&:category)
 	end
 
 	def comments(claim)
