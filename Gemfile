@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use pg as the database for Active Record
-#gem 'mysql2'
+# gem 'mysql2'
 gem 'pg'
 
 # Use SCSS for stylesheets
@@ -64,3 +64,5 @@ end
  
  # For pagination
  gem 'will_paginate', '~> 3.0'
+ 
+ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
