@@ -1,0 +1,42 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Entry
+  .panel-body
+    %table{style:"width:30%;"}
+      %td
+        %b
+          CSS:
+        %span{style:"margin-left:4px;"}
+          = css_find params[:css]
+      %td{style:"float:right"}
+        %b
+          Time:
+        %span{style:"margin-left:4px;"}
+          = Date.parse(params[:date]).strftime('%m-%d-%Y') 
+    %hr
+    %table.table.table-pointer.table-striped.table-bordered.table-hover
+      %tr
+        %th Claim No.
+        %th Claim Type
+        %th Carrier
+        %th Call Type
+        %th Time
+        %th Date
+        %th Score
+      - @call_audit_list.each do |call|
+        %tr{:onclick => "window.location.href='#{call_audit_list_path(:id => call.id)}'"}
+          %td
+            = call.claim_awaiting_audit.claim_number
+          %td
+            = call.claim_awaiting_audit.claim_type
+          %td
+            = call.claim_awaiting_audit.carrier_branch.name
+          %td
+            = call.call_type
+          %td
+            = call.call_length
+          %td
+            = call.call_date.strftime('%m-%d-%Y')
+          %td
+            = call.total_score.to_i.to_s + "%"
+

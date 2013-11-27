@@ -1,0 +1,64 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Review 
+  .panel-body
+    %table{style:"width:35%"}
+      %tr
+        %td 
+          %b
+            Business Unit:
+        %td
+          = "fill"
+      %tr
+        %td 
+          %b
+            CSS:
+        %td
+          = css_find @call_audit_entry.css_id
+      %tr
+        %td 
+          %b
+            Call Date/Time:
+        %td
+          = Date.parse(@call_audit_entry.call_date.to_s).strftime('%m-%d-%Y')
+      %tr
+        %td 
+          %b
+            Date Review:
+        %td
+          = Date.parse(@call_audit_entry.review.to_s).strftime('%m-%d-%Y')
+      %tr
+        %td 
+          %b
+            Reviewer:
+        %td
+          = "#{@call_audit_entry.reviewer.first_name} #{@call_audit_entry.reviewer.last_name}"
+    %table{style:"float:right;margin-right: 18%;margin-top:-10%"}
+      %tr
+        %td 
+          %b
+            Call Type:
+        %td
+          = @call_audit_entry.call_type
+      %tr
+        %td 
+          %b
+            Call Length:
+        %td
+          = @call_audit_entry.call_length
+      %tr
+        %a{:href => review_comment_call_audit_list_index_path(:css_id => @call_audit_entry.css_id),class:"btn btn-mini btn-info pull-right"} Continue
+    .confirm_block.panel-body
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - @grades_details.each do |details|
+          %tr
+            %td
+              = details.call_audit_question.question
+            %td
+              = details.grade
+            %td.note_text
+              = details.note

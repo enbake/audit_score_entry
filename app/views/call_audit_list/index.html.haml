@@ -1,0 +1,13 @@
+.seal-module.seal-panel.panel.panel-default.large#Main_content_list
+  .panel-heading
+    %h3.panel-title Call Audits List
+  .panel-body
+    = form_tag('/call_audit_list/search', :method => :post) do
+      .row
+        .col-md-2
+          %label  CSS :
+          = select_tag "css", options_for_select(@css.collect{ |u| [u.first_name, u.id]}),:prompt => 'Select CSS', :class => "form-control",:style =>"float:right", :required => true
+        .col-md-3
+          %label  Time :
+          %input{ size: "24", id:"todate_estimator", type: "text", :name => "date", :required => true}
+        = submit_tag "Continue", :class=>"btn btn-default btn-sm btn-info pull-right", :id => "submit_to_filter_audit"

@@ -1,0 +1,107 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Review
+  .panel-body
+    %table{style:"width:35%"}
+      %tr
+        %td 
+          %b
+            Business Unit:
+        %td
+          = "fill"
+      %tr
+        %td 
+          %b
+            CSS:
+        %td
+          = css_find @call_audit_entry.css_id
+      %tr
+        %td 
+          %b
+            Call Date/Time:
+        %td
+          = Date.parse(@call_audit_entry.call_date.to_s).strftime('%m-%d-%Y')
+      %tr
+        %td 
+          %b
+            Date Review:
+        %td
+          = Date.parse(@call_audit_entry.review.to_s).strftime('%m-%d-%Y')
+      %tr
+        %td 
+          %b
+            Reviewer:
+        %td
+          = "#{@call_audit_entry.reviewer.first_name} #{@call_audit_entry.reviewer.last_name}"
+    %table{style:"float:right;margin-right: 20%;margin-top:-10%"}
+      %tr
+        %td 
+          %b
+            Call Type:
+        %td
+          = @call_audit_entry.call_type
+      %tr
+        %td 
+          %b
+            Call Length:
+        %td
+          = @call_audit_entry.call_length
+    %a#go_back_to_edit{class:"btn btn-mini btn-info",style:"margin-left:80%"} Done
+    %div
+      %div{:style => "width:70%;float:left"}
+        %table.table
+          %tr
+            %h3.text-center
+              %b
+                Summary
+          %tr
+            %th Category
+            %th Grade
+            %th Weight
+            %th Score
+            %th Possible
+            %th Percent
+          - score_total = 0
+          - possible_total = 0
+          - percent_total = 0 
+          - @grades_details.each do |details|
+            %tr
+              %td
+                = details.call_audit_question.question
+              %td
+                = details.grade
+              %td.note_text
+                = details.weight
+              %td.note_text
+                - scr = details.score.to_i
+                = scr
+                - score_total += scr 
+              %td.note_text
+                - psb = details.possible_score.to_i
+                = psb
+                - possible_total += psb
+              %td.note_text
+                - percent = scr*100/psb
+                = percent
+                - percent_total += percent
+          %tr
+            %td
+              Total
+            %td
+
+            %td
+              
+            %td
+              = score_total
+            %td
+              = possible_total
+            %td
+              - overall = percent_total/@grades_details.length.to_i
+              = overall
+      %div.span3
+        %h1.text-center.pull-right{:style => "margin-top:5%;width:30%"}
+          %b
+            OVERALL SCORE
+            %br
+            = overall.to_s + "%"
+      = text_area_tag 'comment', nil, size: "92x2",style:"resize:none; width:70%",placeholder: "Comment";
