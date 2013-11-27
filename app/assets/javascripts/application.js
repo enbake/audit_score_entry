@@ -337,10 +337,10 @@ $(document).on('change', '.sel_ans', function(){
 		$(this).parent().parent().find('select:last').attr('required', 'required');
 		$(this).parent().parent().find('select').focus();
 	}
-	else if($(this).val()== "Yes"){
+	else if($(this).val()== "Yes" || $(this).val() == "n/a"){
 		$(this).parent().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('select:last').attr('disabled', true);
-		$(this).parent().parent().find('select:last').val('0');
+		$(this).parent().parent().find('select:last').val("0");
 		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
@@ -354,7 +354,7 @@ $(document).on('change', '.sel_est', function(){
 		$(this).parent().parent().find('select:last').attr('required', 'required');
 		$(this).parent().parent().find('input:select').focus();
 	}
-	else if($(this).val()== "Yes"){
+	else if($(this).val()== "Yes" || $(this).val() == "n/a"){
 		$(this).parent().next().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('input:visible, select:last').attr('disabled', true);
 		$(this).parent().parent().find('input, select').removeAttr('required');

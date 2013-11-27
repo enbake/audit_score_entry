@@ -75,7 +75,7 @@
                 = question.question
                 = hidden_field_tag "#{tab}[#{row}][question]", question.question
               %td
-                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_ans form-control", :required => true
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_ans form-control", :required => true
               %td
                 = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question)), :prompt => "Select", :class => "form-control"
               %td
@@ -105,7 +105,7 @@
                 = question.question
                 = hidden_field_tag "#{tab}[#{row}][ext_question]", question.question
               %td
-                = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No"]), :class => "sel_est form-control"
+                = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_est form-control"
               %td
                 = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"]), :class => "form-control"
               %td
