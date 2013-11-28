@@ -72,7 +72,7 @@
                   - if !admin_answer.exception.blank?
                     = admin_answer.exception.round
                     = "%"
-                %td
+                %td{class: "comment_width"}
                   = admin_answer.note
         = link_to "Next", "#", :class => "btn btn-mini btn-info pull-right", :id => "hd_add"
       
@@ -100,20 +100,22 @@
                 %td
                   - unless answer.amount.blank? 
                     = answer.amount.round
-                %td
+                %td{class: "comment_width"}
                   = answer.note
         = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_ll"
         = link_to "Summary", "#", :class => "btn btn-mini btn-info pull-right", :id => "sum_sh"
       
       .sh_sum{:style => "display:none;"}
-        .well{:class=>"table-claim-show-second"}
+        .well{:class=>"well-style-two"}
           - adm_exception = adm_exception(@claim_audit_entry)
           - com_exp = com_exception(@claim_audit_entry)
           - over = over(@claim_audit_entry)
           - under = under(@claim_audit_entry)
-          %table{style:"width:100%;"}
-            %b
-              SUMMARY
+          %table{style:"width:100%;",:cellpadding=>"5"}
+            %tr
+              %td
+                %b
+                  SUMMARY
             %tr
               %td Administration Exception Percent
               %td

@@ -27,10 +27,4 @@ class EstimatorClaimAuditListController < ApplicationController
     end
   end
 
-  # Show filtered claim audit entries
-#  def show_saved_audit_estimate
-#    @claim_audit_entry = ClaimAuditEntry.where(:claim=> params[:c_num]).first
-#    admin_estimate_question_headers
-#  end
-
 end

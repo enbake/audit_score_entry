@@ -10182,3 +10182,29 @@ margin-right: 110px;
 	table-layout: fixed;
 	width:30%;
 }
+.well-style{
+  background:white; 
+  width: 30%;
+  margin-left:30%;
+  /*text-align: center;*/
+}
+.well-style-two{
+  background:white; 
+  width: 35%;
+  margin-left:30%;
+  /*text-align: center;*/
+}
+.well-style-three{
+  background:white; 
+  width: 32%;
+  margin-left:30%;
+  /*text-align: center;*/
+}
+.com-style{
+   width: 294px;
+   height: 77px;
+}
+.com-style-two{
+  width: 317px;
+  height: 77px;
+}

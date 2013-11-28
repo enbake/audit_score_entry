@@ -387,15 +387,6 @@ $(document).on('click', '#go_back_to_edit', function(e){
 	history.go(-1);
 })
 
-$(document).on('click', '#go_back_to_result', function(e){
-	var from_date=$("#filter_from_date").val();
-	var to_date=$("#filter_to_date").val();
-	var estimator_id=$("#filter_estimator_id").val();
-	var carrier_id=$("#filter_carrier_id").val();
-	$.ajax({url:"/estimator_claim_audit_list/back_filtered_list?from_date="+from_date+"&to_date="+to_date+"&estimator_id="+estimator_id+"&carrier_id="+carrier_id})
-	
-})
-
 $(document).on('click', '#sum_sh', function(e){
 	e.preventDefault();
 	$('.est_dec').hide();
