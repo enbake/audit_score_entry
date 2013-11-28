@@ -15,6 +15,7 @@ class EstimatorClaimAuditListController < ApplicationController
       str_sq = params[:carrier].blank? ? "" : "and claim_audit_entries.carrier_branch_id = #{params[:carrier]}"
       @claim_audit_entries = ClaimAuditEntry.includes(:claim_awaiting_audit).where("estimator=? and DATE(created_at) between ? and ? #{str_sq}","#{params[:estimator]}",
                            DateTime.parse(@from_date), DateTime.parse(@to_date)).order('claim_audit_entries.id desc')
+      flash[:notice] = "No records found corresponding to the search" if @claim_audit_entries.count == 0
    else
       claim_audit_entry = ClaimAuditEntry.find_by_claim(params[:claim_number])
       if claim_audit_entry
