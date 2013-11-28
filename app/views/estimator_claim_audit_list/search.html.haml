@@ -24,83 +24,84 @@
             Carrier:
         %td
           = carrier_name_find params[:carrier]
-    .well{:style => "background:white"}
-      %h4
-        %b Summary
-      .row
-        .col-md-4
-          %table{cellpadding:"5"}
-            %tr
-              %td
-                %b
-                  Count:
-              %td
-                = @claim_audit_entries.count
-            %tr
-              %td
-                %b
-                  Avg Severity:
-              %td
-                - amt = severity @claim_audit_entries
-                = " $ #{number_with_precision(amt, precision: 2)}"
-            %tr
-              %td
-                %b
-                  Avg Time:
-              %td
-                - avg_time = average_time @claim_audit_entries
-                = number_with_precision(avg_time, precision: 1)
-        .col-md-4
-          %table{cellpadding:"5"}
-            %tr
-              %td
-                %b
-                  Adm Exc % Avg:
-              %td
-                - avg_exp_adm = average_exp_admin @claim_audit_entries
-                = " #{number_with_precision(avg_exp_adm, precision: 1)} %"
-            %tr
-              %td
-                %b
-                  Com Exc % Avg:
-              %td
-                - avg_exp_com = average_exp_com @claim_audit_entries
-                = " #{number_with_precision(avg_exp_com, precision: 1)} %"
-            %tr
-              %td
-                %b
-                  Leakage % Avg:
-              %td
-                - avg_leakage=avg_leakage @claim_audit_entries
-                = " #{number_with_precision(avg_leakage,precision:1)} %"
-            %tr
-              %td
-                %b
-                  Total Exc% Avg:
-              %td
-                = " #{number_with_precision(avg_exp_adm+avg_exp_com+avg_leakage,precision:1)} %"
-        .col-md-4
-          %table{cellpadding:"5"}
-            %tr
-              %td
-                %b
-                  Avg Leakage Over
-              %td
-                - avg_leakage_over=avg_leakge_over @claim_audit_entries
-                = " $ #{number_with_precision(avg_leakage_over,precision:1)}"
-            %tr
-              %td
-                %b
-                  Avg Leakage Under
-              %td
-                - avg_leakage_under=avg_leakge_under @claim_audit_entries
-                = " $ #{number_with_precision(avg_leakage_under,precision:1)}"
-            %tr
-              %td
-                %b
-                  Avg Leakage Amount
-              %td
-                = " $ #{number_with_precision(avg_leakage_over+avg_leakage_under,precision:1)}"
+    - if @claim_audit_entries.count > 0
+      .well{:style => "background:white"}
+        %h4
+          %b Summary
+        .row
+          .col-md-4
+            %table{cellpadding:"5"}
+              %tr
+                %td
+                  %b
+                    Count:
+                %td
+                  = @claim_audit_entries.count
+              %tr
+                %td
+                  %b
+                    Avg Severity:
+                %td
+                  - amt = severity @claim_audit_entries
+                  = " $ #{number_with_precision(amt, precision: 2)}"
+              %tr
+                %td
+                  %b
+                    Avg Time:
+                %td
+                  - avg_time = average_time @claim_audit_entries
+                  = number_with_precision(avg_time, precision: 1)
+          .col-md-4
+            %table{cellpadding:"5"}
+              %tr
+                %td
+                  %b
+                    Adm Exc % Avg:
+                %td
+                  - avg_exp_adm = average_exp_admin @claim_audit_entries
+                  = " #{number_with_precision(avg_exp_adm, precision: 1)} %"
+              %tr
+                %td
+                  %b
+                    Com Exc % Avg:
+                %td
+                  - avg_exp_com = average_exp_com @claim_audit_entries
+                  = " #{number_with_precision(avg_exp_com, precision: 1)} %"
+              %tr
+                %td
+                  %b
+                    Leakage % Avg:
+                %td
+                  - avg_leakage=avg_leakage @claim_audit_entries
+                  = " #{number_with_precision(avg_leakage,precision:1)} %"
+              %tr
+                %td
+                  %b
+                    Total Exc% Avg:
+                %td
+                  = " #{number_with_precision(avg_exp_adm.to_f + avg_exp_com.to_f + avg_leakage.to_f,precision:1)} %"
+          .col-md-4
+            %table{cellpadding:"5"}
+              %tr
+                %td
+                  %b
+                    Avg Leakage Over
+                %td
+                  - avg_leakage_over=avg_leakge_over @claim_audit_entries
+                  = " $ #{number_with_precision(avg_leakage_over,precision:1)}"
+              %tr
+                %td
+                  %b
+                    Avg Leakage Under
+                %td
+                  - avg_leakage_under=avg_leakge_under @claim_audit_entries
+                  = " $ #{number_with_precision(avg_leakage_under,precision:1)}"
+              %tr
+                %td
+                  %b
+                    Avg Leakage Amount
+                %td
+                  = " $ #{number_with_precision(avg_leakage_over.to_f + avg_leakage_under.to_f,precision:1)}"
     %hr/
     %table.table.table-pointer.table-striped.table-bordered.table-hover#sort_cols
       %thead
