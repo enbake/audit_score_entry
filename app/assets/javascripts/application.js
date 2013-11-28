@@ -230,10 +230,22 @@ $(document).on('click', '#sum_sh_for_edit', function(e){
 $(document).on('ready page:load', function () {
 	store_prev_exceptions();
 	$('#claim_audit_entry_review').datepicker({ dateFormat: 'mm/dd/yy' });
-	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'mm/dd/yy' });
-	$( "#todate_estimator" ).datepicker({ dateFormat: 'mm/dd/yy' });
+	$( "#fromdate_estimator" ).datepicker({ dateFormat: 'mm/dd/yy' ,
+		onSelect: function(dateText, inst){
+			$("#todate_estimator").datepicker("option","minDate",
+			$("#fromdate_estimator").datepicker("getDate"));
+		}
+	});
+	$( "#todate_estimator" ).datepicker({ dateFormat: 'mm/dd/yy',
+		onSelect: function(dateText, inst){
+			$("#fromdate_estimator").datepicker("option","maxDate",
+			$("#todate_estimator").datepicker("getDate"));
+		}
+	});
+
 	$('.aut_sz').autosize();
 	$('#sort_cols').dataTable();
+
 });
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
