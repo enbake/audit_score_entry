@@ -53,6 +53,11 @@ AuditControlEntry::Application.routes.draw do
     end
   end
 
+  resources :call_audit_monthly_score do
+    collection do
+      post :confirm
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

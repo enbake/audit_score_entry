@@ -1,0 +1,107 @@
+= form_for @css,:url => {:action => "confirm"}  do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Call Audit Monthly Score Entry 
+    .panel-body
+      %table{style: "width:70%"}
+        %tr
+          %td 
+            %b
+              CSS:
+          %td
+            = "MELANIE THOMAS"
+        %tr
+          %td 
+            %b
+              Month:
+          %td
+            = "January 2014"
+        %tr
+          %td 
+            %b
+              Date Review:
+          %td
+            = "January 2014"
+            by
+            %b
+              CORY SHUPAY
+          %td
+            %b 
+              \# of Calls This Month: 256
+
+      %table.table{style:"margin-top:2%;margin-left:1%;width:100%;font-size:12px"}
+        %tr
+          %th Call Audit Scores
+          %th #Calls
+          %th #Reviwed
+          %th Intro
+          %th Description
+          %th Call to Action
+          %th General Demeanor
+          %th Address Concerns
+          %th Composite Score
+        %tr
+          %td 
+            %b 
+              Current Month
+          %td 
+            = "calls"
+          %td 
+            = "reviewe"
+          %td 
+            = "intro"
+          %td 
+            = "description"
+          %td 
+            = "calls_to_action"
+          %td 
+            = "gnrl_dnmr"
+          %td 
+            = "address_concern"
+          %td 
+            = "smpst_scr"
+        %tr
+          %td 
+            %b
+              Current Month
+          %td 
+            = "calls"
+          %td 
+            = "reviewe"
+          %td 
+            = "intro"
+          %td 
+            = "description"
+          %td 
+            = "calls_to_action"
+          %td 
+            = "gnrl_dnmr"
+          %td 
+            = "address_concern"
+          %td 
+            = "smpst_scr"
+      = f.submit "Next", :class => "btn btn-default btn-sm btn-info pull-right"
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - tab=1
+        - row=0
+        - num=(-1)
+        - monthly_record_questions = ["Competency","Attendance/Punctuality","Initiative","Communication Skills","Reliability"]
+        - weight = ["10","20","40","30","50"]
+        - sequence = ["1","2","3","4","5"]
+        - monthly_record_questions.each do |question|
+          -row +=1
+          -num +=1
+          %tr
+            %td
+              = question
+              = hidden_field_tag "#{tab}[#{row}][question]", question
+            %td
+              = select_tag "#{tab}[#{row}][grade]", options_for_select([["Select One", ""], "1", "2", "3", "4", "5"]), :class => "call_sel_ans form-control", :required => true
+            %td.note_text
+              = text_area_tag "#{tab}[#{row}][notes]", "", :class => "note_text_area normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+              = hidden_field_tag "#{tab}[#{row}][weight]", weight[num]
+              = hidden_field_tag "#{tab}[#{row}][sequence]", sequence[num]         

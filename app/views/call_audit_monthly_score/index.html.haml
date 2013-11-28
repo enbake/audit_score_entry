@@ -1,0 +1,29 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Monthly Score Entry 
+  .panel-body
+    %table{style:"width:35%"}
+      %tr
+        %td 
+          %b
+            Business Unit:
+        %td
+          = select_tag "css", options_for_select(@css.collect{|u|[u.first_name, u.id]}),:prompt => 'Select CSS', :class => "form-control"
+      %tr
+        %td 
+          %b
+            Month:
+        %td
+          = select_month(Date.today,{}, {:class => "form-control"}) 
+    %br
+    %br  
+      %table.table{style:"margin-left:30%;width:40%"}
+        %tr
+          %th CSS
+          %th Last Month Entry
+        - @css.each do |css|
+          %tr
+            %td
+              = "#{css.first_name} #{css.last_name}"
+            %td
+              = "sd"
