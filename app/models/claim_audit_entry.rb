@@ -37,6 +37,11 @@ class ClaimAuditEntry < ActiveRecord::Base
     self.claim_audit_detail_files.delete_all
   end
 
+  def self.change_format(attr)
+    m, d, y = attr.split('/')
+    date = [d, m, y].join('/')
+  end
+
   private
 
   
