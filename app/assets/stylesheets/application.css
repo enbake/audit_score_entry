@@ -10208,3 +10208,58 @@ margin-right: 110px;
   width: 317px;
   height: 77px;
 }
+.monthly-entry-continue-btn{
+   margin-top: -80px;
+}
+.upper_call_block{
+  margin-top:2%;
+  margin-left:1%;
+  width:100%;
+  font-size:12px
+}
+.summary_adjust{
+  width:70%;
+  float:left
+}
+.header-adjust{
+  margin-top:5%;
+  width:30%
+}
+.com-fix{
+  resize:none; 
+  width:100%
+}
+.com-fix-one{
+  resize:none; 
+  width:49%;
+  margin-top:.5%
+}
+.com-add{
+  width: auto; 
+  padding-left: 37%;
+}
+.text-area-wrap{
+  width: 288px;
+  height: 77px;
+}
+.td-wid{
+  width:40%!important;
+}
+.td-wid-month{
+  width:22%!important;
+}
+.full-width{
+  width: auto;
+}
+.align-back-button{
+  margin-right:10px;
+}
+.tabl-style{
+  margin-left:30%;
+  width:40%
+}
+.comments-style{
+  resize: none;
+  width: 50%;
+  margin-top: 3.5px
+}

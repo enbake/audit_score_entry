@@ -1,0 +1,2 @@
+- if !@css.blank?
+	$('#search_css_id').html('#{escape_javascript( render :partial => "search_result", :locals => {:css => @css ,:month=>@month,:business_unit=>params[:business_unit]})}');

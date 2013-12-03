@@ -1,0 +1,156 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    .row
+      .col-md-3
+        %h3.panel-title Call Audit Review
+      .col-md-12
+        %a#back_to_result{class:"btn btn-mini btn-info pull-right"} Back
+  .panel-body
+    %table{style:"width:35%"}
+      %tr
+        %td 
+          %b
+            Business Unit:
+        %td
+          = "#{@call_audit_score_entry.css.business_unit.name}"
+      %tr
+        %td 
+          %b
+            CSS:
+        %td
+          = css_find @call_audit_score_entry.css_id
+      %tr
+        %td 
+          %b
+            Call Date/Time:
+        %td
+          = DateTime.parse(@call_audit_score_entry.call_date.to_s).strftime('%m/%d/%Y %I:%M %p')
+      %tr
+        %td 
+          %b
+            Date Review:
+        %td
+          = Date.parse(@call_audit_score_entry.review.to_s).strftime('%m/%d/%Y')
+      %tr
+        %td 
+          %b
+            Reviewer:
+        %td
+          = "#{employee_find(@call_audit_score_entry.reviewer_id)}"
+    %table{:class=>"table-right-call-review"}
+      %tr
+        %td 
+          %b
+            Call Type:
+        %td
+          = @call_audit_score_entry.call_type
+      %tr
+        %td 
+          %b
+            Call Length:
+        %td
+          = @call_audit_score_entry.call_length
+    .confirm_block_call.panel-body
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - @grades_details.each do |details|
+          %tr
+            %td
+              = details.call_audit_question.question
+            %td
+              = details.grade
+            %td.note_text
+              = details.note
+      %a{:class=>"btn btn-mini btn-info pull-right",:id=>"show_summary_block"} Continue
+    .summary_block_call.panel-body.text-center{style:"display: none;"}
+      %h3
+        %b
+          Summary
+      %div
+        %div{:style => "width:70%;float:left"}
+          %table.table
+            %tr
+              %th Category
+              %th Grade
+              %th Weight
+              %th Score
+              %th Possible
+              %th Percent
+            - score_total = 0
+            - possible_total = 0
+            - percent_total = 0 
+            - @grades_details.each do |details|
+              %tr
+                %td
+                  = details.call_audit_question.question
+                %td
+                  = details.grade
+                %td.note_text
+                  = details.weight
+                %td.note_text
+                  - scr = details.score.to_i
+                  = scr
+                  - score_total += scr 
+                %td.note_text
+                  - psb = details.possible_score.to_i
+                  = psb
+                  - possible_total += psb
+                %td.note_text
+                  - percent = scr*100/psb
+                  = percent
+                  - percent_total += percent
+            %tr
+              %td
+                Total
+              %td
+
+              %td
+                
+              %td
+                = score_total
+              %td
+                = possible_total
+              %td
+                - overall = percent_total/@grades_details.length.to_i
+                = overall
+        %div.span3
+          %h1
+            %b
+              OVERALL SCORE
+              %br
+              = overall.to_s + "%"
+      %div{style:"clear:both;"}
+        %a{:class=>"btn btn-mini btn-info pull-left",:id=>"confirm_block_call"} Prev
+        %a{:class=>"btn btn-mini btn-info pull-right",:id=>"comment_history_call"} Comment History
+    .comment_block_call#div_ref{:style => "width:100%;display:none;"}
+      #test-div
+        %h3{:style=>"text-align:center;"} Comment History
+        %table{style:"width: 100%;",class:"table"}
+          %th Date
+          %th Author
+          %th Comment
+          - @call_audit_score_entry.claim_audit_comments.each do |comment|
+            %tr
+              %td
+                = comment.created_at.strftime('%m/%d/%Y')
+              %td
+                = give_author_name(comment.written_by)
+              %td{:class=>"td-wid"}
+                %span{:class=>"wrapComment"}
+                  = comment.comment
+        %br/
+        %br/
+        = form_tag(save_claim_audit_comments_path, :method => :post, :id => "sv_ad_cm") do
+          %div{style:"text-align:center;"} 
+            %b
+              Comment
+          = hidden_field_tag "call_entry_id",@call_audit_score_entry.id
+          %div{:class=>"com-add"}
+            %textarea#comment_new_review{name: "comment_new_review",style:"width: 288px; height: 77px;",placeholder:"Add a comment here"}
+            %br
+            %div{style:"width:288px;"}
+              = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_call_comment_history"

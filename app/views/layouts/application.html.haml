@@ -73,6 +73,22 @@
                 .row
                   .col-md-12
                     %a{:style=>"cursor:pointer;",:id=>"Main_claim_audit_list"} Estimator Claims List
+                %hr/
+                .row
+                  .col-md-12
+                    = link_to "Call Audit Entry",call_audit_score_entries_path,:id=>"main_call_audit_index"
+                %hr/
+                .row
+                  .col-md-12
+                    = link_to "Call Audit List",call_audit_list_index_url,:id=>"main_call_audit_list" 
+                %hr/
+                .row
+                  .col-md-12
+                    = link_to "Monthly Audit Entry",call_audit_monthly_score_index_url,:id=>"call_audit_monthly_score" 
+                %hr/
+                .row
+                  .col-md-12
+                    = link_to "Monthly Audit Review",call_audit_monthly_review_index_url,:id=>"call_monthly_review_test"
                 %hr/                
                 - if current_employee.is_admin?
                   .row

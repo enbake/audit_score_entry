@@ -1,0 +1,2 @@
+- if !@call_audit_monthly.blank?
+	$('#search_monthly_css_id').html('#{escape_javascript( render :partial => "search_result", :locals => {:call_audit_monthly => @call_audit_monthly })}');

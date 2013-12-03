@@ -1,0 +1,20 @@
+%table.table
+  %tr
+    %th Business Unit
+    %th Calls
+    %th Reviewed
+    %th Call Score
+    %th Monthly Score
+  - call_audit_monthly.each do |call_audit_monthly|
+    %tr{:style=>"cursor:pointer;",:class=>"clickable_to_test",:onclick => "window.location.href='#{  call_audit_monthly_score_path(:id=>call_audit_monthly.id)}'"}
+      %td
+        = "#{call_audit_monthly.business_unit.name}"
+      %td
+        = "#{call_audit_monthly.calls_count}"
+      %td
+        = "reviewed"
+      %td
+        - unless call_audit_monthly.overall_score.blank?
+          = "#{call_audit_monthly.overall_score} %"
+      %td
+        = "#{call_audit_monthly.monthly_overall_score} %"

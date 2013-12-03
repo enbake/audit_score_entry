@@ -242,7 +242,7 @@ $(document).on('ready page:load', function () {
 			$("#todate_estimator").datepicker("getDate"));
 		}
 	});
-
+	$( "#call_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$('.aut_sz').autosize();
 	$('#sort_cols').dataTable();
 
@@ -335,9 +335,42 @@ $(document).on('click', '#comment_btn', function(e){
 
 $(document).on('click', '#sh_ad', function(e){
 	$('.est_dec').hide();
-	$('.adm_com').show();
-	
-	
+	$('.adm_com').show();	
+})
+$(document).on('click', '#show_summary_block', function(e){
+	$('.confirm_block_call').hide();
+	$('.comment_block_call').hide();
+	$('.summary_block_call').show();	
+})
+$(document).on('click', '#confirm_block_call', function(e){
+	$('.summary_block_call').hide();
+	$('.comment_block_call').hide();
+	$('.confirm_block_call').show();	
+})
+$(document).on('click', '#comment_history_call', function(e){
+	$('.summary_block_call').hide();
+	$('.confirm_block_call').hide();
+	$('.comment_block_call').show();	
+})
+$(document).on('click', '#confirm_monthly', function(e){
+	$('.confirm_block_monthly').hide();
+	$('.comment_block_monthly').hide();
+	$('.summary_block_monthly').show();	
+})
+$(document).on('click', '#back_to_confirm_monthly', function(e){
+	$('.confirm_block_monthly').show();
+	$('.comment_block_monthly').hide();
+	$('.summary_block_monthly').hide();	
+})
+$(document).on('click', '#comment_monthly', function(e){
+	$('.confirm_block_monthly').hide();
+	$('.comment_block_monthly').show();
+	$('.summary_block_monthly').hide();	
+})
+$(document).on('click', '#back_from_comment_monthly', function(e){
+	$('.confirm_block_monthly').hide();
+	$('.comment_block_monthly').hide();
+	$('.summary_block_monthly').show();	
 })
 
 $(document).on('change', '.sel_ans', function(){
@@ -447,6 +480,41 @@ $(document).on('click', '#save_comment', function(e){
 	})
 })
 
+$(document).on('click', '#submit_to_search', function(e){
+	e.preventDefault();
+	if($('#business_unit').val()!="" && $('#date_month').val() !="" && $('#date_year').val()!="")
+	{
+		$.ajax({
+			url: '/call_audit_monthly_score/search',
+			type: 'post',
+			data: $("form#search_the_css").serialize(),
+			async: false
+		})		
+	}
+	else
+	{
+		alert("Please select the options!")
+	}
+	
+})
+$(document).on('click', '#search_call_monthly', function(e){
+	e.preventDefault();
+	if($('#date_month').val() !="" && $('#date_year').val()!="")
+	{
+		$.ajax({
+			url: '/call_audit_monthly_review/search',
+			type: 'post',
+			data: $("form#css_search_page").serialize(),
+			async: false
+		})		
+	}
+	else
+	{
+		alert("Please select the options!")
+	}
+	
+})
+
 $(document).on('click', '#prev_from_summary', function(e){
 	e.preventDefault();
 	$('.adm_com').hide();
@@ -462,6 +530,16 @@ $(document).on('click', '#prev_from_summary1', function(e){
 	$('.sh_sum').hide();
 	$('#sh_btn').hide();
 })
+$(document).on('click', '#confirm_block_id', function(e){
+	e.preventDefault();
+	$('.confirm_block').hide();
+	$('.summary_block').show();
+})
+$(document).on('click', '#back_to_confirm_block', function(e){
+	e.preventDefault();
+	$('.summary_block').hide();
+    $('.confirm_block').show();
+})
 
 $(document).on('focus', '.req_fd', function(e){
 	$(this).attr('required', true);
@@ -472,3 +550,25 @@ $(document).on('focus', '.cla_only', function(e){
 	$(this).attr('required', true);
 	$('.req_fd').attr('required', false);
 })
+
+
+/* Js for call_audit_score_entries/confirm_data  */  
+
+   
+$(document).on('change', '.call_sel_ans', function(){
+	if($(this).val() <= 3){
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').attr('disabled', false);
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').attr('required', 'required');
+		//alert("Please fill the comments in the notes field");
+	}
+	else {
+	    //$(this).parent().parent().find('.note_text').find('.note_text_area').attr('disabled', true);		
+	    $(this).parent().parent().find('.note_text').find('.note_text_area').removeAttr('required');
+	}
+})
+
+
+
+
+/* js ends here */
+

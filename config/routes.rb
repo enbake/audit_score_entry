@@ -28,6 +28,12 @@ AuditControlEntry::Application.routes.draw do
     end
   end
 
+  resources :call_audit_score_entries do
+    collection do
+      post :confirm_data
+    end
+  end
+
   resources :claim_audit_lists do
     collection do
       get :set_params
@@ -40,6 +46,25 @@ AuditControlEntry::Application.routes.draw do
   resources :claim_audit_comments do
     collection do
       post :save
+    end
+  end
+
+  resources :call_audit_list do 
+    collection do
+      post :search
+      get :search
+    end
+  end
+
+  resources :call_audit_monthly_score do
+    collection do
+      post :confirm
+      post :search
+    end
+  end
+  resources :call_audit_monthly_review do
+    collection do
+      post :search
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

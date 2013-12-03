@@ -1,0 +1,19 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Summary Monthly Review
+  .panel-body
+    = form_tag(search_call_audit_monthly_review_index_path,:id=>"css_search_page", :method => :post) do |f|
+      %table{style:"width: 45%;"}
+        %tr
+          %td 
+            %b
+              Month:
+          %td
+            = select_month(nil,{:prompt => 'Choose month'}, {:class => "form-control",:required=>true}) 
+          %td
+            = select_year(nil,{:prompt => 'Choose Year',:start_year => 2013, :end_year => 2014}, {:class => "form-control",:required=>true}) 
+          %td
+            = submit_tag "Continue",:id=>"search_call_monthly",:class => "btn btn-default btn-sm btn-info pull-right"
+    %br
+    %br
+      %div#search_monthly_css_id

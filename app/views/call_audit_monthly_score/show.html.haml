@@ -1,0 +1,193 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    .row
+      .col-md-3.full-width
+        %h3.panel-title Call Audit Summary Monthly Review
+      .col-md-12
+        = link_to "Calls Review",  search_call_audit_list_index_path(:css=>@call_audit_monthly_score_entry.css.id,:call=>{"date(3i)"=>DateTime.now.day, "date(2i)"=>DateTime.now.month, "date(1i)"=>DateTime.now.year}),:class=>"btn btn-mini btn-info pull-right align-back-button",:id=>"call_audit_test"
+  .panel-body
+    %table{style: "width:50%"}
+      %tr
+        %td 
+          %b
+            CSS:
+        %td
+          = "#{@call_audit_monthly_score_entry.css.first_name} #{@call_audit_monthly_score_entry.css.last_name}"
+      %tr
+        %td 
+          %b
+            Month:
+        %td
+          = "#{@call_audit_monthly_score_entry.calls_date.strftime('%B %Y')}"
+      %tr
+        %td 
+          %b
+            Date Review:
+        %td
+          = "#{@call_audit_monthly_score_entry.review.strftime('%m/%d/%Y')}"
+      %tr
+        %td
+          %b
+            Reviewer:
+        %td
+          = employee_find(@call_audit_monthly_score_entry.reviewer_id)
+        %td
+          %b 
+            \# of Calls This Month:
+        %td
+          = "#{@call_audit_monthly_score_entry.calls_count}"
+
+    %table.table{:class=>"upper_call_block"}
+      %tr
+        %th Call Audit Scores
+        %th #Calls
+        %th #Reviewed
+        - @question_header_call.each do |header|
+          %th 
+            = header.question
+        %th Composite Score
+      %tr
+        %td 
+          %b 
+            Current Month
+        %td 
+          = "#{@call_audit_entries_current_month.count}"
+        %td 
+          = "reviewed"
+        - @question_header_call.each do |header|
+          %td 
+            = mean_for_question @call_audit_entries_current_month,header.id
+        %td 
+          = "Composite Score"
+      %tr
+        %td 
+          %b
+            Previous Month
+        %td 
+          = "#{@call_audit_entries_previous_month.count}"
+        %td 
+          = "reviewed"
+        - @question_header_call.each do |header|
+          %td 
+            = mean_for_question @call_audit_entries_previous_month,header.id
+        %td 
+          = "Composite Score"
+    .confirm_block_monthly.panel-body
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1-5
+          %th Notes
+        - @call_audit_monthly_score_entry.call_audit_detail_files.each do |question|
+          %tr
+            %td
+              = question.call_audit_question.question
+            %td 
+              = question.grade
+            %td
+              = question.note
+      = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "confirm_monthly"
+    .summary_block_monthly.panel-body{style: "display:none;"}
+      %div
+        %div{:class=>"summary_adjust"}
+          %table.table
+            %tr
+              %h3.text-center
+                %b
+                  Summary
+            %tr
+              %th Category
+              %th Grade
+              %th Weight
+              %th Score
+              %th Possible
+              %th Percent
+            - score_total = 0
+            - possible_total = 0
+            - percent_total = 0
+            - @call_audit_monthly_score_entry.call_audit_detail_files.each do |question|
+              %tr
+                %td
+                  = question.call_audit_question.question
+                %td 
+                  = question.grade
+                %td
+                  = question.weight
+                %td
+                  - score = question.grade.to_i * question.weight.to_i
+                  = score
+                  - score_total += score
+                %td
+                  - possible_score = 5 * question.weight.to_i
+                  = possible_score
+                  - possible_total += possible_score
+                %td
+                  - percent = (score*100)/possible_score
+                  = percent
+                  - percent_total += percent
+            %tr
+              %td
+                Total
+              %td
+              
+              %td
+            
+              %td
+                =score_total
+              %td
+                =possible_total
+              %td
+                - overall = (percent_total/@call_audit_monthly_score_entry.call_audit_detail_files.count)
+                = overall
+      %div
+        %h1.text-center.pull-right.header-adjust
+          %b
+            OVERALL SCORE
+            %br
+            = overall.to_s + "%"
+      %br
+      %div{:style=>"clear:both;"}
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success pull-left", :id => "back_to_confirm_monthly", :style => "margin-left:15px;" 
+        = submit_tag "Comment History", :class=>"btn btn-default btn-sm btn-info pull-right", :id => "comment_monthly", :style => "margin-left:12%"
+    .comment_block_monthly#div_ref{:style => "width:100%;display:none;"}
+      #test-div
+        %h3{:style=>"text-align:center;"} Comment History
+        %table{style:"width: 100%;",class:"table"}
+          %th Date
+          %th Author
+          %th Comment
+          %th Strength
+          %th Developement Need
+          - @call_audit_monthly_score_entry.claim_audit_comments.each do |comment|
+            %tr
+              %td
+                = comment.created_at.strftime('%m/%d/%Y')
+              %td
+                = give_author_name(comment.written_by)
+              %td{:class=>"td-wid-month"}
+                %span{:class=>"wrapComment"}
+                  = comment.comment
+              %td{:class=>"td-wid-month"}
+                %span{:class=>"wrapComment"}
+                  = comment.auxiliary1
+              %td{:class=>"td-wid-month"}
+                %span{:class=>"wrapComment"}
+                  = comment.auxiliary2
+        %br/
+        %br/
+        = form_tag(save_claim_audit_comments_path, :method => :post, :id => "sv_ad_cm") do
+          %div{style:"text-align:center;"} 
+            %b
+              Comment
+          = hidden_field_tag "call_monthly_id",@call_audit_monthly_score_entry.id
+          %table{style:"width:70%;",:align=>"center"}
+            %tr
+              %td
+                = text_area_tag 'comment_new_review', nil, size: "92x2",:class=>"com-fix",placeholder: "Add a comment here";
+                = text_area_tag 'strengths', nil, size: "92x2",:class=>"com-fix-one",placeholder: "Strengths";
+                = text_area_tag 'development_needs', nil, size: "92x2",placeholder: "Development Needs",:class => "pull-right com-fix-one comments-style"
+          %div.com-add
+            %br
+            %div
+              = link_to "Update", "#", :class => "btn btn-mini btn-info pull-right", :id => "save_comment"
+        = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "back_from_comment_monthly"

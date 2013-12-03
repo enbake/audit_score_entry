@@ -1,0 +1,39 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    %h3.panel-title Call Audit Monthly Score Entry 
+  .panel-body
+    = form_tag(search_call_audit_monthly_score_index_path, :method => :post,:id=>"search_the_css") do |f|
+      %table{style:"width: 45%;"}
+        %tr
+          %td 
+            %b
+              Business Unit:
+          %td
+            = select_tag "business_unit", options_for_select( @business_unit.collect{ |u| [u.name, u.id]}),:prompt => 'Select business unit', :class => "form-control req_fd", :required => true
+        %tr
+          %td 
+            %b
+              Month:
+          %td
+            = select_month(nil,{:prompt => 'Choose month'}, {:class => "form-control",:required=>true}) 
+          %td
+            = select_year(nil,{:prompt => 'Choose Year',:start_year => 2013, :end_year => 2014}, {:class => "form-control",:required=>true}) 
+        %tr
+          %td 
+            %b
+              Date Review:
+          %td
+            = Time.now.strftime('%m/%d/%Y')
+        %tr
+          %td 
+            %b
+              Reviewer:
+          %td
+            = "#{current_employee.first_name} #{current_employee.last_name}"
+        %tr
+          %td
+          %td
+            = submit_tag "Continue",:id=>"submit_to_search",:class => "btn btn-default btn-sm btn-info"
+    %br
+    %br
+      %div#search_css_id

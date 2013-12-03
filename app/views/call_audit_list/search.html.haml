@@ -1,0 +1,42 @@
+.seal-module.seal-panel.panel.panel-default.large
+  .panel-heading
+    .row
+      .col-md-3.full-width
+        %h3.panel-title Call Audit Entry
+      .col-md-12
+        = link_to "Monthly Review","",:class=>"btn btn-mini btn-info pull-right align-back-button"
+  .panel-body
+    %table{style:"width:30%;"}
+      %td
+        %b
+          CSS:
+        %span{style:"margin-left:4px;"}
+          = css_find params[:css]
+      %td{style:"float:right"}
+        %b
+          Time:
+        %span{style:"margin-left:4px;"}
+          - date=get_date(params[:call]["date(1i)"],params[:call]["date(2i)"],params[:call]["date(3i)"])
+          = date.strftime('%B')
+          = date.strftime('%Y') 
+    %hr
+    %table.table.table-pointer.table-striped.table-bordered.table-hover
+      %tr
+        %th Call Type
+        %th Time
+        %th Date
+        %th Length
+        %th Score
+      - @call_audit_list.each do |call|
+        %tr{:class=>"open_call_for_entry",:onclick => "window.location.href='#{call_audit_score_entry_path(call.id)}'"}
+          %td
+            = call.call_type
+          %td
+            = call.call_date.strftime("%I:%M")
+          %td
+            = call.call_date.strftime('%m/%d/%Y')
+          %td
+            = call.call_length
+          %td
+            = call.total_score.to_i.to_s + "%"
+

@@ -1,0 +1,10 @@
+%table.table.tabl-style
+  %tr
+    %th CSS
+    %th Last Month Entry
+  - css.each do |css|
+    %tr{:style=>"cursor:pointer;",:class=>"clickable_to_test",:onclick => "window.location.href='#{ new_call_audit_monthly_score_path(:css_id => css.id,:month=>month,:business_unit=>business_unit)}'"}
+      %td
+        = "#{css.first_name} #{css.last_name}"
+      %td
+        = "#{css.timestamp.strftime('%B %Y')}"

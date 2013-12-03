@@ -13,5 +13,8 @@ class Employee < ActiveRecord::Base
   has_many :claim_awaiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :employee_id
   has_many :claim_awaiiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :uploader_employee_id
   has_many :unsaved_awaiting_audits, :class_name => 'UnsavedAwaitingAudit', :foreign_key => :creator_employee_id
+  has_many :call_audit_entries, :class_name => 'CallAuditEntry', :foreign_key => :css_id
+  has_many :call_monthly_audit_entries, :class_name => 'CallAuditEntry', :foreign_key => :css_id
+  belongs_to :business_unit, :class_name => 'BusinessUnit',:foreign_key => :business_unit_id
 
 end

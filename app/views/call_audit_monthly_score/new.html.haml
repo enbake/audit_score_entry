@@ -1,0 +1,94 @@
+= form_for @call_audit_month,:url => {:action => "confirm"}  do |f|
+  .seal-module.seal-panel.panel.panel-default.large
+    .panel-heading
+      %h3.panel-title Call Audit Monthly Score Entry 
+    .panel-body
+      %table{style: "width:70%"}
+        %tr
+          %td 
+            %b
+              CSS:
+          %td
+            = "#{current_employee.first_name} #{current_employee.last_name}"
+            = hidden_field_tag "call_audit_month[css_id]", params[:css_id]
+            = hidden_field_tag "business_unit_id", params[:business_unit]
+        %tr
+          %td 
+            %b
+              Month:
+          %td
+            = "#{DateTime.parse(params[:month]).strftime('%B %Y')}"
+            = hidden_field_tag "call_audit_month[call_date]", params[:month]
+        %tr
+          %td 
+            %b
+              Date Review:
+          %td
+            = Time.now.strftime('%m/%d/%Y')
+        %tr
+          %td
+            %b
+              Reviewer:
+          %td
+            = "#{current_employee.first_name} #{current_employee.last_name}"
+          %td
+            %b 
+              \# of Calls This Month:
+          %td
+            = text_field "call_audit_month[calls_count]",nil,:required=>true
+
+      %table.table{:class=>"upper_call_block"}
+        %tr
+          %th Call Audit Scores
+          %th #Calls
+          %th #Reviewed
+          - @question_header_call.each do |header|
+            %th 
+              = header.question
+          %th Composite Score
+        %tr
+          %td 
+            %b 
+              Current Month
+          %td 
+            = "#{@call_audit_entries_current_month.count}"
+          %td 
+            = "reviewed"
+          - @question_header_call.each do |header|
+            %td 
+              = mean_for_question @call_audit_entries_current_month,header.id
+          %td 
+            = "Composite Score"
+        %tr
+          %td 
+            %b
+              Previous Month
+          %td 
+            = "#{@call_audit_entries_previous_month.count}"
+          %td 
+            = "reviewed"
+          - @question_header_call.each do |header|
+            %td 
+              = mean_for_question @call_audit_entries_previous_month,header.id
+          %td 
+            = "Composite Score"
+      %table.table
+        %tr
+          %th Category
+          %th Grade 1 – 5
+          %th Notes
+        - tab=1
+        - row=0
+        -  @question_header_monthly.each do |question|
+          -row +=1
+          %tr
+            %td
+              = question.question
+              = hidden_field_tag "#{tab}[#{row}][question]", question.question
+            %td
+              = select_tag "#{tab}[#{row}][grade]", options_for_select([["Select One", ""], "1", "2", "3", "4", "5"]), :class => "call_sel_ans form-control", :required => true
+            %td.note_text
+              = text_area_tag "#{tab}[#{row}][notes]", "", :class => "note_text_area normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+              = hidden_field_tag "#{tab}[#{row}][weight]", question.weight
+              = hidden_field_tag "#{tab}[#{row}][sequence]", question.sequence
+      = f.submit "Next", :class => "btn btn-default btn-sm btn-info pull-right"       
