@@ -1,4 +1,4 @@
-= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo"} do |f|
+= form_for @claim_audit_entry, :url => {:action => "confirm_data"}, :method => "post", :html => {:id => "in_fo",:novalidate=>"novalidate"} do |f|
   .seal-module.seal-panel.panel.panel-default.large
     .panel-heading
       %h3.panel-title New Claim Audit Entry
@@ -105,13 +105,13 @@
                 = question.question
                 = hidden_field_tag "#{tab}[#{row}][ext_question]", question.question
               %td
-                = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_est form-control"
+                = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_est form-control",:title=>"Please select an item in the list!"
               %td
-                = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"]), :class => "form-control"
+                = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"]), :class => "form-control",:title=>"Please select an item in the list!"
               %td
-                = text_field_tag "#{tab}[#{row}][amount]", "",:class => "check_min_amt"
+                = text_field_tag "#{tab}[#{row}][amount]", "",:class => "check_min_amt",:title=>"Please enter the amount!"
                 = hidden_field_tag "set_min_amt", select_range(question)
               %td
-                = text_area_tag "#{tab}[#{row}][ext_notes]", "",  :class => "normal aut_sz form-control note_text_second", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                = text_area_tag "#{tab}[#{row}][ext_notes]", "",  :class => "normal aut_sz form-control note_text_second",:title=>"Please enter the note!" ,:style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sh_ad"
-      = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right", :id => "su_btn"
+      = f.submit "Update",:onclick=>"return form_validate();", :class => "btn btn-default btn-sm btn-info pull-right", :id => "su_btn"

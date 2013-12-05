@@ -94,7 +94,72 @@ function store_exceptions(){
 	sessionStorage.setItem("question_amount_ary_final",question_amount_ary);
 	sessionStorage.setItem("ext_answer_ary_final",ext_answer_ary);
 	sessionStorage.setItem("ext_impact_final",ext_impact);
-	return true;
+} 
+function form_validate(){
+	$("#in_fo").attr("novalidate","novalidate");
+	var response=true;
+	var sel_exc=false
+	var impact=false
+	var amount=false;
+	$( ".sel_est" ).each(function() {
+		if ($(this).val()=='' || $(this).val()==null)
+		{
+			response=false
+			$(this).focus();
+			$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+			$(this).tooltipster('show')
+			sel_exc=true;
+			return false;
+
+		}
+	});
+	$( "[id*=_impact]" ).each(function() {
+		if($(this).attr("required")=="required"){
+			if (($(this).val()==''  && sel_exc ==false) || $(this).val()==null)
+			{
+
+				response=false
+				$(this).focus();
+				$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+				$(this).tooltipster('show');
+				impact=true;
+				return false;
+
+			}
+		}
+	});
+	$( "[id*=_amount]" ).each(function() {
+		if($(this).attr("required")=="required"){
+			if (($(this).val()==''  && sel_exc==false  && impact ==false) || $(this).val()==null)
+			{
+
+				response=false
+				$(this).focus();
+				$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+				$(this).tooltipster('show');
+				amount=true;
+				return false;
+
+			}
+		}
+	});
+	$( "[id*=_ext_notes]" ).each(function() {
+		if($(this).attr("required")=="required"){
+			if ($(this).val()==''  && sel_exc==false  && impact ==false && amount ==false)
+			{
+
+				response=false
+				$(this).focus();
+				$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+				$(this).tooltipster('show');
+				return false;
+
+			}
+		}
+	});
+		store_exceptions();
+		return response;
+  
 }
 
 $(document).on('click', '#sum_sh_for_edit', function(e){
@@ -395,16 +460,7 @@ $(document).on('change', '.sel_est', function(){
 	}
 })
 
-$(document).on('click', 'su_btn', function(e){
-	store_exceptions();
-	e.preventDefault();
-	if($('#in_fo')[0].checkValidity('input:visible')){
-		$('#in_fo')[0].submit();
-	}
-	else{
-		alert("please fill in all the fields for the questions where your answer is No");
-	}
-})
+
 $(document).on('click', '#go_back_to_edit', function(e){
 	history.go(-1);
 })
