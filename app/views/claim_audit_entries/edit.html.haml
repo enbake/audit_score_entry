@@ -67,9 +67,9 @@
               %td
                 = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"],question.answer), :class => "sel_ans form-control ary_answer", :required => true,:title=>"Please select an item in the list!"
               %td
-                = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question.claim_audit_question), question.exception.to_i), :prompt => "Select", :title=>"Please select an item in the list!",:class => "form-control",:disabled=>question.answer== "Yes" || question.answer=="n/a" ? true:false 
+                = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question.claim_audit_question), question.exception.to_i), :prompt => "Select", :title=>"Please select an item in the list!",:class => "form-control",:disabled=>question.answer== "Yes" || question.answer=="n/a" ? true:false ,:required =>question.answer== "No" ? true:false
               %td
-                = text_area_tag "#{tab}[#{row}][notes]", question.note, :class => "normal aut_sz form-control note_text_first", :title=>"Please enter the note!",:style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                = text_area_tag "#{tab}[#{row}][notes]", question.note, :class => "normal aut_sz form-control note_text_first", :title=>"Please enter the note!",:style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;",:required =>question.answer== "No" ? true:false
       = link_to "Next", "#",:class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_ad"
       %br
       %br
@@ -97,11 +97,11 @@
                 %td
                   = select_tag "#{tab}[#{row}][ext_answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"],question.answer), :class => "sel_est form-control",:title=>"Please select an item in the list!"
                 %td
-                  = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"],question.indicator),:title=>"Please select an item in the list!", :class => "form-control",:disabled=>question.answer=="Yes" || question.answer=="n/a" ? true:false 
+                  = select_tag "#{tab}[#{row}][impact]", options_for_select([["Select One", ""], "Over", "Under"],question.indicator),:title=>"Please select an item in the list!", :class => "form-control",:disabled=>question.answer=="Yes" || question.answer=="n/a" ? true:false ,:required =>question.answer== "No" ? true:false
                 %td
-                  = text_field_tag "#{tab}[#{row}][amount]",question.amount,:class => "check_min_amt",:title=>"Please enter the amount!",:disabled=>question.answer=="Yes" || question.answer=="n/a" ? true:false 
+                  = text_field_tag "#{tab}[#{row}][amount]",question.amount,:class => "check_min_amt",:title=>"Please enter the amount!",:disabled=>question.answer=="Yes" || question.answer=="n/a" ? true:false ,:required =>question.answer== "No" ? true:false
                   = hidden_field_tag "set_min_amt", select_range(question.claim_audit_question)
                 %td
-                  = text_area_tag "#{tab}[#{row}][ext_notes]", question.note,:title=>"Please enter the note!",  :class => "normal aut_sz form-control note_text_second", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                  = text_area_tag "#{tab}[#{row}][ext_notes]", question.note,:title=>"Please enter the note!",  :class => "normal aut_sz form-control note_text_second", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;",:required =>question.answer== "No" ? true:false
       = link_to "Prev", "#", :class => "btn btn-default btn-sm btn-success", :id => "sh_ad"
       = f.submit "Update", :onclick=>"return form_validate();",:class => "btn btn-default btn-sm btn-info pull-right"
