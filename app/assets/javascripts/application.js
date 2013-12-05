@@ -420,10 +420,9 @@ $(document).on('click', '#comment_btn', function(e){
 })
 
 $(document).on('click', '#sh_ad', function(e){
+	e.preventDefault();
 	$('.est_dec').hide();
 	$('.adm_com').show();
-	
-	
 })
 
 $(document).on('change', '.sel_ans', function(){
