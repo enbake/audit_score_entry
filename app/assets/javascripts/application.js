@@ -451,12 +451,12 @@ $(document).on('change', '.sel_est', function(){
 		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false);
 		$(this).parent().parent().find('input').attr('required', 'required');
 		$(this).parent().parent().find('select:last').attr('required', 'required');
-		$(this).parent().parent().find('input:select').focus();
+		$(this).parent().parent().find('input,select').focus();
 	}
 	else if($(this).val()== "Yes" || $(this).val() == "n/a"){
 		$(this).parent().next().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('input:visible, select:last').attr('disabled', true);
-		$(this).parent().parent().find('input, select').removeAttr('required');
+		$(this).parent().parent().find('input,select').removeAttr('required');
 	}
 })
 
@@ -490,9 +490,9 @@ $(document).on('change', '#que_sel', function(e){
 	}
 })
 
-$(document).on('blur', '.check_min_amt', function(e){
+$(document).on('blur', '[id*=_amount]', function(e){
 	min_amt = $(this).parent().find('input:hidden').val();
-	if($(this).val() <= min_amt){
+	if(parseInt($(this).val()) <= parseInt(min_amt)){
 		alert("Your value must be greater than "+min_amt +" ");
 		$(this).focus();
 		value = parseInt(min_amt) + 1;
