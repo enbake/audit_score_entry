@@ -494,8 +494,7 @@ $(document).on('blur', '[id*=_amount]', function(e){
 	if(parseInt($(this).val()) <= parseInt(min_amt)){
 		alert("Your value must be greater than "+min_amt +" ");
 		$(this).focus();
-		value = parseInt(min_amt) + 1;
-		$(this).val(value);
+		$(this).val('');
 	}
 })
 
