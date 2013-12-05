@@ -9,7 +9,7 @@ require 'csv'
     unsaved = Array.new
     unsavedCount = 0
     batch = "#{current_employee.id}_#{Time.now}"
-    csv_text = File.read(params[:claim_awaiting_audit][:file].path)
+    csv_text = File.read(params[:file_csv].path)
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
       unsavedCount += 1

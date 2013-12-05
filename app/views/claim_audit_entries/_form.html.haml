@@ -75,11 +75,11 @@
                 = question.question
                 = hidden_field_tag "#{tab}[#{row}][question]", question.question
               %td
-                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_ans form-control", :required => true
+                = select_tag "#{tab}[#{row}][answer]", options_for_select([["Select One", ""], "Yes", "No","n/a"]), :class => "sel_ans form-control",:title=>"Please select an item in the list!", :required => true
               %td
-                = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question)), :prompt => "Select", :class => "form-control"
+                = select_tag "#{tab}[#{row}][exception]", options_for_select(select_range(question)), :prompt => "Select", :title=>"Please select an item in the list!",:class => "form-control"
               %td
-                = text_area_tag "#{tab}[#{row}][notes]", "", :class => "normal aut_sz form-control note_text_first", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+                = text_area_tag "#{tab}[#{row}][notes]", "", :class => "normal aut_sz form-control note_text_first",:title=>"Please enter the note!", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
       = link_to "Next", "#", :class => "btn btn-default btn-sm btn-info pull-right", :id => "hd_ad"
       %br
       %br

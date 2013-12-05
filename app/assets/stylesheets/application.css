@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require dataTables/jquery.dataTables
+ *= require tooltipster.css
  */
 
 .table-pointer > tbody > tr > td{
@@ -10207,4 +10208,18 @@ margin-right: 110px;
 .com-style-two{
   width: 317px;
   height: 77px;
+}
+.my-custom-theme {
+  border-radius: 5px; 
+  border: none;
+  background: #A9A9A9;
+  color: #fff;
+}
+
+/* Use this next selector to style things like font-size and line-height: */
+.my-custom-theme .tooltipster-content {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 10px;
 }

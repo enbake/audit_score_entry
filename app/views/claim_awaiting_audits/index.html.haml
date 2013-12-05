@@ -51,6 +51,6 @@
         %h4#myModalLabel.modal-title Upload Awaiting Claims
       .modal-body
         = form_for ClaimAwaitingAudit.new, :url =>{:controller => "claim_awaiting_audits", :action => "upload_csv"}, :multipart => true do |f|
-          = f.file_field "file"
-          = f.submit "Submit", :class => "btn btn-default btn-sm btn-info pull-right"
+          = f.file_field "file",:name=>"file_csv"
+          = f.submit "Submit",:id=>"submit_upload_file", :class => "btn btn-default btn-sm btn-info pull-right"
           %br

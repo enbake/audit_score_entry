@@ -17,6 +17,9 @@
 //= require jquery.autosize.min
 //= require jquery-ui
 //= require dataTables/jquery.dataTables
+//= require jquery.validate.min
+//= require additional-methods.min
+//= require jquery.tooltipster.min
 
 function store_prev_exceptions(){
 	var pathname = window.location.pathname;
@@ -242,11 +245,16 @@ $(document).on('ready page:load', function () {
 			$("#todate_estimator").datepicker("getDate"));
 		}
 	});
-
 	$('.aut_sz').autosize();
 	$('#sort_cols').dataTable();
-
+	$("#new_claim_awaiting_audit").validate({
+		rules: { file_csv: { required: true, accept: "csv" }},
+		messages: {
+            file_csv: {accept: 'Please upload a csv file!'}
+        }
+	});
 });
+
 
 $(document).on('click', '#Main_claim_audit_list', function(e){
 	window.location="/estimator_claim_audit_list/index"
@@ -268,43 +276,56 @@ $(document).on('click', '#submit_to_filter_audit', function(e){
 });
 $(document).on('click', '#hd_ad', function(e){
 	e.preventDefault();
-	response=false;
+	var response=false;
+	var sel=false
+	var exc=false
 	$( ".sel_ans" ).each(function() {
-		if ($(this).val()=='')
+		if ($(this).val()=='' || $(this).val()==null)
 		{
 			response=true
+			$(this).focus();
+			$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+			$(this).tooltipster('show')
+			sel=true;
+			return false;
+
 		}
-		else
-		{
-			response=false
+	});
+	$( "[id*=_exception]" ).each(function() {
+		if($(this).attr("required")=="required"){
+			if (($(this).val()==''  && sel ==false) || $(this).val()==null)
+			{
+
+				response=true
+				$(this).focus();
+				$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+				$(this).tooltipster('show');
+				exc=true;
+				return false;
+
+			}
 		}
 	});
 	$(".note_text_first").each(function(){
 		if($(this).attr("required")=="required")
 		{
-			if ($(this).val()=='')
+			if ($(this).val()=='' && exc==false  && sel ==false)
 			{
 				response=true
-			}
-			else
-			{
-				response=false
+				$(this).focus();
+				$(this).tooltipster({timer:2000,trigger: 'disbaled',theme:'my-custom-theme'});
+				$(this).tooltipster('show');
+				return false;
+	
 			}
 		}
 	})
 	
-	if(response==false){
+	if(response==false)
+	{
 		$('.adm_com').hide();
 		$('.est_dec').show();
 		$('.sel_est').attr('required', true);
-	}
-	else{
-		alert("Please fill the focused field");
-		$('#in_fo').find('input:required, select:required,textarea:required').each(function(){
-			if($(this).val()==""){
-				$(this).focus();
-			}
-		});
 	}
 })
 
@@ -352,7 +373,8 @@ $(document).on('change', '.sel_ans', function(){
 	else if($(this).val()== "Yes" || $(this).val() == "n/a"){
 		$(this).parent().next().next().children('textarea').removeAttr('required');
 		$(this).parent().parent().find('select:last').attr('disabled', true);
-		$(this).parent().parent().find('select:last').val("0");
+		$(this).parent().parent().find('select:last').val('0');
+		// $(this).parent().parent().find('select:last').attr('option',"select");
 		$(this).parent().parent().find('input, select').removeAttr('required');
 	}
 })
