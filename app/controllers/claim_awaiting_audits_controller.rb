@@ -38,4 +38,13 @@ require 'csv'
     redirect_to claim_awaiting_audits_path
   end
 
+  def destroy_all
+    @claim_await_delete=current_employee.claim_awaiiting_audits
+    @claim_await_delete.destroy_all
+    respond_to do |format|
+        format.html { redirect_to '/claim_awaiting_audits',:notice=>"Claim awaiting entries are deleted successfully" }
+        format.json { head :no_content }
+    end
+  end
+
 end

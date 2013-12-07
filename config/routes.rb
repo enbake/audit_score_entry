@@ -6,6 +6,7 @@ AuditControlEntry::Application.routes.draw do
   resources :claim_awaiting_audits do
     collection do
       post :upload_csv
+      get :destroy_all
     end
   end
 

@@ -22,8 +22,11 @@ class ClaimAuditEntriesController < ApplicationController
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
-#      redirect_to estimator_claim_audit_list_show_saved_audit_estimate_path(:c_num => @claim_awaiting_audit.claim_number)
-      redirect_to claim_audit_entry
+      if params[:claim_type]=="IV"
+        redirect_to edit_claim_audit_entry_path(claim_audit_entry.id)
+      else
+        redirect_to claim_audit_entry
+      end      
     end
   end
 
@@ -59,6 +62,7 @@ class ClaimAuditEntriesController < ApplicationController
     parsing_answers
     respond_to do |format|
       if @claim_audit_entry.update(claim_audit_entry_params)
+        @claim_audit_entry.claim_awaiting_audit.update(:last_reviewed_date=>Date.today)
         format.html { redirect_to root_path, notice: 'Claim audit entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -71,9 +75,10 @@ class ClaimAuditEntriesController < ApplicationController
   # DELETE /claim_audit_entries/1
   # DELETE /claim_audit_entries/1.json
   def destroy
+    @claim_audit_entry.claim_awaiting_audit.update(:last_reviewed_date=>'')
     @claim_audit_entry.destroy
     respond_to do |format|
-      format.html { redirect_to claim_audit_entries_url }
+      format.html { redirect_to '/claim_awaiting_audits',:notice=>"Claim awaiting entries are deleted successfully" }
       format.json { head :no_content }
     end
   end

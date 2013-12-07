@@ -4,8 +4,7 @@
   .col-md-2.pull-right
     %label
       %h3{:style => "margin-top:9px;margin-bottom:7px;"} Action
-    = link_to "Upload", "#upload_list", :role => "button", :class => "btn btn-info btn-small pull-right", :style => "margin-top:7px;margin-bottom:7px;", "data-toggle" => "modal", :id => "modal_csv"
-  
+    = link_to "Upload", "#upload_list", :role => "button", :class => "btn btn-info btn-small pull-right", :style => "margin-top:7px;margin-bottom:7px;", "data-toggle" => "modal", :id => "modal_csv"  
   .panel-body
     %table.table.table-pointer.table-striped.table-bordered.table-hover.span10
       %tr
@@ -19,7 +18,7 @@
         %th Last Reviewed Date
       
       - @claim_awaiting_audits.each do |claim_awaiting_audit|
-        %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id)}'"}
+        %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id,:claim_type=>claim_awaiting_audit.claim_type)}'"}
           %td
             = claim_awaiting_audit.claim_number
           %td
@@ -38,10 +37,11 @@
               = "#{claim_awaiting_audit.estimator.first_name} #{claim_awaiting_audit.estimator.last_name}"
           %td
             = claim_awaiting_audit.last_reviewed_date ? claim_awaiting_audit.last_reviewed_date.strftime('%m/%d/%Y') : ""
-
+    = link_to "Delete list", destroy_all_claim_awaiting_audits_path, :class => "btn btn-info btn-small pull-left",:onclick=>"return confirm_action();"
   
   .pull-right
     = will_paginate @claim_awaiting_audits
+ 
 
 #upload_list.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
   .modal-dialog

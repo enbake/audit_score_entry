@@ -20,7 +20,14 @@
 //= require jquery.validate.min
 //= require additional-methods.min
 //= require jquery.tooltipster.min
-
+function confirm_action(){
+	if (confirm("Are you sure?")) {
+        return true;
+    }
+    else{
+    	return false;	
+    }
+}
 function store_prev_exceptions(){
 	var pathname = window.location.pathname;
 	if(pathname.indexOf("/edit") > -1) {
@@ -447,10 +454,11 @@ $(document).on('change', '.sel_est', function(){
 	if($(this).val() == "No"){
 		//alert("Please fill the ammount, impact and comments in their respective fields");
 		$(this).parent().next().next().next().children('textarea').attr('required', 'required');
-		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false);
 		$(this).parent().parent().find('input').attr('required', 'required');
 		$(this).parent().parent().find('select:last').attr('required', 'required');
-		$(this).parent().parent().find('input,select').focus();
+		$(this).parent().parent().find('input:visible, select:last').attr('disabled', false)
+    	$(this).parent().next().children().focus();
+		
 	}
 	else if($(this).val()== "Yes" || $(this).val() == "n/a"){
 		$(this).parent().next().next().next().children('textarea').removeAttr('required');

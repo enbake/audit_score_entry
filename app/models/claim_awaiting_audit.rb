@@ -5,7 +5,7 @@ class ClaimAwaitingAudit < ActiveRecord::Base
   belongs_to :carrier_branch, :class_name => 'CarrierBranch', :foreign_key => :carrier_branch_id
   belongs_to :estimator, :class_name => 'Employee', :foreign_key => :employee_id
   belongs_to :uploader, :class_name => 'Employee', :foreign_key => :uploader_employee_id
-  has_one :claim_audit_entry, :class_name => 'ClaimAuditEntry'
+  has_one :claim_audit_entry, :class_name => 'ClaimAuditEntry',:dependent => :destroy
 
   validate :check_estimator_and_carrier_agent
   validates_uniqueness_of :claim_number, :scope => :uploader_employee_id
