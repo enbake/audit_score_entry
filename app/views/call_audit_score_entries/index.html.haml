@@ -1,5 +1,4 @@
-
-= form_tag(new_call_audit_score_entry_path, :method => :get) do |f|
+= form_tag({:action => 'new'}, {:multipart => true,:id=>"add_file_call_entry",novalidate: true}) do
   .seal-module.seal-panel.panel.panel-default.large
     .panel-heading
       %h3.panel-title New Call Audit Score Entry
@@ -24,13 +23,13 @@
           %td
             = text_field_tag "call_date", "", :class => "sel_ans form-control", :required => true
           %td
-            = time_select("call_time","", {ampm: true,:default => Time.now})
+            = time_select("call_time",'', {ampm: true,:default=>Time.now})
         %tr
           %td 
             %b
               Import wav file:
           %td
-            = file_field :attachment, "", :class => "sel_ans form-control"
+            = file_field_tag 'attachment',:id=>Time.now,:multipart=>true, :class =>"sel_ans"
 
   = submit_tag "Continue", :id=>"new_call_audit",:class => "btn btn-default btn-sm btn-info"
 

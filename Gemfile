@@ -50,7 +50,8 @@ end
 
 # Use haml
  gem 'haml-rails'
- 
+ gem 'carrierwave'
+ gem 'fog', '1.14.0'
  group :development, :test do
    gem 'rspec-rails', '~> 2.0'
    gem 'capybara'

@@ -7,10 +7,10 @@ class CallAuditEntry < ActiveRecord::Base
   has_many :call_audit_detail_files,:as => :reference
   has_many :claim_audit_comments, :as => :reference
   validates :css_id, presence: true, uniqueness: true
-
   after_save :details_add,:add_comment,:add_business_unit
 
   private
+
   
   def details_add
     quest_answers.each do |ans|

@@ -27,6 +27,11 @@
             = "#{date_time.strftime('%m/%d/%Y')}"
             = "#{date_time.strftime("%I:%M %p")}"
             = hidden_field_tag "call_audit_score_entry[call_date]", date_time
+          %td
+            = image_tag("speaker_blue.jpg",:id=>"start_stop_img",:style=>"cursor:pointer;", :size => "50x35") 
+          %td
+            %a#play_audio_file{style:"cursor:pointer;"} Listen
+            =hidden_field_tag "audio_path","#{AppConfig.DEFAULT_S3_PROFILE_IMAGE_URL}/#{@saved_file_name}"
         %tr
           %td 
             %b
@@ -39,7 +44,7 @@
             %b
               Date Review:
           %td
-            = Time.now.strftime('%m/%d/%Y')
+            = Time.now.strftime("%m/%d/%Y")
             = hidden_field_tag "call_audit_score_entry[review]", Time.now
       %table{:class=>"table-right-call-edit"}
         %tr

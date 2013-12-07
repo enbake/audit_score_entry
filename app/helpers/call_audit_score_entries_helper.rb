@@ -19,7 +19,7 @@ module CallAuditScoreEntriesHelper
 		end
 	end
 	def set_date_time(date,hour,min)
-		obj_date_time=DateTime.parse(date)
+		obj_date_time=DateTime.strptime(date,"%m/%d/%Y")
 		obj_date_time=obj_date_time.change({:hour =>hour , :min => min })
 		return obj_date_time
 	end

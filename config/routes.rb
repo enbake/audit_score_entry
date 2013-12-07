@@ -10,8 +10,6 @@ AuditControlEntry::Application.routes.draw do
   end
 
   get "estimator_claim_audit_list/index"
-  match "estimator_claim_audit_list/filtered_list" =>"estimator_claim_audit_list#filtered_list" ,via: [:post,:get]
-  match "estimator_claim_audit_list/back_filtered_list" =>"estimator_claim_audit_list#back_filtered_list" ,via: [:post,:get]
   match "estimator_claim_audit_list/show_saved_audit_estimate" =>"estimator_claim_audit_list#show_saved_audit_estimate" ,via: [:post,:get]
   match "estimator_claim_audit_list/comment_history" =>"estimator_claim_audit_list#comment_history" ,via: [:post,:get]
   
@@ -31,6 +29,9 @@ AuditControlEntry::Application.routes.draw do
   resources :call_audit_score_entries do
     collection do
       post :confirm_data
+      post :new
+      get :index,:path=>"index"
+      post :create,:path=>"create"
     end
   end
 

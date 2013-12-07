@@ -25,6 +25,11 @@
             Call Date/Time:
         %td
           = DateTime.parse(@call_audit_score_entry.call_date.to_s).strftime('%m/%d/%Y %I:%M %p')
+        %td
+          = image_tag("speaker_blue.jpg",:id=>"start_stop_img",:style=>"cursor:pointer;", :size => "50x35") 
+        %td
+          %a#play_audio_file{style:"cursor:pointer;"} Listen
+          =hidden_field_tag "audio_path",@call_audit_score_entry.call_file_url
       %tr
         %td 
           %b

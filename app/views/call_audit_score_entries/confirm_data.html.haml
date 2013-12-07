@@ -27,6 +27,11 @@
           %td
             = DateTime.parse("#{params[:call_audit_score_entry][:call_date]}").strftime('%m/%d/%Y %I:%M %p')
             = hidden_field_tag "call_audit_score_entry[call_date]", params[:call_audit_score_entry][:call_date]
+          %td
+            = image_tag("speaker_blue.jpg",:id=>"start_stop_img",:style=>"cursor:pointer;", :size => "50x35") 
+          %td
+            %a#play_audio_file{style:"cursor:pointer;"} Listen
+            =hidden_field_tag "audio_path",params[:audio_path]
         %tr
           %td 
             %b
@@ -138,7 +143,8 @@
               %b
                 OVERALL SCORE
                 = overall.to_s + "%"  
-            = text_area_tag 'comment', nil, size: "38x3",style:"resize:none",placeholder: "Comment";
-        = link_to "Prev", "#", :class => "btn btn-mini btn-success pull-left", :id => "back_to_confirm_block", :style => "margin-left:15px;" 
-        = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right"
-           
+        %div{style:"clear:both;"}
+          = text_area_tag 'comment', nil, size: "38x3",style:"resize:none",placeholder: "Comment";
+          = link_to "Prev", "#", :class => "btn btn-mini btn-success pull-left", :id => "back_to_confirm_block", :style => "margin-left:15px;" 
+          = f.submit "Update", :class => "btn btn-default btn-sm btn-info pull-right"
+             

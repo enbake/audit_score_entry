@@ -17,6 +17,8 @@
 //= require jquery.autosize.min
 //= require jquery-ui
 //= require dataTables/jquery.dataTables
+//= require jquery.validate.min
+//= require additional-methods.min
 
 function store_prev_exceptions(){
 	var pathname = window.location.pathname;
@@ -242,9 +244,22 @@ $(document).on('ready page:load', function () {
 			$("#todate_estimator").datepicker("getDate"));
 		}
 	});
-	$( "#call_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#call_date" ).datepicker({ dateFormat: 'mm/dd/yy' });
 	$('.aut_sz').autosize();
 	$('#sort_cols').dataTable();
+	$("#add_file_call_entry").validate({
+		rules: { attachment: { required: true, accept: "wav" },
+				business_unit: { required: true },
+				css: { required: true },
+				call_date: { required: true }
+				},
+		messages: {
+            attachment: {accept: 'Please upload a wav file!',required:'Please upload a wav file!'},
+            business_unit: {required: 'Please select business unit!'},
+            css: {required: 'Please select css!'},
+            call_date: {required: 'Please select call date!'}
+        }
+	});
 
 });
 
@@ -549,6 +564,35 @@ $(document).on('focus', '.req_fd', function(e){
 $(document).on('focus', '.cla_only', function(e){
 	$(this).attr('required', true);
 	$('.req_fd').attr('required', false);
+})
+
+/*Start or stop audio call*/ 
+$(document).on('click', '#play_audio_file', function(e){
+	if(typeof(decision)=="undefined" || decision==false)
+	{
+		var audioElement = document.createElement('audio');
+		audioElement.setAttribute('src', $("#audio_path").val());
+		audioElement.setAttribute('autoplay', 'autoplay');
+		decision=true;
+		$.get();
+		audioElement.addEventListener("load", function() {
+			audioElement.play();
+		}, true);
+		audioElement.addEventListener('ended',function() {
+			$("#start_stop_img").attr("src","/assets/speaker_blue.jpg");
+			decision=false;
+		});
+		$("#start_stop_img").attr("src","/assets/stop_sound.jpg")
+		$('#start_stop_img').click(function() {
+			audioElement.pause();
+			$("#start_stop_img").attr("src","/assets/speaker_blue.jpg");
+			decision=false;
+		});
+
+
+
+	}
+	
 })
 
 

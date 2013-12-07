@@ -1,0 +1,16 @@
+production:
+  AWS_ACCESS_KEY_ID : "AKIAIBB4WYCONPXF7MKQ"
+  AWS_BUCKET : "insurance.audit.entry"  
+  AWS_SECRET_ACCESS_KEY : "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"
+  DEFAULT_S3_PROFILE_IMAGE_URL : "http://insurance.audit.entry.s3.amazonaws.com/wav_files"
+
+development:
+  AWS_ACCESS_KEY_ID : "AKIAIBB4WYCONPXF7MKQ"
+  AWS_BUCKET : "insurance.audit.entry"  
+  AWS_SECRET_ACCESS_KEY : "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"
+  DEFAULT_S3_PROFILE_IMAGE_URL : "http://insurance.audit.entry.s3.amazonaws.com/wav_files"
+test:
+  AWS_ACCESS_KEY_ID : "AKIAIBB4WYCONPXF7MKQ"
+  AWS_BUCKET : "insurance.audit.entry"  
+  AWS_SECRET_ACCESS_KEY : "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"
+  DEFAULT_S3_PROFILE_IMAGE_URL : "http://insurance.audit.entry.s3.amazonaws.com/wav_files"
