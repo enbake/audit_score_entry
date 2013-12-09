@@ -18,7 +18,7 @@
         %th Last Reviewed Date
       
       - @claim_awaiting_audits.each do |claim_awaiting_audit|
-        %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id}'"}
+        %tr{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id)}'"}
           %td
             = claim_awaiting_audit.claim_number
           %td
