@@ -37,7 +37,7 @@
               = "#{claim_awaiting_audit.estimator.first_name} #{claim_awaiting_audit.estimator.last_name}"
           %td
             = claim_awaiting_audit.last_reviewed_date ? claim_awaiting_audit.last_reviewed_date.strftime('%m/%d/%Y') : ""
-    = link_to "Delete list", destroy_all_claim_awaiting_audits_path, :class => "btn btn-info btn-small pull-left",:onclick=>"return confirm_action();"
+    //= link_to "Delete list", destroy_all_claim_awaiting_audits_path, :class => "btn btn-info btn-small pull-left",:onclick=>"return confirm_action();"
   
   .pull-right
     = will_paginate @claim_awaiting_audits

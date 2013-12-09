@@ -22,11 +22,11 @@ class ClaimAuditEntriesController < ApplicationController
       @questions2 = ClaimAuditQuestion.where("category = ?", "Estimation Decisions").order('id asc').group_by(&:category)
       @claim_audit_entry = ClaimAuditEntry.new
     else
-      if params[:claim_type]=="IV"
-        redirect_to edit_claim_audit_entry_path(claim_audit_entry.id)
-      else
+#      if params[:claim_type]=="IV"
+#        redirect_to edit_claim_audit_entry_path(claim_audit_entry.id)
+#      else
         redirect_to claim_audit_entry
-      end      
+#     end      
     end
   end
 
