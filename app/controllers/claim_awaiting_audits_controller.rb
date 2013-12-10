@@ -14,11 +14,12 @@ require 'csv'
     csv.each do |row|
       unsavedCount += 1
       begin
-        claim_audit_entry = current_employee.claim_audit_entries.find_by_claim(row.to_hash["claim_number"])
+        claim_audit_entry = current_employee.claim_audit_entries.where(:claim => row.to_hash["claim_number"], :claim_type => row.to_hash["claim_type"])
         data = row.to_hash
-        if claim_audit_entry
+        if !claim_audit_entry.empty?
           data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.review)
           claim_audit_entry.claim_awaiting_audit.update_attributes(data)
+#          ClaimAwaitingAudit.update_attributes(data)
         else
           current_employee.claim_awaiiting_audits.create!(data)
         end
@@ -38,13 +39,14 @@ require 'csv'
     redirect_to claim_awaiting_audits_path
   end
 
-  def destroy_all
-    @claim_await_delete=current_employee.claim_awaiiting_audits
-    @claim_await_delete.destroy_all
+  def destroy
+    @entry = ClaimAwaitingAudit.find(params[:id])
+    @entry.destroy
     respond_to do |format|
-        format.html { redirect_to '/claim_awaiting_audits',:notice=>"Claim awaiting entries are deleted successfully" }
-        format.json { head :no_content }
+      format.html { redirect_to '/claim_awaiting_audits',:notice=>"Claim awaiting audit has been deleted successfully" }
+      format.json { head :no_content }
     end
   end
+
 
 end

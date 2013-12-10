@@ -23,6 +23,7 @@
             = "#{params[:claim]} #{params[:claim_type]}"
             = hidden_field_tag "claim_audit_entry[claim]", params[:claim]
             = hidden_field_tag "claim_audit_entry[claim_awaiting_audit_id]", params[:claim_awaiting_id]
+            = hidden_field_tag "claim_audit_entry[claim_type]", params[:claim_type]
         %tr
           %td 
             %b

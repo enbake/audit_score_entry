@@ -7,27 +7,27 @@
         .col-md-2
           %label Category:
         .col-md-3
-          = select_tag "claim_audit_question[category]", options_for_select(ClaimAuditQuestion.all.map(&:category).uniq), :prompt => "Select", :id => "que_sel", :class => "form-control"
+          = select_tag "claim_audit_question[category]", options_for_select(ClaimAuditQuestion.all.map(&:category).uniq), :prompt => "Select", :id => "que_sel",:required => "required", :class => "form-control"
       %br
       .row
         .col-md-2
           %label Question:
         .col-md-4
-          = f.text_area :question, :class => "normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
+          = f.text_area :question,:required => "required", :class => "normal aut_sz form-control", :style => "overflow: hidden; word-wrap: break-word; resize: none; height: 43px;"
       %br
       .sh_exp{:style => "display:none"}
         .row
           .col-md-2
             %label Min Expception:
           .col-md-4
-            = f.text_field :min_exception
+            = f.text_field :min_exception,:required => "required"
         %br
       .sh_exp{:style => "display:none"}
         .row
           .col-md-2
             %label Max Exception:
           .col-md-4
-            = f.text_field :max_exception
+            = f.text_field :max_exception,:required => "required"
         %br
       .row.sh_amt{:style => "display:none"}
         .col-md-2
