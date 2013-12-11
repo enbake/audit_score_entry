@@ -432,7 +432,7 @@ $(document).on('click', '#sh_ad', function(e){
 	$('.adm_com').show();
 })
 
-$(document).on('change', '.sel_ans', function(){
+$(document).on('blur change', '.sel_ans', function(){
 	if($(this).val() == "No"){
 		$(this).parent().parent().find('input:last, select:last').attr('disabled', false);
 		$(this).parent().next().next().children('textarea').attr('required', 'required');
@@ -450,7 +450,7 @@ $(document).on('change', '.sel_ans', function(){
 	}
 })
 
-$(document).on('change', '.sel_est', function(){
+$(document).on('blur change', '.sel_est', function(){
 	if($(this).val() == "No"){
 		//alert("Please fill the ammount, impact and comments in their respective fields");
 		$(this).parent().next().next().next().children('textarea').attr('required', 'required');
@@ -555,4 +555,9 @@ $(document).on('focus', '.req_fd', function(e){
 $(document).on('focus', '.cla_only', function(e){
 	$(this).attr('required', true);
 	$('.req_fd').attr('required', false);
+})
+
+$(document).on('blur', '.trim-val', function(e){
+    value = $(this).val().trim();
+    $(this).val(value);
 })

@@ -14,7 +14,7 @@ require 'csv'
     csv.each do |row|
       unsavedCount += 1
       begin
-        claim_audit_entry = current_employee.claim_audit_entries.where(:claim => row.to_hash["claim_number"], :claim_type => row.to_hash["claim_type"])
+        claim_audit_entry = current_employee.claim_audit_entries.where(:claim => row.to_hash["claim_number"].strip!, :claim_type => row.to_hash["claim_type"].strip!)
         data = row.to_hash
         if !claim_audit_entry.empty?
           data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.review)

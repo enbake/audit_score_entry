@@ -180,7 +180,7 @@
           %b
             Comment
         %br
-        %textarea#comment_added{name: "comment_added",:class=>"com-style-two",placeholder:"Add a comment here",:readonly=>true}
+        %textarea#comment_added{name: "comment_added",:class=>"com-style-two trim-val",placeholder:"Add a comment here",:readonly=>true}
       = link_to "Prev", "#", :class => "btn btn-mini btn-success", :id => "prev_from_summary1", :style => "margin-left:15px;" 
     = f.submit "Confirm", :class => "btn btn-default btn-sm btn-info pull-right", :id => "sh_btn", :style => "display:none;"
     %br

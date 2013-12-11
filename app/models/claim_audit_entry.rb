@@ -9,7 +9,7 @@ class ClaimAuditEntry < ActiveRecord::Base
   belongs_to :claim_awaiting_audit, :class_name => 'ClaimAwaitingAudit'
 
   after_save :question_details,:add_comment,:save_last_reviewed
-  validates :claim, presence: true, uniqueness: true
+  validates :claim, presence: true, :uniqueness => { :scope => :claim_type}
 
   scope :comments, ->(claim) { where(:claim=> claim).first.claim_audit_comments}
 

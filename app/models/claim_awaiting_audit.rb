@@ -8,8 +8,7 @@ class ClaimAwaitingAudit < ActiveRecord::Base
   has_one :claim_audit_entry, :class_name => 'ClaimAuditEntry',:dependent => :destroy
 
   validate :check_estimator_and_carrier_agent
-  #validates_uniqueness_of :claim_number, :scope => :uploader_employee_id
-  #validates_uniqueness_of :claim_number, :scope => :claim_type
+  validates_uniqueness_of :claim_number, :scope => [:uploader_employee_id,:claim_type]
 
   private
 
