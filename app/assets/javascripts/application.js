@@ -320,9 +320,9 @@ $(document).on('ready page:load', function () {
 	$('.aut_sz').autosize();
 	$('#sort_cols').dataTable();
 	$("#new_claim_awaiting_audit").validate({
-		rules: { file_csv: { required: true, accept: "csv" }},
+		rules: { file_csv: { required: true, extension: "csv" }},
 		messages: {
-            file_csv: {accept: 'Please upload a csv file!'}
+            file_csv: {extension: 'Please upload a csv file!'}
         }
 	});
 });
