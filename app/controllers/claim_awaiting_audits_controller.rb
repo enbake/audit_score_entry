@@ -2,7 +2,7 @@ class ClaimAwaitingAuditsController < ApplicationController
 require 'csv'
 
   def index
-    @claim_awaiting_audits = current_employee.claim_awaiiting_audits.order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
+    @claim_awaiting_audits = current_employee.claim_awaiting_audits.order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
   end
 
   def upload_csv
@@ -14,14 +14,14 @@ require 'csv'
     csv.each do |row|
       unsavedCount += 1
       begin
-        claim_audit_entry = current_employee.claim_audit_entries.where(:claim => row.to_hash["claim_number"].strip!, :claim_type => row.to_hash["claim_type"].strip!)
+        claim_audit_entry = ClaimAuditEntry.where(:claim => row.to_hash["claim_number"].strip, :claim_type => row.to_hash["claim_type"].strip)
+        #claim_awaiting_audit = ClaimAwaitingAudit.where(:claim_number => row.to_hash["claim_number"].strip, :claim_type => row.to_hash["claim_type"].strip)
         data = row.to_hash
         if !claim_audit_entry.empty?
-          data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.review)
-          claim_audit_entry.claim_awaiting_audit.update_attributes(data)
-#          ClaimAwaitingAudit.update_attributes(data)
+          #data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.first.review)
+          claim_audit_entry.first.claim_awaiting_audit.employees << current_employee
         else
-          current_employee.claim_awaiiting_audits.create!(data)
+          current_employee.claim_awaiting_audits.create!(data)
         end
       rescue Exception => e
         if e.message == "Validation failed: Content invalid"

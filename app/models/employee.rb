@@ -10,8 +10,9 @@ class Employee < ActiveRecord::Base
   has_many :estimating_audits, :class_name => 'EstimatingAudit'
   has_many :estimating_audits, :class_name => 'EstimatingAudit'
   has_many :claim_audit_entries, :class_name => 'ClaimAuditEntry', :foreign_key => :reviewer_id
-  has_many :claim_awaiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :employee_id
-  has_many :claim_awaiiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :uploader_employee_id
+  #has_many :claim_awaiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :employee_id
+  #has_many :claim_awaiiting_audits, :class_name => 'ClaimAwaitingAudit', :foreign_key => :uploader_employee_id
+  has_and_belongs_to_many :claim_awaiting_audits, join_table: :claim_awaiting_audits_employees
   has_many :unsaved_awaiting_audits, :class_name => 'UnsavedAwaitingAudit', :foreign_key => :creator_employee_id
 
 end
