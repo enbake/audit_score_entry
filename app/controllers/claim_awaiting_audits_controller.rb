@@ -19,7 +19,9 @@ require 'csv'
         data = row.to_hash
         if !claim_audit_entry.empty?
           #data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.first.review)
-          claim_audit_entry.first.claim_awaiting_audit.employees << current_employee
+          unless claim_audit_entry.first.claim_awaiting_audit.employees.include? current_employee
+            claim_audit_entry.first.claim_awaiting_audit.employees << current_employee
+          end
         else
           current_employee.claim_awaiting_audits.create!(data)
         end

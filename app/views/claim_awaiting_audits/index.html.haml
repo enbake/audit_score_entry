@@ -39,7 +39,8 @@
           %td.pointer-class{:onclick => "window.location.href='#{new_claim_audit_entry_path(:claim_awaiting_id => claim_awaiting_audit.id)}'"}
             = claim_awaiting_audit.last_reviewed_date ? claim_awaiting_audit.last_reviewed_date.strftime('%m/%d/%Y') : ""
           %td
-            = link_to "Delete", claim_awaiting_audit, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default btn-info btn-sm"
+            - if claim_awaiting_audit.claim_audit_entry.nil?
+              = link_to "Delete", claim_awaiting_audit, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default btn-info btn-sm"
     //= link_to "Delete list", destroy_all_claim_awaiting_audits_path, :class => "btn btn-info btn-small pull-left",:onclick=>"return confirm_action();"
   
   .pull-right
