@@ -110,7 +110,7 @@ class ClaimAuditEntriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
   def claim_audit_entry_params
-    params.require(:claim_audit_entry).permit(:reviewer, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id,:claim_awaiting_audit_id, :claim_type)
+    params.require(:claim_audit_entry).permit(:reviewer, :reviewer_id, :review, :claim, :estimator, :overall_score, :admin_score, :compliance_score, :estimating_score, :leakage_amount,:carrier_branch_id,:claim_awaiting_audit_id, :claim_type)
   end
 
 end

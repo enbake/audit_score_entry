@@ -39,6 +39,7 @@
               Reviewer:
           %td
             = "#{@claim_audit_entry.reviewer.first_name} #{@claim_audit_entry.reviewer.last_name}"
+            = hidden_field_tag "claim_audit_entry[reviewer_id]", current_employee.id
         %tr
           %td
             %b
