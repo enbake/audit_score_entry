@@ -2,7 +2,7 @@ class ClaimAwaitingAuditsController < ApplicationController
 require 'csv'
 
   def index
-    @claim_awaiting_audits = current_employee.claim_awaiting_audits.order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
+    @claim_awaiting_audits = current_employee.claim_awaiting_audits.where("new_upload = ?", false).order('claim_awaiting_audit.id desc').paginate :page => params[:page], :per_page => 7
   end
 
   def upload_csv
@@ -16,9 +16,10 @@ require 'csv'
       begin
         claim_audit_entry = ClaimAuditEntry.where(:claim => row.to_hash["claim_number"].strip, :claim_type => row.to_hash["claim_type"].strip)
         #claim_awaiting_audit = ClaimAwaitingAudit.where(:claim_number => row.to_hash["claim_number"].strip, :claim_type => row.to_hash["claim_type"].strip)
-        data = row.to_hash
+        data = row.to_hash.merge!(:new_upload => false)
         if !claim_audit_entry.empty?
           #data = row.to_hash.merge!(:last_reviewed_date => claim_audit_entry.first.review)
+          claim_audit_entry.first.claim_awaiting_audit.update_attribute(:new_upload, false)
           unless claim_audit_entry.first.claim_awaiting_audit.employees.include? current_employee
             claim_audit_entry.first.claim_awaiting_audit.employees << current_employee
           end

@@ -46,6 +46,7 @@ class ClaimAuditEntriesController < ApplicationController
     parsing_answers
     respond_to do |format|
       if @claim_audit_entry.save
+        @claim_audit_entry.claim_awaiting_audit.update_attribute(:new_upload, true)
         format.html { redirect_to root_path, notice: 'Claim audit entry was successfully created.' }
         format.json { render action: 'show', status: :created, location: @claim_audit_entry }
       else
@@ -62,7 +63,7 @@ class ClaimAuditEntriesController < ApplicationController
     parsing_answers
     respond_to do |format|
       if @claim_audit_entry.update(claim_audit_entry_params)
-        @claim_audit_entry.claim_awaiting_audit.update(:last_reviewed_date=>Date.today)
+        @claim_audit_entry.claim_awaiting_audit.update(:last_reviewed_date=>Date.today, :new_upload => true)
         format.html { redirect_to root_path, notice: 'Claim audit entry was successfully updated.' }
         format.json { head :no_content }
       else
