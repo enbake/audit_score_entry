@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :claim_awaiting_audit do
     association :carrier_branch, :factory => :carrier_branch
     association :estimator, :factory => :employee
-    claim_number "123456708"
+    claim_number { rand(100000000..999999999) }
     claim_type "IV"
     estimate_date Date.today
     active true

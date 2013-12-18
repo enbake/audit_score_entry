@@ -8,8 +8,9 @@ FactoryGirl.define do
 end
 FactoryGirl.define do
   factory :claim_audit_entry do
+    association :claim_awaiting_audit, :factory => :claim_awaiting_audit
     reviewer_id "12"
-    claim "123456708"
+    claim { rand(100000000..999999999) }
     overall_score "1000"
     admin_score "1000"
     compliance_score "1000"

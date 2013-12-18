@@ -21,7 +21,7 @@ describe "welcome" do
     sign_in
     visit root_path
     find("#Main_claim_audit_list").click
-    filter_fill_up "1-11-2013","1-11-2013","Ben"
+    filter_fill_up "1/11/2013","1/11/2015","Ben"
     find(".to_click_in_test").click
     find("#open_edit_page").click
     page.should have_content "Edit Claim Audit Entry"

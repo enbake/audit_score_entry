@@ -28,15 +28,7 @@ describe EstimatorClaimAuditListController do
 	describe "Post 'filtered_list'" do
 		login_user
 		it "returns http success" do
-			post 'search', {"from_date"=>"01-11-2013", "to_date"=>"01-11-2013", "estimator"=>@employee.id, "carrier"=>@carrier_branch.id}
-			response.should be_success
-			Employee.delete_all
-		end
-	end
-	describe "Get 'show_saved_audit_estimate'" do
-		login_user
-		it "returns http success" do
-            get 'show_saved_audit_estimate', {"c_num"=>"123456708"}
+			post 'search', {"from_date"=>"01/11/2013", "to_date"=>"01/11/2015", "estimator"=>@employee.id, "carrier"=>@carrier_branch.id}
 			response.should be_success
 			Employee.delete_all
 		end
